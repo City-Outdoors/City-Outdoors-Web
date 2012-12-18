@@ -1,0 +1,28 @@
+
+{extends file='myAccount/page.htm'}
+
+{block name="main" append}
+	{CMSContent::renderBlock('above_myaccount_feature_favourites')}
+
+
+	{if $featureSearch->num() > 0}
+		<ul class="collectionList">
+			{while $feature = $featureSearch->nextResult()}
+				{$item = $feature->getTitleItem()}
+				<li class="cf">
+					{if $feature->getThumbnailURL()}
+						<img src="{$feature->getThumbnailURL()}">
+					{/if}						
+					<h3 class="category-{$collections[$item->getCollectionID()]->getSlug()}">
+						<img src="{$collections[$item->getCollectionID()]->getIconURL()}?v={$assetsVersion}" title="{$collections[$item->getCollectionID()]->getTitle()}">
+						<a href="/featureDetails.php?id={$item->getFeatureID()}">{$item->getTitleField()->getValueAsShortHumanReadableHTML()}</a>
+					</h3>
+					<p>{$item->getDescription()|truncate:180:"..."|escape}</p>
+				</li>
+			{/while}
+		</ul>
+	{else}
+		<p>You currently have no favourites saved to your account. Start by <a href="/map.php">exploring parks</a>.</p>
+	{/if}
+{/block}
+

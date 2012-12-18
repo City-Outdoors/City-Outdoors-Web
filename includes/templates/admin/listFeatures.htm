@@ -1,0 +1,24 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<table class="data">
+		<tr>
+			<th>ID</th>
+			<th>Lat</th>
+			<th>Lng</th>
+			<th>&nbsp;</th>
+		</tr>
+		{while $feature = $featureSearch->nextResult()}
+			<tr class="{cycle values="alternate,"}">
+				<td><a href="/admin/feature.php?id={$feature->getId()}">{$feature->getId()}</a></td>
+				<td>{$feature->getPointLat()}</td>
+				<td>{$feature->getPointLng()}</td>
+				<td>
+					<a href="/admin/feature.php?id={$feature->getId()}">View</a>
+				</td>
+			</tr>
+		{/while}		
+	</table>
+
+{/block}

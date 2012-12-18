@@ -1,0 +1,45 @@
+{extends file='page.htm'}
+
+{block name="subpage"}
+	{include file="featureHeaderBar.htm"}
+{/block}
+
+
+{block name="main"}
+
+
+	{CMSContent::renderBlock('above_feature_checkin')}
+
+	<div class="">
+		<h3>Explore</h3>
+		{if count($featureCheckInQuestions) > 0}
+			<ul>
+				{foreach $featureCheckInQuestions as $featureCheckInQuestion}
+					<li class="cf">
+						<p>{$featureCheckInQuestion->getQuestion()|escape|nl2br}</p>
+						
+						{if $currentUser}
+							{if $featureCheckInQuestion->hasAnswered($currentUser)}
+								<p>You have already answered this question</p>
+							{else}							
+								<form enctype="multipart/form-data" action="" method="post">
+									<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+									<input type="hidden" name="questionID" value="{$featureCheckInQuestion->getId()}">
+									<input type="text" name="answer">
+									<input type="submit" value="Submit Answer">								
+								</form>
+							{/if}
+						{/if}
+						
+					</li>
+				{/foreach}
+			</ul>
+		
+			{if !$currentUser}
+				<p>You must log in to answer questions.</p>
+			{/if}
+		
+		{/if}		
+	</div>
+{/block}
+

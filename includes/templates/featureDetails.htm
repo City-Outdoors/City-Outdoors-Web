@@ -1,0 +1,128 @@
+
+{extends file='page.htm'}
+
+{block name="subpage"}
+	<div id="fb-root"></div>
+	{include file="featureHeaderBar.htm"}
+{/block}
+
+{block name="main"}
+<script>
+$('document').ready(function(){
+	var myCF = new ContentFlow('contentFlow');
+	$('.flowNext').click(function(){ myCF.moveTo('next'); })
+	$('.flowPrev').click(function(){ myCF.moveTo('previous'); })
+});
+</script>
+
+	
+	<div class="featureDetailsImages cf">
+		{if $featureImageSearch->num()}
+			<div id="contentFlow">
+				<div class="flowNext"></div>
+				<div class="flowPrev"></div>
+				<div class="loadIndicator">
+					<div class="indicator"></div>
+				</div>
+				<ul class="flow">
+					{while $content = $featureImageSearch->nextResult()}
+						<li class="item" href="{$content->getFullPictureURL()}">	
+							<img class="content" src="{$content->getNormalPictureURL()}" alt="{$content->getBody()|escape|nl2br}">
+							<p class="caption">
+								By {if $content->hasAuthor()}
+									{$author = $content->getAuthor()}
+									{if $author->hasProfileURL()}<a href="{$author->getProfileURL()}">{/if}
+									{$content->getDisplayName()|escape}
+									{if $author->hasProfileURL()}</a>{/if}
+								{else}
+									Anonymous User {$content->getDisplayName()|escape}
+								{/if}
+							</p>
+						</li>
+					{/while}
+				</ul>
+				<div class="globalCaption"></div>
+			</div>
+		{else}
+			Sorry, we don't have any images of this. Why not <a href="/featureContent.php?id={$feature->getId()}">add some</a>?
+		{/if}
+	</div>
+	<div class="featureDetailsSummary cf">
+		{if count($items) > 0}
+			{foreach $items as $item}{SmartyHelper::showFields($item, 'left')}{/foreach}
+		{/if}	
+	</div>
+	<div class="featureDetailsDetails cf">
+	<div class="featureDetailsMap cf">
+		<div id="mapWrap" class="map-small">
+			<div id="map">
+				<a href="/map.php?featureID={$feature->getId()}">
+					<img src="{$feature->getOurStaticMapTileURL()}?v={$assetsVersion}" alt="Map"/>
+				</a>
+			</div>
+		</div>		
+	</div>	
+
+		
+		<div>
+			<div class="fb-like" data-href="{$Config->FACEBOOK_LINK}" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
+		</div>
+		<div>
+			<a href="https://twitter.com/share?count=none&text={$feature->getTitle()} on {$siteTitle}" class="twitter-share-button" data-lang="en" data-related="{$Config->TWITTER_USERNAME}">Tweet</a>
+			 {literal}
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			 {/literal}
+		</div>
+		<div>
+			{if $currentUser && $feature->hasUserFravourited($currentUser)}
+				This is a Favourite
+			{else}
+				<a href="/featureFavourite.php?id={$feature->getId()}">
+					Add to my Favourites
+				</a>
+			{/if}
+			<span class="count">
+				({$feature->getFravouriteCount()})
+			</span>
+		</div>
+		{*  removed for now.
+		<div>
+			<a class="button button-teal" href="/content/pdf/{$feature->getId()}.pdf">PDF</a>
+		</div>		*}
+	
+		{foreach $items as $item}
+			{$parentItem = $item->getParentItem()}
+			{if $parentItem}
+				<dl>
+					<dt>Location</dt>
+					<dd><a href="/featureDetails.php?id={$parentItem->getFeatureId()}">{$parentItem->getTitle()|escape}</a></dd>
+				</dl>				
+			{/if}
+		{/foreach}
+		
+		{if count($items) > 0}
+				{foreach $items as $item}{SmartyHelper::showFields($item, 'right')}{/foreach}
+					{if SmartyHelper::hasFieldsInArea($item, 'contact')}
+						<dl>
+						<dt>Contact Details</dt>
+								{foreach $items as $item}{SmartyHelper::showFieldsNoHeader($item, 'contact')}{/foreach}
+						</dl>
+					{/if}
+		{/if}
+		
+	</div>
+
+{/block}
+
+{block name="finalScripts"}
+<script type="text/javascript" src="/js/contentflow.src.js"></script>
+	{literal}
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+	{/literal}
+{/block}

@@ -1,0 +1,55 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<form method="POST">
+		<input type="hidden" name="action" value="update">
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+		
+		<table class="verticalData">
+			<tr>
+				<th>Collection</th>
+				<td><input type="text" name="title" value="{$collection->getTitle()|escape}"></td>
+			</tr>
+			<tr>
+				<th>Slug</th>
+				<td>{$collection->getSlug()|escape}</td>
+			</tr>
+			<tr>
+				<th>Thumbnail</th>
+				<td>
+					{if $collection->getThumbnailURL()}<img src="{$collection->getThumbnailURL()}">{/if}
+					<input type="text" name="thumbnailurl" value="{$collection->getThumbnailURL()|escape}">
+				</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td><textarea name="description">{$collection->getDescription()|escape}</textarea></td>
+			</tr>
+			<tr>
+				<th>Icon URL</th>
+				<td>
+					{if $collection->getIconURL()}<img src="{$collection->getIconURL()}">{/if}
+					<input type="text" name="icon_url" value="{$collection->getIconURL()|escape}">
+				</td>
+			</tr>
+			<tr>
+				<th>Icon Width X Height</th>
+				<td>
+					<input type="text" name="icon_width" value="{$collection->getIconWidth()|escape}"> X
+					<input type="text" name="icon_height" value="{$collection->getIconHeight()|escape}">
+				</td>
+			</tr>
+			<tr>
+				<th>Icon Offset X x Y (from top left)</th>
+				<td>
+					<input type="text" name="icon_offset_x" value="{$collection->getIconOffsetX()|escape}"> X
+					<input type="text" name="icon_offset_y" value="{$collection->getIconOffsetY()|escape}">
+				</td>
+			</tr>
+		</table>
+		
+		<input type="submit">
+	</form>
+		
+{/block}

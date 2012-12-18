@@ -1,0 +1,12 @@
+
+
+{extends file='page.htm'}
+
+{block name="main"}
+
+	{if $currentUser && $currentUser->isAdministrator()}
+		<div class="inplace-admin-info">Page {$page->getPageSlug()} appears here. <a href="/admin/editCMSPage.php?id={$page->getId()}">Edit</a></div>
+	{/if}
+
+	{$page->getLatestVersionHTML()}
+{/block}

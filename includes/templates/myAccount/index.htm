@@ -1,0 +1,56 @@
+
+
+
+{extends file='myAccount/page.htm'}
+
+{block name="main" append }
+
+	{CMSContent::renderBlock('above_myaccount_feature_index')}
+
+	<h3>Change your screen name</h3>
+	<form class="account-form" action="" method="post">
+		<input type="hidden" name="action" value="changeName">
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+		<fieldset>
+			<ol>
+				<li>
+					<label for="name">Name</label>
+					<input type="text" value="{$currentUser->getName()|escape}" name="name" id="name">
+				</li>
+			</ol>
+		</fieldset>
+		<fieldset>
+			<input type="submit" value="Change screen name" class="button button-teal">
+		</fieldset>
+	</form>
+
+	{if $currentUser->hasPassword()}
+
+	<h3>Change your password</h3>
+		<form class="account-form" action="" method="post">
+			<input type="hidden" name="action" value="changePassword">
+			<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+			<fieldset>
+				<ol>
+					<li>
+						<label for="oldPassword">Old Password</label>
+						<input type="password" value="" name="oldPassword" id="oldPassword">
+					</li>
+					<li>
+						<label for="newPassword1">New Password</label>
+						<input type="password" value="" name="newPassword1" id="newPassword1">
+					</li>
+					<li>
+						<label for="newPassword2">Repeat New Password</label>
+						<input type="password" value="" name="newPassword2" id="newPassword2">
+					</li>
+				</ol>
+			</fieldset>
+			<fieldset>
+				<input type="submit" value="Change password" class="button button-teal">
+			</fieldset>
+		</form>
+	{/if}
+
+{/block}
+

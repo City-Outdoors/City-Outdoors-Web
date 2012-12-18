@@ -1,0 +1,34 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	{if $item->getIsDeleted()}
+		<p><em>This has been DELETED!</em></p>
+	{/if}
+
+	<table class="">
+		<tr>
+			<th>ID</th>
+			<td>{$item->getID()}</td>
+		</tr>
+		<tr>
+			<th>Feature ID</th>
+			<td><a href="/admin/feature.php?id={$item->getFeatureId()}">{$item->getFeatureID()}</a></td>
+		</tr>
+		{foreach $item->getFields() as $field}
+			<tr>
+				<th>{$field->getTitle()|escape}</th>
+				<td>{$field->getValueAsHumanReadableHTML()}</td>
+			</tr>
+		{/foreach}
+	</table>
+
+	{if !$item->getIsDeleted()}
+		<form method="POST" onsubmit="return confirm('Are you sure you want to delete this?');">
+			<input type="hidden" name="action" value="delete">
+			<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+			<input type="submit" value="delete">
+		</form>
+	{/if}
+
+{/block}

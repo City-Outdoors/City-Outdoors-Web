@@ -1,0 +1,19 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<form action="" method="post">
+
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+
+		<label for="title">Title</label>
+		<input type="text" value="" name="title" id="title">
+
+		<label for="slug">Slug</label>
+		<input type="text" value="" name="slug" id="slug">
+
+		<input type="submit">
+
+	</form>
+
+{/block}

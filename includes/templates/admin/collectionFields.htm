@@ -1,0 +1,79 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<table class="data">
+		<tr>
+			<th>Title</th>
+			<th>Type</th>
+			<th>Summary</th>
+			<th>In Content Areas</th>
+			<th>Sort Order</th>
+			<th>&nbsp;</th>
+		</tr>
+		{foreach $collection->getFields() as $field}
+			<tr class="{cycle values="alternate,"}">
+				<td>{$field->getTitle()|escape}</td>
+				<td>{$field->getType()|escape}</td>
+				<td>
+					{if $field->getIsSummary()}
+						Yes
+						
+					<form method="POST">
+							<input type="hidden" name="action" value="makeFieldNotSummary">
+						<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+						<input type="hidden" name="fieldID" value="{$field->getFieldID()}">
+							<input type="submit" value="Turn off">
+					</form>
+					{else}
+						No
+						<form method="POST">
+							<input type="hidden" name="action" value="makeFieldSummary">
+							<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+							<input type="hidden" name="fieldID" value="{$field->getFieldID()}">
+							<input type="submit" value="Turn on">
+						</form>
+					{/if}
+				</td>
+				<td>
+					<form method="POST">
+						<input type="hidden" name="action" value="editInContentAreas">
+						<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+						<input type="hidden" name="fieldID" value="{$field->getFieldID()}">
+						<input type="text" name="value" value="{$field->getInContentAreas()|escape}">
+						<input type="submit" value="Edit">
+					</form>
+				</td>				
+				<td>
+					<form method="POST">
+						<input type="hidden" name="action" value="editSortOrder">
+						<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+						<input type="hidden" name="fieldID" value="{$field->getFieldID()}">
+						<input type="text" name="value" value="{$field->getSortOrder()|escape}">
+						<input type="submit" value="Edit">
+					</form>
+				</td>				
+			</tr>
+		{/foreach}
+	</table>
+
+	<form method="POST">
+		<input type="hidden" name="action" value="newField">
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+
+		<label for="name">Title</label>
+		<input type="text" name="name" id="name">
+
+		<label for="type">Type</label>
+		<select name="type" id="type">
+			<option value="string">String</option>
+			<option value="text">Text</option>
+			<option value="html">HTML</option>
+			<option value="email">Email</option>
+			<option value="phone">Phone</option>
+		</select>
+
+		<input type="submit" value="Create">
+	</form>
+
+{/block}

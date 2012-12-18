@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=8" />
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+		<title>{$siteTitle}</title>
+		<link rel="stylesheet" href="/css/reset.css?v={$assetsVersion}" type="text/css" />
+		<link rel="stylesheet" href="/css/admin/main.css?v={$assetsVersion}" type="text/css" />
+		<script src="/js/jquery-1.7.2.min.js?v={$assetsVersion}"></script>
+	</head>
+	<body>
+
+		<div id="pageWrapper">
+			<div id="header">
+				<h1><a href="/admin/" >{$siteTitle}</a></h1>
+				{$currentUser->getName()|escape} 
+
+				<a href="/">Return to site</a>
+				<a href="/admin/moderate.php">Moderate</a>
+				<a href="/admin/listFeatures.php">Features</a>
+				<a href="/admin/listCollections.php">Collections</a>
+				<a href="/admin/newCollection.php">[new]</a>
+				<a href="/admin/listCheckinQuestion.php">Checkin Questions</a>
+				<a href="/admin/listFeatureContent.php">Content</a>
+				<a href="/admin/listCMSPages.php">Pages</a>
+				<a href="/admin/newCMSPage.php">[new]</a>
+				<a href="/admin/listCMSBlocks.php">Blocks</a>
+				<a href="/admin/uploads.php">Uploads</a>
+				{if $currentUser->isSystemAdministrator()}
+					<a href="/admin/listUsers.php">Users</a>
+					<a href="/admin/listAdmins.php">Admins</a>					
+				{/if}
+				
+			</div>
+			<div id="adminContent">
+				{if $okMessage}{$okMessage}{/if}
+				{if $errorMessage}{$errorMessage}{/if}
+				
+				{block name="content"}{/block}
+			</div>
+			<div id="footer">
+				{$siteTitle}
+			</div>
+		</div>
+
+	
+		
+
+		{block name="finalScripts"}{/block}
+
+	</body>
+</footer>		
+
+
+
+

@@ -1,0 +1,84 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<table class="data">
+		<tr>
+			<th>ID</th>
+			<th>Display Name</th>
+			<th>Profile URL</th>			
+			<th>Email</th>
+			<th>Twitter ID</th>
+			<th>Twitter Screen Name</th>
+			<th>Enabled</th>
+			<th>Admin</th>
+			<th>System Admin</th>
+			<th>&nbsp;</th>
+		</tr>
+		{while $user = $userSearch->nextResult()}
+			<tr class="{cycle values="alternate,"}">
+				<td>{$user->getId()}</td>
+				<td>{$user->getName()|escape}</td>
+				<td>{$user->getProfileURl()}</td>
+				<td>{$user->getEmail()|escape}</td>
+				<td>{$user->getTwitterID()|escape}</td>
+				<td>{$user->getTwitterScreenName()|escape}</td>
+				<td>{if $user->isEnabled()}Yes{else}No{/if}</td>
+				<td>
+					{if $user->isAdministrator()}
+						Yes
+						<form method="POST" onsubmit="return confirm('Are you sure?');">
+							<input type="hidden" name="action" value="removeAdmin">
+							<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+							<input type="hidden" name="id" value="{$user->getID()}">
+							<input type="submit" value="Remove">
+						</form>
+					{else}
+						No
+					{/if}
+				</td>
+				<td>
+					{if $user->isSystemAdministrator()}
+						Yes
+						<form method="POST" onsubmit="return confirm('Are you sure?');">
+							<input type="hidden" name="action" value="removeSysAdmin">
+							<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+							<input type="hidden" name="id" value="{$user->getID()}">
+							<input type="submit" value="Remove">
+						</form>						
+					{else}
+						No
+						<form method="POST" onsubmit="return confirm('Are you sure?');">
+							<input type="hidden" name="action" value="makeSysAdmin">
+							<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+							<input type="hidden" name="id" value="{$user->getID()}">
+							<input type="submit" value="Add">
+						</form>						
+					{/if}
+				</td>
+				<td>
+					&nbsp;
+				</td>
+			</tr>
+		{/while}		
+	</table>
+
+
+	<form action="" method="post">
+
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+		<input type="hidden" name="action" value="addEmail">
+
+		<label for="email">Email</label>
+		<input type="email" value="" name="email" id="email">
+
+		<label><input type="radio" name="sysadmin" value="1" checked="checked">Sys Admin</label>
+		<label><input type="radio" name="sysadmin" value="0">Admin</label>
+		
+		<input type="submit">
+
+	</form>
+
+
+{/block}
+

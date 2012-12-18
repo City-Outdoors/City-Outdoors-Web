@@ -1,0 +1,97 @@
+
+{extends file='page.htm'}
+
+{block name="subpage"}
+	{include file="featureHeaderBar.htm"}
+{/block}
+
+{block name="main"}
+	
+	{if $featureContentSearch->num()}
+	<h3>{$featureContentSearch->num()} comment{if $featureContentSearch->num() > 1}s{/if}</h3>
+		<ul class="contentList">
+			{while $content = $featureContentSearch->nextResult()}
+				<li class="cf" id="FeatureContent{$content->getId()}"> {* The ID is used for HTML links, don't change *}
+					{if $content->hasPicture() }
+						<a href="{$content->getNormalPictureURL()}" rel="lightbox-content" title="By {$content->getDisplayName()|escape}">
+							<img src="{$content->getThumbPictureURL()}">
+						</a>
+					{/if}
+					<p>{$content->getBody()|escape|nl2br}</p>
+					<p class="attribution">
+						Posted by {if $content->hasAuthor()}
+							{$author = $content->getAuthor()}
+							{if $author->hasProfileURL()}<a href="{$author->getProfileURL()}">{/if}
+							{$content->getDisplayName()|escape}
+							{if $author->hasProfileURL()}</a>{/if}
+						{else}
+							Anonymous User {$content->getDisplayName()|escape}
+						{/if} on {$content->getCreatedAt()|date_format:"%l:%M%P %a %e %b %Y" }
+					</p>
+					{* Next IF clause is some admin functunality, no need to style. *}
+					{if $currentUser && $currentUser->isAdministrator()}
+						<p>
+							<a href="/admin/featureContent.php?id={$content->getId()}">Admin Functions</a> - 
+							{if $content->isPromoted()}
+								Promoted
+								<form action="/admin/demoteContent.php" method="post">
+									<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+									<input type="hidden" name="contentID" value="{$content->getId()}">
+									<input type="hidden" name="return" value="normalui">
+									<input type="submit" value="demote">
+								</form>
+							{else}
+								normal
+								<form action="/admin/promoteContent.php" method="post">
+									<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+									<input type="hidden" name="contentID" value="{$content->getId()}">
+									<input type="hidden" name="return" value="normalui">
+									<input type="submit" value="promote">
+								</form>
+							{/if}
+						</p>
+					{/if}
+				</li>
+			{/while}
+		</ul>
+	{else}
+		<p>No one has added any comments or images yet.</p>
+	{/if}
+			
+	
+		{CMSContent::renderBlock('above_comment_form')}
+		
+		<form id="new-content-form" enctype="multipart/form-data" action="" method="post">
+			<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+			<input type="hidden" name="featureID" value="{$feature->getId()}">
+			<fieldset>
+				<ol>
+					{if !$currentUser}
+						<li>
+							<label for="comment_name">Name</label>
+							<input type="text" id="comment_name" name="comment_name" value="{$commentName|escape}">
+						</li>
+					{/if}
+					<li>
+						<label for="comment_body">Comment</label>
+						<textarea id="comment_body" name="comment_body">{$commentBody|escape}</textarea>
+					</li>
+					<li>
+						<label for="picture">Optional Picture</label>
+						<input type="file" id="picture" name="picture">
+					</li>
+				</ol>
+			</fieldset>
+			<fieldset>
+				{if !$currentUser}
+					{include file="tandcAgree.htm"}
+				{/if}			
+				<input type="submit" value="Submit Comment" class="button button-teal">
+			</fieldset>
+		</form>
+	
+{/block}
+
+{block name="finalScripts"}
+	<script src="/js/slimbox2.js?v={$assetsVersion}"></script>
+{/block}

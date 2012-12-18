@@ -1,0 +1,26 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<table class="data">
+		<tr>
+			<th>Title</th>
+			<th>Slug</th>
+			<th>Imported</th>
+			<th>&nbsp;</th>
+		</tr>
+		{while $CMSContent = $CMSContentSearch->nextResult()}
+			<tr class="{cycle values="alternate,"}">
+				<td>{$CMSContent->getPageTitle()|escape}</td>
+				<td>{$CMSContent->getPageSlug()|escape}</td>
+				<td>{if $CMSContent->getIsImported()}Yes{else}No{/if}</td>
+				<td>
+					{if !$CMSContent->getIsImported()}
+						<a href="/admin/editCMSPage.php?id={$CMSContent->getId()|escape}">Edit</a>
+					{/if}
+				</td>
+			</tr>
+		{/while}		
+	</table>
+
+{/block}

@@ -1,0 +1,90 @@
+<html>
+	<body>
+		
+		<div>
+			<img src="{$dir}/img/header-bg.png" style="width: 100%">
+		</div>		
+		
+		<table style="width: 100%;">
+			<tr>
+				<td style="text-align: left; vertical-align: top;">
+					{if $titleItem}
+						{$titleCollection = $titleItem->getCollection()}		
+						<h1><span class="category-{$titleCollection->getSlug()}">{$titleCollection->getTitle()|escape}:</span> {$titleItem->getTitle()|escape}</h1>
+					{else}
+						<h1>Welcome</h1>
+					{/if}					
+				</td>
+				<td style="text-align: right; vertical-align: top;">
+					<img src="{$dir}{$feature->getOurStaticMapTileURL()}">
+				</td>
+			</tr>
+		</table>
+			
+		{if $titleItem}
+			{foreach $titleItem->getFields() as $field }
+					<dt>{$field->getTitle()|escape}</dt>
+					<dd>{$field->getValueAsHumanReadableHTML()}</dd>
+			{/foreach} 
+		{/if}
+		
+		{if count($childItems) > 0}
+			<h2>Also here ...</h2>
+			<ul>
+				{foreach $childItems as $childItem}
+					<li style="list-style-type: none;">
+						<p class="category-{$collections[$childItem->getCollectionID()]->getSlug()}">
+							<img src="{$dir}{$collections[$childItem->getCollectionID()]->getIconURL()}" title="{$collections[$childItem->getCollectionID()]->getTitle()}">
+							{$childItem->getTitleField()->getValueAsShortHumanReadableHTML()}
+						</p>
+						<p>{$childItem->getDescription()|truncate:180:"..."|escape}</p>
+						<p>View at <a href="http://{$httpHost}/featureDetails.php?id={$childItem->getFeatureId()}">http://{$httpHost}/featureDetails.php?id={$childItem->getFeatureId()}</a></p>
+					</li>
+				{/foreach}
+			</ul>
+		{/if}
+		
+		{if $featureContentSearch->num() > 0}
+			<h2>Comments</h2>
+			<ul class="contentList">
+				{while $content = $featureContentSearch->nextResult()}
+					<li style="list-style-type: none;">
+						{if $content->hasPicture() }
+								<img src="{$dir}{$content->getNormalPictureURL()}">
+						{/if}
+						<p>{$content->getBody()|escape|nl2br}</p>
+						<p style="font-size: 80%; font-style: italic;">Posted by {if $content->hasAuthor()}{$content->getDisplayName()|escape}{else}Anonymous User {$content->getDisplayName()|escape}{/if} on {$content->getCreatedAt()|date_format:"%l:%M%P %a %e %b %Y" }</p>
+					</li>
+				{/while}
+			</ul>
+		{/if}
+
+		{if count($featureCheckInQuestions) > 0}
+			<h2>Questions</h2>
+			<ul class="contentList">
+				{foreach $featureCheckInQuestions as $featureCheckInQuestion}
+					<li style="list-style-type: none;">
+						<p>{$featureCheckInQuestion->getQuestion()|escape|nl2br}</p>
+						<p style="font-style: italic;">Your answer:</p>
+						<div style="width: 90%; border-bottom: 1px solid dashed; height: 40px;">&nbsp;</div>
+					</li>
+				{/foreach}
+			</ul>
+		{/if}	
+		
+		<table style="width: 100%; margin-top: 20px;">
+			<tr>
+				<td style="text-align: left; vertical-align: bottom;">
+					<img  style="vertical-align: bottom;" src="{$dir}/img/Footer-illo.png">
+				</td>
+				<td style="text-align: center; vertical-align: bottom;">
+					<p style="text-align: center; font-style: 70%; text-align: center; font-style: italic;">Copyright &copy; 2012</p>
+				</td>
+			</tr>
+		</table>
+		
+		
+	</body>
+</html>
+
+

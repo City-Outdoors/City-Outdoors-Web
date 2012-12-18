@@ -1,0 +1,20 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<table class="data">
+		<tr>
+			<th>Slug</th>
+			<th>&nbsp;</th>
+		</tr>
+		{foreach $CMSBlocks as $block}
+			<tr class="{cycle values="alternate,"}">
+				<td>{$block|escape}</td>
+				<td>
+					<a href="/admin/editCMSBlock.php?s={$block}">Edit</a>
+				</td>
+			</tr>
+		{/foreach}		
+	</table>
+
+{/block}

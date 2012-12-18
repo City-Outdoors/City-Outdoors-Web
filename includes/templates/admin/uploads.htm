@@ -1,0 +1,24 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+<table class="data">
+	<tr>
+		<th>Filename</th>
+		<th>File</th>
+	</tr>
+	{foreach $uploads as $data}
+		<tr>
+			<td>/content/uploads/{$data}</td>
+			<td><img src="/content/uploads/{$data}"></td>
+		</tr>
+	{/foreach}
+</table>
+
+<form id="new-content-form" enctype="multipart/form-data" action="" method="post">
+	<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+	<input type="file" id="picture" name="picture">
+	<input type="submit" value="Upload Picture" class="">
+</form>
+
+{/block}

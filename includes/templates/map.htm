@@ -1,0 +1,26 @@
+
+{extends file='page.htm'}
+
+{block name="main"}
+
+	{* This is put here because sometimes content in the page needs to access some of the JS libraries *}
+	<script type="text/javascript" src="//maps.google.com/maps/api/js?v=3.9&sensor=false&key={$Config->GOOGLE_MAP_API_KEY}"></script>
+	<script type="text/javascript" src="/mapVariables.js.php?v={$assetsVersion}"></script>
+	<script type="text/javascript" src="/js/mapStyle.js?v={$assetsVersion}"></script>
+	<script type="text/javascript">
+		var loadPageAtLat  = {if isset($feature) && $feature}{$feature->getPointLat()}{else}null{/if};
+		var loadPageAtLng  = {if isset($feature) && $feature}{$feature->getPointLng()}{else}null{/if};
+	</script>
+	<script type="text/javascript" src="/js/markerclusterer.js?v={$assetsVersion}"></script>
+	<script type="text/javascript" src="/js/map.js?v={$assetsVersion}"></script>
+	<div id="content">
+		<div id="mapLayers"></div>	
+		<div id="mapWrap" class="map-main">	
+			<div id="map"></div>
+
+			<div id="mapMarkersLoading" style="display: none;">Loading ...</div>
+		</div>
+	</div>
+
+
+{/block}

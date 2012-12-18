@@ -1,0 +1,60 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<h2>Feature Checkin Question</h2>
+
+	<form method="POST">
+		<input type="hidden" name="action" value="update">
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+		<table class="verticalData">
+			<tr>
+				<th>Feature</th>
+				<td><a href="/admin/feature.php?id={$featureCheckinQuestion->getFeatureId()}">{$featureCheckinQuestion->getFeatureId()}</a></td>
+			</tr>
+			<tr>
+				<th>Question</th>
+				<td><textarea name="question">{$featureCheckinQuestion->getQuestion()|escape}</textarea></td>
+			</tr>
+			<tr>
+				<th>Answers</th>
+				<td><textarea name="answers">{$featureCheckinQuestion->getAnswers()|escape}</textarea></td>
+			</tr>
+		</table>
+		<input type="submit">
+	</form>
+	
+	<h2>Correct Answers</h2>
+	
+	
+	<table class="data">
+		<tr>
+			<th>User ID</th>
+			<th>Answer</th>
+		</tr>
+		{foreach $featureCheckinQuestion->getAllCorrectAnswersGiven() as $a}
+			<tr class="{cycle values="alternate,"}">
+				<td>{$a->getUserAccountID()}</td>
+				<td>{$a->getAnswerGiven()|escape|nl2br}</td>
+			</tr>
+		{/foreach}
+	</table>
+	
+	<h2>Wrong Answers</h2>
+	
+	<table class="data">
+		<tr>
+			<th>User ID</th>
+			<th>Answer</th>
+		</tr>
+		{foreach $featureCheckinQuestion->getAllWrongAnswersGiven() as $a}
+			<tr class="{cycle values="alternate,"}">
+				<td>{$a->getUserAccountID()}</td>
+				<td>{$a->getAnswerGiven()|escape|nl2br}</td>
+			</tr>
+		{/foreach}
+	</table>
+	
+		
+	
+{/block}

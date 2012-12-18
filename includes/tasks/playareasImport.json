@@ -1,0 +1,25 @@
+{
+        "source":{
+                "website":"www.edinburgh.gov.uk",
+                "directoryID":60,
+                "apiKEY":"071808996fd3b7bda729607ac657e6c2"
+        },
+        "destination":{
+                "collectionTitle":"Play Areas",
+                "userEmail":"james@jarofgreen.co.uk"
+        },
+        "data":{
+                "locationField":"Location map",
+                "imageFields": [ ],
+                "mapToFieldID":{ "Play facilities":"Play facilities", "Address":"Address", "Postcode":"Postcode", 
+					"Telephone":"Telephone"
+				},
+                "mapPageURLToFieldID":{ }
+                
+        },
+        "verbose":true,
+        "dataFile": "/home/james/heres-a-tree-web/includes/tasks/playareasImportData.json",
+        "imageDataFile": "/home/james/heres-a-tree-web/includes/tasks/playareasImportImagesData.json"
+}
+
+

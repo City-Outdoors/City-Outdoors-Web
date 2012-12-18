@@ -1,0 +1,23 @@
+There is a new report from {$siteTitle}.
+
+At Lat {$feature->getPointLat()} Lng {$feature->getPointLng()}
+http://{$httpHost}/featureDetails.php?id={$feature->getId()}
+http://www.openstreetmap.org/?mlat={$feature->getPointLat()}&mlon={$feature->getPointLng()}
+
+Comments:
+{$report->getBody()}
+
+{if $user}
+From User: 
+{else}
+From Anonymous:
+{/if}
+{$report->getDisplayName()}
+{$report->getCreatedEmail()}
+
+
+{if $report->hasPicture()}
+Photo Attached:
+http://{$httpHost}{$report->getFullPictureURL()}
+{/if}
+

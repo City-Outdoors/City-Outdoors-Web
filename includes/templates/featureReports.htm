@@ -1,0 +1,48 @@
+
+
+{extends file='page.htm'}
+
+{block name="subpage"}
+	{include file="featureHeaderBar.htm"}
+{/block}
+
+{block name="main"}
+
+		{CMSContent::renderBlock('above_report_form')}
+
+		<form id="new-content-form" enctype="multipart/form-data" action="" method="post">
+			<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+			<input type="hidden" name="featureID" value="{$feature->getId()}">
+			<fieldset>
+				<ol>
+					{if !$currentUser}
+						<li>
+							<label for="comment_name">Name</label>
+							<input type="text" id="comment_name" name="comment_name" value="{$commentName|escape}">
+						</li>
+					{/if}
+					<li>
+						<label for="comment_email">Your email address</label>
+						<input type="email" id="comment_email" name="comment_email" value="{$commentEmail|escape}">
+					</li>
+					<li>
+						<label for="comment_body">Report</label>
+						<textarea id="comment_body" name="comment_body">{$commentBody|escape}</textarea>
+					</li>
+					<li>
+						<label for="picture">Optional Picture</label>
+						<input type="file" id="picture" name="picture">
+					</li>
+					{if !$currentUser}
+						{include file="tandcAgree.htm"}
+					{/if}
+				</ol>
+			</fieldset>
+			<fieldset>
+				<input type="submit" value="Submit report" class="button button-teal">
+			</fieldset>
+		</form>
+	
+{/block}
+
+

@@ -1,0 +1,33 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<h2>Editing Page {$page->getPageSlug()|escape}: {$page->getPageTitle()|escape}</h2>
+
+	<form action="" method="post">
+
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+
+		<label for="CMSContent">Content</label>
+		<textarea name="content" id="CMSContent" style="width:95%; height:400px;">{$page->getLatestVersionHTML()}</textarea>
+		
+		<input type="submit">
+
+	</form>
+
+{/block}
+
+{block name="finalScripts"}
+	<script type="text/javascript" src="/tinymce/tiny_mce.js"></script>
+	<script>
+		$(document).ready(function(){
+			tinyMCE.init({
+				mode : "exact",
+				theme: "advanced",
+				elements : "CMSContent",
+				external_link_list_url: "/admin/getPageLinkList.js.php"
+			});
+		});
+	</script>
+
+{/block}

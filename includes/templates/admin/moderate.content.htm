@@ -1,0 +1,61 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	
+
+	{if $content->hasPicture()}
+		<div id="picture">
+			<a href="{$content->getFullPictureURL()}">
+				<img src="{$content->getNormalPictureURL()}">
+			</a>
+		</div>
+	{/if}
+
+	<div id="mapInPage" style="width: 400px; max-width: 100%; height: 400px;"></div>
+
+	<form action="" method="post" id="actionForm">
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+		<input type="hidden" name="contentID" value="{$content->getId()}">
+
+		<div>Comment:</div>
+		<div><textarea name="body">{$content->getBody()|escape|nl2br}</textarea></div>
+		
+		<div>From:</div>
+		<div>
+			{if $content->hasAuthor()}
+				User {$content->getCreatedBy()}: {$content->getDisplayName()}
+			{else}
+				Anonymous: <input type="text" name="name" value="{$content->getDisplayName()}">
+			{/if}
+		</div>
+
+		<div>Promote?</div>
+		<div><input type="checkbox" name="promote" value="yes"></div>
+		
+		<input type="submit" name="action" value="Approve">
+		<input type="submit" name="action" value="Disapprove">
+		<a href="/featureContent.php?id={$content->getFeatureId()}" target="_blank">View Existing Comments</a>
+		
+	</form>
+
+
+{/block}
+
+{block name="finalScripts"}
+
+	{assign "feature" $content->getFeature()}
+
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.5&sensor=false&key={$Config->GOOGLE_MAP_API_KEY}"></script>
+	<script type="text/javascript" src="/mapVariables.js.php?v={$assetsVersion}"></script>
+	<script type="text/javascript" src="/js/admin/mapFunctions.js?v={$assetsVersion}"></script>
+	<script>
+		$(document).ready(function() {
+			startMap({$feature->getPointLat()},{$feature->getPointLng()});
+			
+		});
+	</script>
+
+{/block}
+
+

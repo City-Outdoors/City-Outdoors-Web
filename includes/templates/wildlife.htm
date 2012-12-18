@@ -1,0 +1,15 @@
+
+
+{extends file='page.htm'}
+
+{block name="main"}
+
+	<h1>{$monthName}</h1>
+
+	{capture name="blockName"}wildlife-{$monthSlug}{/capture}
+	{CMSContent::renderBlock($smarty.capture.blockName)}
+
+	
+	{$page->getLatestVersionHTML()}
+	
+{/block}

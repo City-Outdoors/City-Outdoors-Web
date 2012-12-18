@@ -1,1 +1,18 @@
-Coming Soon
+City Outdoors: Web
+==================
+
+This package is an PHP/MySQL website that allows points of interest to be presented to users. 
+
+Points can be arranged into collections.
+
+Comments and photo submissions can be taken and moderated.
+
+Users can make accounts and collect fravourites.
+
+At some places, questions can be set that users must answer to prove they have "Checked in" there.
+
+Initial Development was done by James Baster under a project by City Of Edinburgh Council with initial funding from Nesta.
+
+http://jamesbaster.co.uk/
+http://www.edinburgh.gov.uk/
+http://www.nesta.org.uk/

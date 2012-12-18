@@ -1,0 +1,35 @@
+{extends file='page.htm'}
+
+{block name="subpage"}
+	{include file="featureHeaderBar.htm"}
+{/block}
+
+{block name="main"}
+
+
+		
+	<div class="featureDetailsChildren">
+		{if $childItemSearch->num() > 0}
+			<h3>There are {$childItemSearch->numOnAllPages()} features here.</h3>
+			<ul class="collectionList withIcon">
+				{while $item = $childItemSearch->nextResult()}
+					{$childFeature = $item->getFeature()}
+					<li class="cf" style="background-image: url('{$collections[$item->getCollectionID()]->getIconURL()}')">
+						{if $childFeature->getThumbnailURL()}
+							<img src="{$childFeature->getThumbnailURL()}">
+						{/if}						
+						<h3 class="category-{$collections[$item->getCollectionID()]->getSlug()}">
+							<a href="/featureDetails.php?id={$item->getFeatureID()}">{$item->getTitleField()->getValueAsShortHumanReadableHTML()}</a>
+						</h3>
+						<p>{$item->getDescription()|truncate:180:"..."|escape}</p>
+					</li>
+				{/while}
+			</ul>
+		{/if}	
+		
+		{capture name="url"}/featureChildren.php?id={$feature->getId()}{/capture}
+		{include file="paging.htm" search=$childItemSearch url=$smarty.capture.url}
+
+	</div>
+{/block}
+

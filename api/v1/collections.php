@@ -1,0 +1,31 @@
+<?php
+/**
+ * @author James Baster  <james@jarofgreen.co.uk>
+ * @copyright City of Edinburgh Council & James Baster
+ * @license Open Source under the 3-clause BSD License
+ * @url https://github.com/City-Outdoors/City-Outdoors-Web
+ */
+require '../../includes/src/global.php';
+require '../../includes/src/APIV1Funcs.php';
+header('Content-type: application/xml');
+;
+
+$collectionSearch =  new CollectionSearch();
+
+?>
+<data>
+	<collections>
+		<?php while($collection = $collectionSearch->nextResult()) { ?>
+			<collection id="<?php echo $collection->getId() ?>" slug="<?php echo htmlentities($collection->getSlug()) ?>">
+				<title><?php echo htmlentities($collection->getTitle()) ?></title>
+				<icon height="<?php print $collection->getIconHeight() ?>" width="<?php print $collection->getIconWidth() ?>" offset_x="<?php print $collection->getIconOffsetX() ?>" offset_y="<?php print $collection->getIconOffsetY() ?>" url="<?php print $collection->getIconURL() ?>"/>
+				<thumbnail  url="<?php print $collection->getThumbnailURL() ?>"/>
+				<?php if ($showLinks) { ?><link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/collection.php?slug=<?php echo $collection->getSlug() ?>"/><?php } ?>
+				<description><?php echo htmlentities($collection->getDescription()) ?></description>
+			</collection>
+		<?php } ?>
+	</collections>
+</data>
+
+
+

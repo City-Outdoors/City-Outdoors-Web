@@ -1,0 +1,41 @@
+
+{extends file='page.htm'}
+
+{block name="main"}
+
+
+	<div id="homePageFirstSection" class="cf">
+
+		<div id="homePageLeft">
+			{CMSContent::renderBlock('home_page_first_left')}
+		</div>
+
+		<div id="homePageCenter">
+			<div>
+				{CMSContent::renderBlock('home_page_first_middle')}
+				<a href="/map.php">Explore Parks</a>
+			</div>
+		</div>
+
+		<div id="homePageRight">
+			{CMSContent::renderBlock('home_page_first_right')}
+		</div>
+
+	</div>
+
+	<div id="homePageSecondSection" class="cf">
+
+		<div id="homePageTwitter">
+			{if $hasLastTweet }
+			    {$lastTweetHTML}
+			{/if}
+		</div>
+
+		<div id="homePageApps">
+			{CMSContent::renderBlock('home_page_second_right')}
+		</div>
+
+	</div>
+	
+{/block}
+

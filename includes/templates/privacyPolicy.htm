@@ -1,0 +1,21 @@
+
+
+{extends file='page.htm'}
+
+{block name="main"}
+
+	<h2>Privacy &amp cookies</h2>
+
+	{if $fromForm}
+		<p class="msgOk">Close this tab or window to return to the form</p>
+	{/if}
+
+	{CMSContent::renderBlock('privacy_policy')}
+
+	{if $fromForm}
+		<p class="msgOk">Close this tab or window to return to the form</p>
+	{/if}
+
+
+{/block}
+

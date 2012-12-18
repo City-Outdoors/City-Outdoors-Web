@@ -1,0 +1,24 @@
+
+{extends file='page.htm'}
+
+{block name="subpage"}
+
+	<div class="detailsPageHeader cf">
+		<h2>Your account</h2>
+		<ul>	
+			<li {if $smarty.server.PHP_SELF == '/myAccount/index.php'}class="current"{/if}>
+				<a href="/myAccount/">Details<div class="arrow"></div></a>
+			</li>
+			<li {if $smarty.server.PHP_SELF == '/myAccount/favourites.php'}class="current"{/if}>
+				<a href="/myAccount/favourites.php">Favourites<div class="arrow"></div></a>
+			</li>
+			<li {if $smarty.server.PHP_SELF == '/myAccount/checkins.php'}class="current"{/if}>
+				<a href="/myAccount/checkins.php">Explore<div class="arrow"></div></a>
+			</li>
+			<li {if $smarty.server.PHP_SELF == '/myAccount/content.php'}class="current"{/if}>
+				<a href="/myAccount/content.php">My Comments<div class="arrow"></div></a>
+			</li>
+		</ul>
+	</div>
+{/block}
+

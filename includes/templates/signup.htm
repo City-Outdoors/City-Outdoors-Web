@@ -1,0 +1,87 @@
+{extends file='page.htm'}
+{block name="main"}
+	<h2>Register</h2>
+	
+	{if $hasUnsavedFavourites}
+		<p class="msgError">
+			Please <a href="/login.php">log in</a> or register to save your favourites.
+		</p>
+	{/if}	
+	<p>This text explains the benefits of registering for an account and the site's data retention policy. Lorem ipsum dolor sit amet.</p>
+	
+	<div class="rightHalf">
+		<img src="/img/twitter-logo-blue.png?v={$assetsVersion}" alt="Twitter"><br />
+		<a class="button button-teal" href="/loginTwitter.php">Register with Twitter</a>
+		<p>By registering you agree to the <a rel="modal" href="/termsAndConditions.php?fromForm=1" target="_blank">terms and conditions</a>
+		and the <a rel="modal" href="/privacyPolicy.php?fromForm=1" target="_blank">website privacy policy</a> (opens in new window).</p>
+	</div>
+	<div class="leftHalf">
+		<form action="" method="post" class="account-form">
+			<fieldset>
+				<ol>
+					<li>
+						<label for="email">Email Address</label>
+						<input type="email" value="" name="email" id="email">
+					</li>
+					<li>
+						<label for="password1">Password</label>
+						<input type="password" value="" name="password1" id="password1">
+					</li>
+					<li>
+						<label for="password2">Password (again)</label>
+						<input type="password" value="" name="password2" id="password2">
+					</li>
+				</ol>
+			</fieldset>
+			<fieldset>
+				{include file="tandcAgree.htm"}
+				<input type="submit" value="Register" class="button button-teal">
+			</fieldset>
+		</form>
+	</div>
+	{literal}
+	<script src="/js/jquery-ui-1.8.22.custom.min.js?v={$assetsVersion}"></script>
+	<script>
+		$('document').ready(function(){
+
+			// set up a jQueryUI dialog
+		  modal = $("<div id=\"modal\"></div>");
+		  modal.dialog({
+				height: $(window).height() * 0.7, // 70%
+	      width: $(window).width() * 0.5,   // 50%
+	      modal: true,
+	      position: 'center',
+	      autoOpen:false
+	    });
+    });
+
+		function showModal(url, title){
+
+			// clear dialog and open ASAP so we're not waiting on AJAX response
+			modal.html('<p style="text-align:center;padding-top:10%"><img src="/img/loader.gif?v={$assetsVersion}" /></p>');
+      modal.dialog({ title: title })
+      modal.dialog('open');
+
+      // fill in the requested content
+		  $.ajax({
+		    url: url,
+		    success: function(data) {
+		      modal.html(data);
+		    }
+		  });
+		}
+
+		$("a[rel=modal]").click(function(e) {
+
+			// take URL path and re-jig to get plain API endpoint version
+			this.url = "/api/v1" + e.target.pathname.replace(/^([^\/])/,'/$1');
+
+			// show the popup window
+			showModal(this.url, e.target.innerHTML);
+
+			// prevent navigation. Non-JS browsers will open the content in a new window.
+			return false;
+		});
+	</script>
+	{/literal}
+{/block}

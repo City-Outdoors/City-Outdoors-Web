@@ -1,0 +1,56 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<h2>Feature Content</h2>
+
+	<table class="verticalData">
+		<tr>
+			<th>ID</th>
+			<td>{$featureContent->getId()}</td>
+		</tr>
+		<tr>
+			<th>Feature ID</th>
+			<td><a href="/admin/feature.php?id={$featureContent->getFeatureId()}">{$featureContent->getFeatureId()}</a></td>
+		</tr>
+		<tr>
+			<th>Type</th>
+			<td>{if $featureContent->isReport()}Report{else}Comment{/if}</td>
+		</tr>
+		<tr>
+			<th>Body</th>
+			<td>{$featureContent->getBody()|escape}</td>
+		</tr>
+		<tr>
+			<th>Image</th>
+			<td>
+				{if $featureContent->hasPicture()}
+					<img src="{$featureContent->getNormalPictureURL()}">
+				{else}None{/if}
+			</td>
+		</tr>
+		<tr>
+			<th>State</th>
+			<td>
+				{if $featureContent->isApproved()}Approved{else if $featureContent->isRejected()}Rejected{else}?{/if}
+				<form method="post">
+					<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+					<input type="hidden" name="action" value="approve">
+					<input type="submit" value="Approve">
+				</form>
+				<form method="post">
+					<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+					<input type="hidden" name="action" value="reject">
+					<input type="submit" value="Reject">
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<th>Promoted</th>
+			<td>
+				{if $featureContent->isPromoted()}Promoted{else}Normal{/if}
+			</td>
+		</tr>
+	</table>		
+	
+{/block}

@@ -1,0 +1,18 @@
+
+
+<div class="DataPaging">
+	{if $search->getTotalPages() > 1}
+	<ol>
+	{if $search->getCurrentPage() > 1}
+		<a class="PrevButton" href="{$url}&page={$search->getCurrentPage() -1}"></a>
+	{/if}
+		{for $page=1 to $search->getTotalPages()}
+		<li{if $search->getCurrentPage() == $page } class="currentPage"{/if}><a href="{$url}&page={$page}">{$page}</a></li>
+		{/for}
+	{if $search->getCurrentPage() <  $search->getTotalPages()}
+		<a class="NextButton" href="{$url}&page={$search->getCurrentPage() +1}"></a>
+	{/if}
+	</ol>
+	<p>Page {$search->getCurrentPage()} of {$search->getTotalPages()}</p>
+	{/if}
+</div>

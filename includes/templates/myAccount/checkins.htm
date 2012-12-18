@@ -1,0 +1,51 @@
+
+{extends file='myAccount/page.htm'}
+
+{block name="main" append}
+
+	{CMSContent::renderBlock('above_myaccount_feature_checkins')}
+
+	{**** CHECKINS TO DO ******}
+		<h2>To do</h2>
+	{if $featureSearchToDo->num() > 0}
+		<ul class="collectionList withIcon">	
+			{while $feature = $featureSearchToDo->nextResult()}
+				{$item = $feature->getTitleItem()}
+				<li class="cf" style="background-image: url('{$collections[$item->getCollectionID()]->getIconURL()}')">
+					{if $feature->getThumbnailURL()}
+						<img src="{$feature->getThumbnailURL()}">
+					{/if}						
+					<h3 class="category-{$collections[$item->getCollectionID()]->getSlug()}">
+						<a href="/featureDetails.php?id={$item->getFeatureID()}">{$item->getTitleField()->getValueAsShortHumanReadableHTML()}</a>
+					</h3>
+					<p>{$item->getDescription()|truncate:180:"..."|escape}</p>
+				</li>
+			{/while}	
+		</ul>
+	{else}
+		<p>You have checked in everywhere, congratulations!</p>
+	{/if}
+
+	{**** CHECKINS DONE ******}
+
+		<h2>Completed</h2>		
+	{if $featureSearch->num() > 0}
+		<ul class="collectionList withIcon">	
+			{while $feature = $featureSearch->nextResult()}
+				{$item = $feature->getTitleItem()}
+				<li class="cf" style="background-image: url('{$collections[$item->getCollectionID()]->getIconURL()}')">
+					{if $feature->getThumbnailURL()}
+						<img src="{$feature->getThumbnailURL()}">
+					{/if}						
+					<h3 class="category-{$collections[$item->getCollectionID()]->getSlug()}">
+						<a href="/featureDetails.php?id={$item->getFeatureID()}">{$item->getTitleField()->getValueAsShortHumanReadableHTML()}</a>
+					</h3>
+					<p>{$item->getDescription()|truncate:180:"..."|escape}</p>
+				</li>
+			{/while}	
+		</ul>
+	{else}
+		<p>You have not checked in anywhere yet.</p>
+	{/if}
+{/block}
+

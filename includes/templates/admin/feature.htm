@@ -1,0 +1,49 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<h2>Details</h2>
+
+	<table class="verticalData">
+		<tr>
+			<th>Feature</th>
+			<td>{$feature->getId()}</td>
+		</tr>
+		<tr>
+			<th>Point Lat & Lng</th>
+			<td>{$feature->getPointLat()}, {$feature->getPointLng()}</td>
+		</tr>
+	</table>
+	
+	<h2>Checkins</h2>
+	
+	<table class="data">
+		<tr>
+			<th>ID</th>
+			<th>Question</th>
+			<th>Answer</th>
+		</tr>
+		{foreach $feature->getCheckinQuestions() as $fciq}
+			<tr class="{cycle values="alternate,"}">
+				<td><a href="/admin/featureCheckinQuestion.php?id={$fciq->getId()}">{$fciq->getId()}</a></td>
+				<td>{$fciq->getQuestion()|escape|nl2br}</td>
+				<td>{$fciq->getAnswers()|escape|nl2br}</td>
+			</tr>
+		{/foreach}
+	</table>
+
+	<form action="" method="post">
+
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+		<input type="hidden" name="action" value="newCheckinQuestion">
+
+		<label for="question">Question</label>
+		<textarea name="question" id="question"></textarea>
+		
+		<label for="answers">Answers (one per line)</label>
+		<textarea name="answers" id="answers"></textarea>
+
+		<input type="submit">
+
+	</form>	
+{/block}

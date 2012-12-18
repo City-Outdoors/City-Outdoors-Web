@@ -1,0 +1,30 @@
+
+{extends file='myAccount/page.htm'}
+
+{block name="main" append}
+
+	{CMSContent::renderBlock('above_myaccount_feature_content')}
+
+	{if $featureContentSearch->num()}
+	<h3>You've posted {$featureContentSearch->num()} comment{if $featureContentSearch->num() > 1}s{/if}.</h3>
+		<ul class="contentList">
+			{while $content = $featureContentSearch->nextResult()}
+				<li class="cf">
+					{if $content->hasPicture() }
+						<a href="{$content->getFullPictureURL()}">
+							<img src="{$content->getThumbPictureURL()}">
+						</a>
+					{/if}
+					<p>{$content->getBody()|escape|nl2br}</p>
+					<p class="attribution">
+						Posted at {$content->getCreatedAt()|date_format:"%l:%M%P %a %e %b %Y" } - 
+						<a href="/featureContent.php?id={$content->getFeatureId()}#FeatureContent{$content->getId()}">View original</a>
+					</p>
+				</li>
+			{/while}
+		</ul>
+	{else}
+		<p>You haven't commented on anything yet.</p>
+	{/if}	
+{/block}
+

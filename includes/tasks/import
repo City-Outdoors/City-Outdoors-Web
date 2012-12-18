@@ -1,0 +1,9 @@
+rm /home/james/heres-a-tree-web/includes/tasks/parksImportData.json /home/james/heres-a-tree-web/includes/tasks/treesImportData.json /home/james/heres-a-tree-web/includes/tasks/tolietsImportData.json /home/james/heres-a-tree-web/includes/tasks/monumentsImportData.json /home/james/heres-a-tree-web/includes/tasks/parksImportImagesData.json 
+rm -R /home/james/heres-a-tree-web/content/2012/
+php /home/james/heres-a-tree-web/includes/tasks/importJaduCollection.php /home/james/heres-a-tree-web/includes/tasks/parksImport.json 
+php /home/james/heres-a-tree-web/includes/tasks/importJaduCollection.php /home/james/heres-a-tree-web/includes/tasks/monumentsImport.json
+php /home/james/heres-a-tree-web/includes/tasks/importJaduCollection.php /home/james/heres-a-tree-web/includes/tasks/tolietsImport.json
+php /home/james/heres-a-tree-web/includes/tasks/importJaduCollection.php /home/james/heres-a-tree-web/includes/tasks/treesImport.json
+
+
+

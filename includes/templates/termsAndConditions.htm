@@ -1,0 +1,21 @@
+
+
+
+{extends file='page.htm'}
+
+{block name="main"}
+
+	<h2>Terms &amp; conditions</h2>
+
+	{if $fromForm}
+		<p class="msgOk">Close this tab or window to return to the form</p>
+	{/if}
+
+	{CMSContent::renderBlock('terms_and_conditions')}
+
+	{if $fromForm}
+		<p class="msgOk">Close this tab or window to return to the form</p>
+	{/if}
+
+{/block}
+

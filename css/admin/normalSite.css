@@ -1,0 +1,24 @@
+.inplace-admin-info {
+	padding: 10px !important;
+	background: #800c0c !important;
+	color: white !important;
+	font-size: 10pt !important;
+	display: block !important;
+	font-family: arial, sans-serif !important;
+	font-weight: normal !important;
+}
+.inplace-admin-info a {
+	padding: 10px !important;
+	color: white !important;
+	text-decoration: underline !important;
+	background-image: none !important;
+	display: inline !important;
+	position: relative !important;
+	bottom: auto !important;
+	font-size: 10pt !important;
+	font-family: arial, sans-serif !important;
+	font-weight: normal !important;	
+}
+
+
+

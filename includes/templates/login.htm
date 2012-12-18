@@ -1,0 +1,35 @@
+{extends file='page.htm'}
+{block name="main"}
+	<h2>Log In</h2>
+	
+	{if $hasUnsavedFavourites}
+		<p class="msgError">
+			Please log in or <a href="/signup.php">register</a> to save your favourites.
+		</p>
+	{/if}	
+
+	
+	<div class="rightHalf">
+		<img src="/img/twitter-logo-blue.png?v={$assetsVersion}" alt="Twitter"><br />
+		<a class="button button-teal" href="/loginTwitter.php">Log In with Twitter</a>
+	</div>	
+	<div class="leftHalf">	
+		<form action="" method="post" class="account-form">
+			<fieldset>
+				<ol>
+					<li>
+						<label for="email">Email Address</label>
+						<input type="email" value="" name="email" id="email">
+					</li>
+					<li>
+						<label for="password">Password</label>
+						<input type="password" value="" name="password" id="password">
+					</li>
+				</ol>
+			</fieldset>
+			<fieldset>
+				<input type="submit" value="Log In" class="button button-teal"> <a class="password-link" href="/forgottenPassword.php">Forgot your password?</a>
+			</fieldset>
+		</form>
+	</div>
+{/block}

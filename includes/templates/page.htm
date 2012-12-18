@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{* This template is used for pages that aren't a map page. *}
+		
+{include file="header-bar.htm"}
+
+		<div id="main" class="wrapper cf">
+			{block name="subpage"}{/block}
+			{if $okMessage}
+				<span class="msgOk">{$okMessage}</span>
+			{/if}
+			{if $errorMessage}
+				<span class="msgError">{$errorMessage}</span>
+			{/if}
+			{block name="main"}{/block}
+		</div>
+
+	
+		{include file="footer-bar.htm"}
+
+		{block name="finalScripts"}{/block}
+		
+	</body>
+</html>
