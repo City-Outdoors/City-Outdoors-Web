@@ -14,7 +14,7 @@ if (!$currentUser->isAdministrator()) die('No Access');
 
 if (isset($_POST) && isset($_POST['title']) && $_POST['CSFRToken'] == $_SESSION['CSFRToken']) {
 	$collection = Collection::create($_POST['title'],$currentUser);
-	header("Location: /collectionAsList.php?c=".$collection->getSlug());
+	header("Location: /admin/collection.php?c=".$collection->getSlug());
 	die();
 }
 
