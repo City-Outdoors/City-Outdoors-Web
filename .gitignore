@@ -1,0 +1,3 @@
+includes/config.ini
+includes/tests.config.ini
+includes/smarty_c/*.php
