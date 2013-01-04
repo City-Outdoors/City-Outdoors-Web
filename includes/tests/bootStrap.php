@@ -12,23 +12,23 @@ require dirname(__FILE__).'/../src/globalFuncs.php';
 
 class AbstractTest extends PHPUnit_Framework_TestCase {
 
-	
+
 	function setUp() {
 		global $CONFIG;
 		$CONFIG->load(dirname(__FILE__).'/../tests.config.ini');
 	}
-	
-    static $firstRun = true;
 
-    function setupDB() {        
-        $db = getDB();
-        if (AbstractTest::$firstRun) {
-            $db->exec(file_get_contents(dirname(__FILE__).'/../sql/destroy.sql'));    
-            $db->exec(file_get_contents(dirname(__FILE__).'/../sql/create.sql'));
-            AbstractTest::$firstRun = false;
-        } else {
-            $db->exec(file_get_contents(dirname(__FILE__).'/../sql/truncate.sql'));
-        }
-        return $db;
-    }
+	static $firstRun = true;
+
+	function setupDB() {        
+		$db = getDB();
+		if (AbstractTest::$firstRun) {
+			$db->exec(file_get_contents(dirname(__FILE__).'/../sql/destroy.sql'));			
+			DBMigrationManager::upgrade(false);
+			AbstractTest::$firstRun = false;
+		} else {
+			$db->exec(file_get_contents(dirname(__FILE__).'/../sql/truncate.sql'));
+		}
+		return $db;
+	}
 }

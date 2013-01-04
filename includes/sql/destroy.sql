@@ -16,4 +16,4 @@ DROP TABLE IF EXISTS collection  ;
 DROP TABLE IF EXISTS feature ;
 DROP TABLE IF EXISTS user_session  ;
 DROP TABLE IF EXISTS user_account  ;
-
+DROP TABLE IF EXISTS migration;
