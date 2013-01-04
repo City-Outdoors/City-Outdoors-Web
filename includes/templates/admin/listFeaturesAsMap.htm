@@ -1,0 +1,39 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<div id="MainMap"></div>
+	
+	
+
+	<form action="" method="post">
+
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+
+		<label for="lat">Lat</label>
+		<input type="text" value="" name="lat" id="lat">
+
+		<label for="lng">Lng</label>
+		<input type="text" value="" name="lng" id="lng">
+
+		<input type="submit" value="New Feature">
+
+	</form>
+{/block}
+
+
+{block name="finalScripts"}
+	<script type="text/javascript" src="//maps.google.com/maps/api/js?v=3.9&sensor=false&key={$Config->GOOGLE_MAP_API_KEY}"></script>
+	<script type="text/javascript" src="/js/admin/listFeaturesAsMap.js"></script>
+	<script type="text/javascript" src="/mapVariables.js.php?v={$assetsVersion}"></script>
+	<script type="text/javascript" src="/js/markerclusterer.js?v={$assetsVersion}"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			startMap();
+			{while $feature = $featureSearch->nextResult()}
+			addFeature({$feature->getId()},{$feature->getPointLat()},{$feature->getPointLng()});
+			{/while}	
+		});
+		
+	</script>
+{/block}

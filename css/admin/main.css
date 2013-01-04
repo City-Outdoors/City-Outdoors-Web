@@ -98,6 +98,10 @@ h2 {
 #mapInPage {
   float: left;
 }
+#MainMap {
+  width: 100%;
+  height: 400px;
+}
 #actionForm {
   clear: both;
 }

@@ -10,8 +10,11 @@ class FeatureSearch extends BaseSearch {
 	
 	private $boundsLeft, $boundsRight, $boundsTop, $boundsBottom;
 	
+	
+	private $showAllFeatures = false;
+	
 	/** @var User **/
-	private $visibleToUser;
+	private $visibleToUser = null;
 	
 	/** @var User **/
 	private $userFavourites;
@@ -37,7 +40,12 @@ class FeatureSearch extends BaseSearch {
 		$this->boundsBottom = $bottom;
 	}
 	
+	public function allFeatures() {
+		$this->showAllFeatures = true;
+	}
+	
 	public function  visibleToUser(User $user = null) {
+		$this->showAllFeatures = false;
 		$this->visibleToUser = $user;
 	}
 	
@@ -63,6 +71,7 @@ class FeatureSearch extends BaseSearch {
 		$where = array();
 		$joins = array();
 		$vars = array();
+		$select = array('feature.*');
 		
 		if (!is_null($this->boundsLeft)) {
 			$where[] = " feature.point_lng >= :boundsLeft";
@@ -99,12 +108,15 @@ class FeatureSearch extends BaseSearch {
 			$vars['ciuid'] = $this->userNotCheckedin->getId();
 		}
 		
-		// we always search for features visible to an anonymous user only
-		$joins[] = " LEFT JOIN item ON item.feature_id = feature.id ";
-		$joins[] = " LEFT JOIN feature_content ON feature_content.feature_id = feature.id AND feature_content.approved_at IS NOT NULL ";
-		$where[] = " (item.id IS NOT NULL OR feature_content.id IS NOT NULL)";
+		if (!$this->showAllFeatures) {
+			// we search for features visible to a user eg (feature with content on it)
+			$joins[] = " LEFT JOIN item ON item.feature_id = feature.id ";
+			$joins[] = " LEFT JOIN feature_content ON feature_content.feature_id = feature.id AND feature_content.approved_at IS NOT NULL ";
+			$where[] = " (item.id IS NOT NULL OR feature_content.id IS NOT NULL)";
+			$select[] = " GROUP_CONCAT(item.collection_id) AS has_collections_ids ";
+		}
 
-		$sql = "SELECT feature.*, GROUP_CONCAT(item.collection_id) AS has_collections_ids ".
+		$sql = "SELECT ".implode(" ", $select).
 			"FROM feature ".implode(" ", $joins).(count($where) > 0 ? " WHERE ".implode(" AND ", $where) : "")." GROUP BY feature.id";
 		$stat = $db->prepare($sql);
 		$stat->execute($vars);

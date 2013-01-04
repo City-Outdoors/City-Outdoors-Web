@@ -12,11 +12,16 @@ require '../includes/src/global.php';
 $currentUser = mustBeLoggedIn();
 if (!$currentUser->isAdministrator()) die('No Access');
 
+if (isset($_POST) && isset($_POST['lat']) && isset($_POST['lng']) && $_POST['CSFRToken'] == $_SESSION['CSFRToken']) {
+	$feature = Feature::findOrCreateAtPosition($_POST['lat'], $_POST['lng']);
+	header("Location: /admin/feature.php?id=".$feature->getId());
+	exit();
+}
 
 $s = new FeatureSearch();
 $s->allFeatures();
 
 $tpl = getSmarty($currentUser);
 $tpl->assign('featureSearch',$s);
-$tpl->display('admin/listFeatures.htm');
+$tpl->display('admin/listFeaturesAsMap.htm');
 
