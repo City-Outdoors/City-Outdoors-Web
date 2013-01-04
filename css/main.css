@@ -1274,11 +1274,6 @@ div.detailFooter {
   background-color: rgba(0,0,0,0.6);
 }
 #footer {
-  position: relative;
-  background-image: url('/img/Footer-illo.png');
-  background-repeat: no-repeat;
-  background-position: top left;
-  z-index: 10;
   margin: -55px auto 0;
   padding: 50px 80px 0;
   overflow: visible;
