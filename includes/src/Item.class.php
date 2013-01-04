@@ -245,7 +245,9 @@ class Item extends BaseDataWithOneID {
 				}
 				$this->id = $db->lastInsertId();
 			} else {
-				// TODO feature_id might have changed! update.
+				// feature_id might have changed! update.
+				$stat = $db->prepare('UPDATE item SET feature_id=:fid WHERE id=:id');							
+				$stat->execute(array('fid'=>$this->feature_id, 'id'=>$this->id));
 			}
 
 
