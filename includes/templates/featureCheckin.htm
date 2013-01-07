@@ -13,14 +13,18 @@
 	<div class="">
 		<h3>Explore</h3>
 		{if count($featureCheckInQuestions) > 0}
-			<ul>
+			<ul class="checkInQuestions">
 				{foreach $featureCheckInQuestions as $featureCheckInQuestion}
 					<li class="cf">
-						<p>{$featureCheckInQuestion->getQuestion()|escape|nl2br}</p>
+						<p class="question">{$featureCheckInQuestion->getQuestion()|escape|nl2br}</p>
 						
 						{if $currentUser}
 							{if $featureCheckInQuestion->hasAnswered($currentUser)}
-								<p>You have already answered this question</p>
+								<p class="done">You have already answered this question!</p>
+								
+								{if $featureCheckInQuestion->getAnswerExplanation()}
+									<div class="explanation">{$featureCheckInQuestion->getAnswerExplanation()}</div>
+								{/if}
 							{else}							
 								<form enctype="multipart/form-data" action="" method="post">
 									<input type="hidden" name="CSFRToken" value="{$CSFRToken}">

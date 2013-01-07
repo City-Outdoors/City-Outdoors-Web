@@ -18,6 +18,7 @@ if (!$featureCheckinQuestion) die('not found');
 if ($_POST && $_POST['action'] && $_POST['action'] == "update" && $_POST['CSFRToken'] == $_SESSION['CSFRToken']) {
 	$featureCheckinQuestion->setQuestion($_POST['question']);
 	$featureCheckinQuestion->setAnswers($_POST['answers']);
+	$featureCheckinQuestion->setAnswerExplanation($_POST['answer_explanation']);
 }
 
 

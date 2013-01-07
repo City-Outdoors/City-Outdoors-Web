@@ -23,6 +23,11 @@ $user = loadAPIUser();
 		<checkinQuestions>
 			<?php foreach($feature->getCheckinQuestions() as $question) { ?>
 				<checkinQuestion id="<?php echo $question->getId() ?>" question="<?php echo htmlentities($question->getQuestion()) ?>" <?php if ($user) { ?>hasAnswered="<?php echo ($question->hasAnswered($user)) ? 1 : 0 ?>"<?php } ?>>
+					<?php if ($user && $question->hasAnswered($user)) { ?>
+						<explanation>
+							<valueHTML><?php echo htmlentities($question->getAnswerExplanation()) ?></valueHTML>
+						</explanation>
+					<?php } ?>
 				</checkinQuestion>
 			<?php } ?>
 		</checkinQuestions>

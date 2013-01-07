@@ -20,6 +20,10 @@
 				<th>Answers</th>
 				<td><textarea name="answers">{$featureCheckinQuestion->getAnswers()|escape}</textarea></td>
 			</tr>
+			<tr>
+				<th>Answer Explanation</th>
+				<td><textarea name="answer_explanation" id="answer_explanation">{$featureCheckinQuestion->getAnswerExplanation()|escape}</textarea></td>
+			</tr>
 		</table>
 		<input type="submit">
 	</form>
@@ -57,4 +61,20 @@
 	
 		
 	
+{/block}
+
+
+{block name="finalScripts"}
+	<script type="text/javascript" src="/tinymce/tiny_mce.js?v={$assetsVersion}"></script>
+	<script>
+		$(document).ready(function(){
+			tinyMCE.init({
+				mode : "exact",
+				theme: "advanced",
+				elements : "answer_explanation",
+				external_link_list_url: "/admin/getPageLinkList.js.php?v={$assetsVersion}"
+			});
+		});
+	</script>
+
 {/block}

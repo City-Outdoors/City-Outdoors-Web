@@ -12,6 +12,7 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 	protected $feature_id;
 	protected $question;
 	protected $answers;
+	protected $answer_explanation;
 	
 
 	public function __construct($data) {
@@ -19,6 +20,7 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 		if ($data && isset($data['feature_id'])) $this->feature_id = $data['feature_id'];
 		if ($data && isset($data['question'])) $this->question = $data['question'];
 		if ($data && isset($data['answers'])) $this->answers = $data['answers'];
+		if ($data && isset($data['answer_explanation'])) $this->answer_explanation = $data['answer_explanation'];
 	}	
  
 	/** @return FeatureCheckinQuestion **/
@@ -66,6 +68,7 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 	public function getFeatureID() { return $this->feature_id; }
 
 	public function getAnswers() { return $this->answers; }
+	public function getAnswerExplanation() { return $this->answer_explanation; }
 	
 	public function checkAnswer($attemptAnswer) {
 		if (trim($attemptAnswer) == '') return false;
@@ -148,6 +151,13 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 		$db = getDB();
 		$stat = $db->prepare("UPDATE feature_checkin_question SET answers=:a WHERE id=:id");
 		$stat->execute(array('a'=>$answers,'id'=>$this->id));
+	}
+
+	public function setAnswerExplanation($answerExplanation) {
+		$this->answer_explanation = $answerExplanation;
+		$db = getDB();
+		$stat = $db->prepare("UPDATE feature_checkin_question SET answer_explanation=:a WHERE id=:id");
+		$stat->execute(array('a'=>$answerExplanation,'id'=>$this->id));
 	}
 		
 }
