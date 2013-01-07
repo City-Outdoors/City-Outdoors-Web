@@ -32,6 +32,10 @@
 				<th>Answer Explanation</th>
 				<td><textarea name="answer_explanation" id="answer_explanation">{$featureCheckinQuestion->getAnswerExplanation()|escape}</textarea></td>
 			</tr>
+			<tr>
+				<th>Sort Order</th>
+				<td><input type="text" name="sort_order" value="{$featureCheckinQuestion->getSortOrder()|escape}"></td>
+			</tr>
 		</table>
 		<input type="submit">
 	</form>

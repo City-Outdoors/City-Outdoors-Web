@@ -14,6 +14,7 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 	protected $answers;
 	protected $answer_explanation;
 	protected $question_type;
+	protected $sort_order;
 
 	public function __construct($data) {
 		parent::__construct($data);
@@ -22,6 +23,7 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 		if ($data && isset($data['answers'])) $this->answers = $data['answers'];
 		if ($data && isset($data['answer_explanation'])) $this->answer_explanation = $data['answer_explanation'];
 		if ($data && isset($data['question_type'])) $this->question_type = $data['question_type'];
+		if ($data && isset($data['sort_order'])) $this->sort_order = $data['sort_order'];
 	}	
  
 	/** @return FeatureCheckinQuestion **/
@@ -69,6 +71,7 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 	public function getQuestion() { return $this->question; }
 	public function getQuestionType() { return $this->question_type; }
 	public function getFeatureID() { return $this->feature_id; }
+	public function getSortOrder() { return $this->sort_order; }
 
 	public function getAnswers() { return $this->answers; }
 	public function getAnswerExplanation() { return $this->answer_explanation; }
@@ -161,6 +164,13 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 		$db = getDB();
 		$stat = $db->prepare("UPDATE feature_checkin_question SET answer_explanation=:a WHERE id=:id");
 		$stat->execute(array('a'=>$answerExplanation,'id'=>$this->id));
+	}
+
+	public function setSortOrder($sortOrder) {
+		$this->sort_order = $sortOrder;
+		$db = getDB();
+		$stat = $db->prepare("UPDATE feature_checkin_question SET sort_order=:so WHERE id=:id");
+		$stat->execute(array('so'=>$sortOrder,'id'=>$this->id));
 	}
 		
 }

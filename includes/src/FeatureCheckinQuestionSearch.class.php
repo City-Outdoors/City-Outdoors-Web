@@ -8,6 +8,8 @@
 
 class FeatureCheckinQuestionSearch extends BaseSearch {
 	
+	protected $orderBy = "sort_order DESC";
+	
 	public function  __construct() {
 		$this->className = "FeatureCheckinQuestion";
 	}
@@ -32,7 +34,8 @@ class FeatureCheckinQuestionSearch extends BaseSearch {
 		}
 
 		$sql = "SELECT feature_checkin_question.* ".
-			"FROM feature_checkin_question ".implode(" ", $joins).(count($where) > 0 ? " WHERE ".implode(" AND ", $where) : "")." GROUP BY feature_checkin_question.id";
+			"FROM feature_checkin_question ".implode(" ", $joins).(count($where) > 0 ? " WHERE ".implode(" AND ", $where) : "").
+			" GROUP BY feature_checkin_question.id ORDER BY ".$this->orderBy;
 		$stat = $db->prepare($sql);
 		$stat->execute($vars);
 		while($d = $stat->fetch(PDO::FETCH_ASSOC)) {

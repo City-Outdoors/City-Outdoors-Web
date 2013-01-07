@@ -19,6 +19,7 @@ if ($_POST && $_POST['action'] && $_POST['action'] == "update" && $_POST['CSFRTo
 	$featureCheckinQuestion->setQuestion($_POST['question']);
 	$featureCheckinQuestion->setAnswers($_POST['answers']);
 	$featureCheckinQuestion->setAnswerExplanation($_POST['answer_explanation']);
+	$featureCheckinQuestion->setSortOrder($_POST['sort_order']);
 }
 
 

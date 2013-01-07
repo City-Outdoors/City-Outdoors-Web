@@ -6,12 +6,14 @@
 		<tr>
 			<th>ID</th>
 			<th>Question</th>
+			<th>Sort Order</th>
 			<th>&nbsp;</th>
 		</tr>
 		{while $question = $checkinQuestionSearch->nextResult()}
 			<tr class="{cycle values="alternate,"}">
 				<td>{$question->getId()}</td>
 				<td>{$question->getQuestion()|escape}</td>
+				<td>{$question->getSortOrder()}</td>
 				<td>
 					<a href="/admin/featureCheckinQuestion.php?id={$question->getId()}">View Question</a>
 					<a href="/admin/feature.php?id={$question->getFeatureId()}">View Feature</a>
