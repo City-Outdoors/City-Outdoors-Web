@@ -116,7 +116,7 @@ class FeatureSearch extends BaseSearch {
 			$select[] = " GROUP_CONCAT(item.collection_id) AS has_collections_ids ";
 		}
 
-		$sql = "SELECT ".implode(" ", $select).
+		$sql = "SELECT ".implode(" , ", $select).
 			"FROM feature ".implode(" ", $joins).(count($where) > 0 ? " WHERE ".implode(" AND ", $where) : "")." GROUP BY feature.id";
 		$stat = $db->prepare($sql);
 		$stat->execute($vars);
