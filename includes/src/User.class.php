@@ -24,6 +24,8 @@ class User extends BaseDataWithOneID {
 	protected $system_administrator;
 	
 	protected $forgotten_password_code;
+	
+	protected $cached_score;
 
 	public static function loadByID($id) {
 		$db = getDB();
@@ -154,6 +156,7 @@ class User extends BaseDataWithOneID {
 		if ($data && isset($data['twitter_id'])) $this->twitter_id = $data['twitter_id'];
 		if ($data && isset($data['twitter_screen_name'])) $this->twitter_screen_name = $data['twitter_screen_name'];
 		if ($data && isset($data['profile_url'])) $this->profile_url = $data['profile_url'];
+		if ($data && isset($data['cached_score'])) $this->cached_score = $data['cached_score'];
 	}	
 	
 	public function getName() { return $this->display_name; }
@@ -165,6 +168,7 @@ class User extends BaseDataWithOneID {
 	public function isEnabled() { return $this->enabled; }
 	public function isAdministrator() { return $this->administrator || $this->system_administrator; }
 	public function isSystemAdministrator() { return $this->system_administrator; }
+	public function getCachedScore() { return $this->cached_score; }
 	
 	public function hasPassword() { return (boolean)$this->password_crypted; }
 	
@@ -274,6 +278,20 @@ class User extends BaseDataWithOneID {
 		$stat = $db->prepare('UPDATE user_account SET enabled=0 WHERE id=:id');
 		$stat->execute(array('id'=>$this->id));		
 	}		
+	
+	public function calculateAndCacheScore() {
+		$db = getDB();
+		# get score
+		$stat = $db->prepare("SELECT score FROM feature_checkin_success WHERE user_account_id=:id");
+		$stat->execute(array('id'=>$this->id));
+		$score = 0;
+		while ($d = $stat->fetch()) {
+			$score += $d['score'];
+		}
+		# write score
+		$stat = $db->prepare("UPDATE user_account SET cached_score=:s WHERE id=:id");
+		$stat->execute(array('id'=>$this->id,'s'=>$score));
+	}
 }
 
 class UserException extends Exception {};

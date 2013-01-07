@@ -24,6 +24,7 @@ if ($_POST && $_POST['action'] && $_POST['action'] == "update" && $_POST['CSFRTo
 	$featureCheckinQuestion->setAnswers($_POST['answers']);
 	$featureCheckinQuestion->setAnswerExplanation($_POST['answer_explanation']);
 	$featureCheckinQuestion->setSortOrder($_POST['sort_order']);
+	$featureCheckinQuestion->setScoreForFreeTextQuestion($_POST['score']);
 }
 
 

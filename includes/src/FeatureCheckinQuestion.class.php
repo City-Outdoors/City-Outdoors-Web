@@ -6,15 +6,15 @@
  * @url https://github.com/City-Outdoors/City-Outdoors-Web
  */
 
-class FeatureCheckinQuestion extends BaseDataWithOneID {
+abstract class FeatureCheckinQuestion extends BaseDataWithOneID {
 
-	
 	protected $feature_id;
 	protected $question;
 	protected $answers;
 	protected $answer_explanation;
 	protected $question_type;
 	protected $sort_order;
+	protected $score;
 
 	public function __construct($data) {
 		parent::__construct($data);
@@ -24,6 +24,7 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 		if ($data && isset($data['answer_explanation'])) $this->answer_explanation = $data['answer_explanation'];
 		if ($data && isset($data['question_type'])) $this->question_type = $data['question_type'];
 		if ($data && isset($data['sort_order'])) $this->sort_order = $data['sort_order'];
+		if ($data && isset($data['score'])) $this->score = json_decode ($data['score']);
 	}	
  
 	/** @return FeatureCheckinQuestion **/
@@ -34,7 +35,9 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 				'WHERE id = :id ');
 		$stat->execute(array('id'=>$id));
 		if ($d = $stat->fetch()) {
-			return new FeatureCheckinQuestion($d);	
+			if ($d['question_type'] == 'FREETEXT') {
+				return new FeatureCheckinQuestionFreeText($d);	
+			}
 		}
 	}
  
@@ -46,28 +49,12 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 				'WHERE id = :id AND feature_id = :fid');
 		$stat->execute(array('id'=>$id,'fid'=>$feature->getId()));
 		if ($d = $stat->fetch()) {
-			return new FeatureCheckinQuestion($d);	
+			if ($d['question_type'] == 'FREETEXT') {
+				return new FeatureCheckinQuestionFreeText($d);	
+			}
 		}
 	}
 	
-	/** @return FeatureCheckinQuestion **/
-	public static function createFreeTextQuestion(Feature $feature, $question, $answers) {
-		global  $CONFIG;
-		$db = getDB();
-		$stat = $db->prepare('INSERT INTO feature_checkin_question  (feature_id, question, answers, created_at, question_type) '.
-				'VALUES (:feature_id, :question, :answers, :created_at, :type)');
-		$data = array(
-				'feature_id'=>$feature->getId(), 
-				'question'=>$question, 
-				'answers'=>$answers,
-				'created_at'=>date('Y-m-d H:i:s'),
-				'type'=>'FREETEXT',
-			);
-		$stat->execute($data);
-		$data['id'] = $db->lastInsertId();
-		return new FeatureCheckinQuestion($data);
-	}	
-
 	public function getQuestion() { return $this->question; }
 	public function getQuestionType() { return $this->question_type; }
 	public function getFeatureID() { return $this->feature_id; }
@@ -75,50 +62,6 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 
 	public function getAnswers() { return $this->answers; }
 	public function getAnswerExplanation() { return $this->answer_explanation; }
-	
-	public function checkAnswer($attemptAnswer) {
-		if (trim($attemptAnswer) == '') return false;
-		
-		foreach(explode("\n", $this->answers) as $answer) {
-			if (strtolower(trim($answer)) == strtolower(trim($attemptAnswer))) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	public function checkAndSaveAnswer($attemptAnswer, User $useraccount, $userAgent = null, $ip=null) {
-		$db = getDB();
-		if (!$this->checkAnswer($attemptAnswer)) {
-			$stat = $db->prepare('INSERT INTO feature_checkin_failure  (user_account_id, feature_checkin_question_id, answer_given, created_at, user_agent, ip) '.
-					'VALUES (:user_account_id, :feature_checkin_question_id, :answer_given, :created_at, :user_agent, :ip)');
-			$data = array(
-					'user_account_id'=>$useraccount->getId(), 
-					'feature_checkin_question_id'=>$this->getId(), 
-					'answer_given'=>$attemptAnswer,
-					'created_at'=>date('Y-m-d H:i:s'),
-					'user_agent'=>$userAgent,
-					'ip'=>$ip			
-				);
-			$stat->execute($data);		
-			return false;
-		} else {
-		
-			$stat = $db->prepare('INSERT INTO feature_checkin_success  (user_account_id, feature_checkin_question_id, answer_given, created_at, user_agent, ip) '.
-					'VALUES (:user_account_id, :feature_checkin_question_id, :answer_given, :created_at, :user_agent, :ip)');
-			$data = array(
-					'user_account_id'=>$useraccount->getId(), 
-					'feature_checkin_question_id'=>$this->getId(), 
-					'answer_given'=>$attemptAnswer,
-					'created_at'=>date('Y-m-d H:i:s'),
-					'user_agent'=>$userAgent,
-					'ip'=>$ip			
-				);
-			$stat->execute($data);	
-			return true;		
-		}
-	}
 	
 	public function hasAnswered(User $user) {
 		$db = getDB();
@@ -172,7 +115,6 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 		$stat = $db->prepare("UPDATE feature_checkin_question SET sort_order=:so WHERE id=:id");
 		$stat->execute(array('so'=>$sortOrder,'id'=>$this->id));
 	}
-		
 }
 
 

@@ -44,5 +44,15 @@ class FeatureCheckinQuestionSearch extends BaseSearch {
 		$this->searchDone = true;
 	}
 	
+	public function nextResult() {
+		if (!$this->searchDone) $this->execute();
+		$d = array_shift($this->results);
+		if ($d) {
+			if ($d['question_type'] == 'FREETEXT') {
+				return new FeatureCheckinQuestionFreeText($d);
+			}
+		}
+	}
+	
 }
 	

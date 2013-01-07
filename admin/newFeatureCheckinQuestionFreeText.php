@@ -17,7 +17,7 @@ if (!$feature) die('not found');
 
 
 if (isset($_POST['CSFRToken']) && $_POST['action'] == 'newCheckinQuestion' && $_POST['CSFRToken'] == $_SESSION['CSFRToken']) {
-	$fciq = FeatureCheckinQuestion::createFreeTextQuestion($feature, $_POST['question'], $_POST['answers']);
+	$fciq = FeatureCheckinQuestionFreeText::create($feature, $_POST['question'], $_POST['answers'], $_POST['score']);
 	header("Location: /admin/featureCheckinQuestion.php?id=".$fciq->getId());
 	die();
 }
