@@ -15,16 +15,8 @@ if (!$currentUser->isAdministrator()) die('No Access');
 $featureCheckinQuestion = FeatureCheckinQuestion::findByID($_GET['id']);
 if (!$featureCheckinQuestion) die('not found');
 
-if ($_POST && $_POST['action'] && $_POST['action'] == "update" && $_POST['CSFRToken'] == $_SESSION['CSFRToken']) {
-	$featureCheckinQuestion->setQuestion($_POST['question']);
-	$featureCheckinQuestion->setAnswers($_POST['answers']);
-	$featureCheckinQuestion->setAnswerExplanation($_POST['answer_explanation']);
-	$featureCheckinQuestion->setSortOrder($_POST['sort_order']);
+if ($featureCheckinQuestion->getQuestionType() == 'FREETEXT') {
+	header("Location: /admin/featureCheckinQuestionFreeText.php?id=".$featureCheckinQuestion->getId());
 }
-
-
-$tpl = getSmarty($currentUser);
-$tpl->assign('featureCheckinQuestion',$featureCheckinQuestion);
-$tpl->display('admin/featureCheckinQuestion.htm');
 
 
