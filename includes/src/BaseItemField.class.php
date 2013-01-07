@@ -107,7 +107,7 @@ abstract class BaseItemField {
 		return $this->validationErrors;
 	}
 
-	/** Used by updateFromData() & writeToDataBase() funcs - store whether anything actually changed .... **/
+	/** Used by updateFromTemplate() & writeToDataBase() funcs - store whether anything actually changed .... **/
 	protected $hasChange = false;
 
 	public function hasChange() { return $this->hasChange; }
@@ -117,7 +117,7 @@ abstract class BaseItemField {
 	 * @param Array $data The array of data to update from.
 	 * @param User $user Users can set personal display options, so the field might have to know which user is setting.
 	 * **/
-	public abstract function updateFromData($data, User $user=null);
+	public abstract function updateFromTemplate($data, User $user=null);
 
 	/** This function takes data from memory and saves it into the database. **/
 	public abstract function writeToDataBase(User $user);

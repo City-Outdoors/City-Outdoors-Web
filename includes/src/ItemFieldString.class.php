@@ -41,7 +41,7 @@ class ItemFieldString extends BaseItemField {
 		return $this->latestValue;
 	}
 	
-	public function updateFromData($data, User $user=null) {
+	public function updateFromTemplate($data, User $user=null) {
 		$this->update($data['field'.$this->fieldID], $user);
 	}
 

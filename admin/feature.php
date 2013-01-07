@@ -27,6 +27,7 @@ if (isset($_POST['CSFRToken']) && $_POST['CSFRToken'] == $_SESSION['CSFRToken'])
 
 $tpl = getSmarty($currentUser);
 $tpl->assign('feature',$feature);
+$tpl->assign('collectionSearch', new CollectionSearch);
 $tpl->display('admin/feature.htm');
 
 

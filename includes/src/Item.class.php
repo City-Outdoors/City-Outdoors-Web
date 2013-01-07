@@ -166,10 +166,10 @@ class Item extends BaseDataWithOneID {
 		}
 	}	
 	
-	public function updateData($data,User $user=null) {
+	public function updateFromTemplate($data,User $user=null) {
 		$this->loadFields();
 		foreach($this->fields as $field) {
-			$field->updateFromData($data, $user);
+			$field->updateFromTemplate($data, $user);
 		}
 	}
 

@@ -1,0 +1,39 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+
+	
+	{if $validationErrors}
+		<ul>
+			{foreach $validationErrors as $validationError}
+				<li>{$validationError|escape}</li>
+			{/foreach}
+		</ul>
+	{/if}
+	
+	<form action="/admin/newItem.php?c={$collection->getSlug()}&f={$feature->getId()}" method="post">
+		<input type="hidden" name="submit" value="yes">
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+		<table class="">
+			<tr>
+				<th>ID</th>
+				<td>NEW</td>
+			</tr>
+			<tr>
+				<th>Feature ID</th>
+				<td><a href="/admin/feature.php?id={$feature->getId()}">{$feature->getId()}</a></td>
+			</tr>
+			{foreach $item->getFields() as $field}
+				<tr>
+					<th>{$field->getTitle()|escape}</th>
+					<td>{include file=$field->getEditTemplateFileName() field=$field}</td>
+				</tr>
+			{/foreach}
+		</table>
+		<input type="submit" value="save">
+	</form>
+
+
+
+{/block}

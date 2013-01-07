@@ -29,6 +29,11 @@
 			<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
 			<input type="submit" value="delete">
 		</form>
+		{if $Config->ALLOW_EDITING_COLLECTION_ITEMS_IN_ADMIN_UI}
+			<a href="/admin/editItem.php?c={$collection->getSlug()}&i={$item->getId()}">Edit</a>
+		{/if}
 	{/if}
-
+	
+	
+	
 {/block}

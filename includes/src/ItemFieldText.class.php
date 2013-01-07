@@ -14,7 +14,7 @@ class ItemFieldText extends BaseItemField {
 	
 	protected $tableName = 'item_has_text_field';
 	
-	public function getEditTemplateFileName() { return 'itemField.string.edit.htm'; }
+	public function getEditTemplateFileName() { return 'itemField.text.edit.htm'; }
 
 	public function getValueAsHumanReadableHTML(User $user=null) {
 		$this->getLatestValueFromDataBaseIfNeeded();
@@ -41,7 +41,7 @@ class ItemFieldText extends BaseItemField {
 		return $this->latestValue;
 	}
 
-	public function updateFromData($data, User $user=null) {
+	public function updateFromTemplate($data, User $user=null) {
 		$this->update($data['field'.$this->fieldID], $user);
 	}
 

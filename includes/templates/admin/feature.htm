@@ -15,6 +15,16 @@
 		</tr>
 	</table>
 	
+	<h2>Items</h2>
+	
+	{if $Config->ALLOW_EDITING_COLLECTION_ITEMS_IN_ADMIN_UI}
+		<ul>
+		{while $collection = $collectionSearch->nextResult()}
+			<li><a href="/admin/newItem.php?c={$collection->getSlug()|escape}&f={$feature->getId()}">New {$collection->getTitle()|escape} item</a></td>
+		{/while}		
+		</ul>
+	{/if}
+	
 	<h2>Checkins</h2>
 	
 	<table class="data">
