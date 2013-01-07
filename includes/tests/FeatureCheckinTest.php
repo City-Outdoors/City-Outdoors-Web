@@ -16,7 +16,7 @@ class FeatureCheckinTest extends AbstractTest {
 		
 		$feature = Feature::findOrCreateAtPosition(55, 2);		
 		
-		$q1 = FeatureCheckinQuestion::findOrCreateAtPosition($feature, "How many cats?", "  one \n  1  \r\n 1.0 ");
+		$q1 = FeatureCheckinQuestion::createFreeTextQuestion($feature, "How many cats?", "  one \n  1  \r\n 1.0 ");
 		
 		
 		# answer checkin routines
@@ -47,8 +47,8 @@ class FeatureCheckinTest extends AbstractTest {
 		$content = $feature->newContent("Test", $user);
 		$content->approve($user);
 		
-		$q1 = FeatureCheckinQuestion::findOrCreateAtPosition($feature, "How many cats?", "  one \n  1  \r\n 1.0 ");
-		$q2 = FeatureCheckinQuestion::findOrCreateAtPosition($feature, "How many dogs?", "  one \n  1  \r\n 1.0 ");
+		$q1 = FeatureCheckinQuestion::createFreeTextQuestion($feature, "How many cats?", "  one \n  1  \r\n 1.0 ");
+		$q2 = FeatureCheckinQuestion::createFreeTextQuestion($feature, "How many dogs?", "  one \n  1  \r\n 1.0 ");
 		
 		# 0 no answers
 		$this->assertEquals(false, $q1->hasAnswered($user));

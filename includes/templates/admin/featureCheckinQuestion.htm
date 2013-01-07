@@ -9,8 +9,16 @@
 		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
 		<table class="verticalData">
 			<tr>
+				<th>ID</th>
+				<td>{$featureCheckinQuestion->getId()}</td>
+			</tr>
+			<tr>
 				<th>Feature</th>
 				<td><a href="/admin/feature.php?id={$featureCheckinQuestion->getFeatureId()}">{$featureCheckinQuestion->getFeatureId()}</a></td>
+			</tr>
+			<tr>
+				<th>Type</th>
+				<td>{$featureCheckinQuestion->getQuestionType()|escape}</td>
 			</tr>
 			<tr>
 				<th>Question</th>

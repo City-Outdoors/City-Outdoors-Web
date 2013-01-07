@@ -19,7 +19,9 @@ $data = array_merge($_POST,$_GET);
 $featureCheckinQuestion = FeatureCheckinQuestion::findByID($data['id']);
 if (!$featureCheckinQuestion) die("<data><error>No Feature</error></data>");
 
-$result = $featureCheckinQuestion->checkAndSaveAnswer($data['answer'], $user, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
+if ($featureCheckinQuestion->getQuestionType() == "FREETEXT") {
+	$result = $featureCheckinQuestion->checkAndSaveAnswer($data['answer'], $user, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
+}
 
 if ($result) {
 	?><data><result>OK</result></data><?php

@@ -15,9 +15,17 @@ if (!$currentUser->isAdministrator()) die('No Access');
 $feature = Feature::loadByID($_GET['id']);
 if (!$feature) die('not found');
 
+
+if (isset($_POST['CSFRToken']) && $_POST['action'] == 'newCheckinQuestion' && $_POST['CSFRToken'] == $_SESSION['CSFRToken']) {
+	$fciq = FeatureCheckinQuestion::createFreeTextQuestion($feature, $_POST['question'], $_POST['answers']);
+	header("Location: /admin/featureCheckinQuestion.php?id=".$fciq->getId());
+	die();
+}
+
+
 $tpl = getSmarty($currentUser);
 $tpl->assign('feature',$feature);
 $tpl->assign('collectionSearch', new CollectionSearch);
-$tpl->display('admin/feature.htm');
+$tpl->display('admin/newFeatureCheckinQuestionFreeText.htm');
 
 

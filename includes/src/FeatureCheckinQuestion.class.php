@@ -13,7 +13,7 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 	protected $question;
 	protected $answers;
 	protected $answer_explanation;
-	
+	protected $question_type;
 
 	public function __construct($data) {
 		parent::__construct($data);
@@ -21,6 +21,7 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 		if ($data && isset($data['question'])) $this->question = $data['question'];
 		if ($data && isset($data['answers'])) $this->answers = $data['answers'];
 		if ($data && isset($data['answer_explanation'])) $this->answer_explanation = $data['answer_explanation'];
+		if ($data && isset($data['question_type'])) $this->question_type = $data['question_type'];
 	}	
  
 	/** @return FeatureCheckinQuestion **/
@@ -48,16 +49,17 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 	}
 	
 	/** @return FeatureCheckinQuestion **/
-	public static function findOrCreateAtPosition(Feature $feature, $question, $answers) {
+	public static function createFreeTextQuestion(Feature $feature, $question, $answers) {
 		global  $CONFIG;
 		$db = getDB();
-		$stat = $db->prepare('INSERT INTO feature_checkin_question  (feature_id, question, answers, created_at) '.
-				'VALUES (:feature_id, :question, :answers, :created_at)');
+		$stat = $db->prepare('INSERT INTO feature_checkin_question  (feature_id, question, answers, created_at, question_type) '.
+				'VALUES (:feature_id, :question, :answers, :created_at, :type)');
 		$data = array(
 				'feature_id'=>$feature->getId(), 
 				'question'=>$question, 
 				'answers'=>$answers,
-				'created_at'=>date('Y-m-d H:i:s')
+				'created_at'=>date('Y-m-d H:i:s'),
+				'type'=>'FREETEXT',
 			);
 		$stat->execute($data);
 		$data['id'] = $db->lastInsertId();
@@ -65,6 +67,7 @@ class FeatureCheckinQuestion extends BaseDataWithOneID {
 	}	
 
 	public function getQuestion() { return $this->question; }
+	public function getQuestionType() { return $this->question_type; }
 	public function getFeatureID() { return $this->feature_id; }
 
 	public function getAnswers() { return $this->answers; }

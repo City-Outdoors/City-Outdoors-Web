@@ -1,0 +1,1 @@
+ALTER TABLE feature_checkin_question ADD question_type VARCHAR(50) DEFAULT 'FREETEXT';

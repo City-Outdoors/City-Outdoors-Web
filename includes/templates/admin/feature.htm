@@ -42,18 +42,7 @@
 		{/foreach}
 	</table>
 
-	<form action="" method="post">
-
-		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
-		<input type="hidden" name="action" value="newCheckinQuestion">
-
-		<label for="question">Question</label>
-		<textarea name="question" id="question"></textarea>
-		
-		<label for="answers">Answers (one per line)</label>
-		<textarea name="answers" id="answers"></textarea>
-
-		<input type="submit">
-
-	</form>	
+	<ul>
+		<li><a href="/admin/newFeatureCheckinQuestionFreeText.php?id={$feature->getId()}">New Free Text Question</a></li>
+	</ul>
 {/block}

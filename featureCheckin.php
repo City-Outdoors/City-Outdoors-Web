@@ -21,7 +21,7 @@ $tpl->assign('featureCheckInQuestions',$feature->getCheckinQuestions());
 
 if ($currentUser && isset($_POST['CSFRToken']) && $_POST['CSFRToken'] == $_SESSION['CSFRToken']) {
 	$q = FeatureCheckinQuestion::findByIDInFeature($_POST['questionID'], $feature);
-	if ($q) {
+	if ($q && $q->getQuestionType() == "FREETEXT") {
 		if ($q->checkAndSaveAnswer($_POST['answer'], $currentUser, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR'])) {
 			$tpl->assign('okMessage','That is correct!');
 		} else {
