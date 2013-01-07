@@ -31,14 +31,12 @@
 		<tr>
 			<th>ID</th>
 			<th>Question</th>
-			<th>Answer</th>
 			<th>Sort Order</th>
 		</tr>
 		{foreach $feature->getCheckinQuestions() as $fciq}
 			<tr class="{cycle values="alternate,"}">
 				<td><a href="/admin/featureCheckinQuestion.php?id={$fciq->getId()}">{$fciq->getId()}</a></td>
 				<td>{$fciq->getQuestion()|escape|nl2br}</td>
-				<td>{$fciq->getAnswers()|escape|nl2br}</td>
 				<td>{$fciq->getSortOrder()}</td>
 			</tr>
 		{/foreach}
