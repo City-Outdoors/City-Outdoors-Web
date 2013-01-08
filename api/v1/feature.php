@@ -21,6 +21,9 @@ $featureContentSearch->approvedOnly();
 $itemSearch = new ItemSearch();
 $itemSearch->onFeature($feature);
 
+$childItemSearch = new ItemSearch();
+// $childItemSearch->hasParentItem($item); is called below in the <item> loop.
+
 $fieldsInContentArea = isset($data['fieldInContentArea']) && $data['fieldInContentArea'] ? $data['fieldInContentArea'] : null;
 
 ?>
@@ -39,7 +42,7 @@ $fieldsInContentArea = isset($data['fieldInContentArea']) && $data['fieldInConte
 			<?php } ?>
 		</contents>
 		<items>
-			<?php while ($item = $itemSearch->nextResult()) { $collection = $item->getCollection(); ?>
+			<?php while ($item = $itemSearch->nextResult()) { $collection = $item->getCollection(); $childItemSearch->hasParentItem($item); ?>
 				<item id="<?php echo $item->getId() ?>" collectionID="<?php echo $item->getCollectionID() ?>" slug="<?php echo htmlentities($item->getSlug()) ?>">
 					<?php if ($showLinks) { ?>
 					<link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/collectionItem.php?slug=<?php echo $collection->getSlug() ?>&amp;islug=<?php echo $item->getSlug() ?>"/>
@@ -58,6 +61,11 @@ $fieldsInContentArea = isset($data['fieldInContentArea']) && $data['fieldInConte
 				</item>	
 			<?php } ?>
 		</items>
+		<childItems>
+			<?php while ($item = $childItemSearch->nextResult()) { ?>
+				<item id="<?php echo $item->getId() ?>"></item>
+			<?php } ?>
+		</childItems>
 		<checkinQuestions>
 			<?php foreach($feature->getCheckinQuestions() as $question) { ?>
 				<checkinQuestion id="<?php echo $question->getId() ?>" question="<?php echo htmlentities($question->getQuestion()) ?>">
