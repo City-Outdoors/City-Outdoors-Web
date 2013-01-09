@@ -37,6 +37,8 @@ abstract class FeatureCheckinQuestion extends BaseDataWithOneID {
 		if ($d = $stat->fetch()) {
 			if ($d['question_type'] == 'FREETEXT') {
 				return new FeatureCheckinQuestionFreeText($d);	
+			} else if ($d['question_type'] == 'CONTENT') {
+				return new FeatureCheckinQuestionContent($d);	
 			}
 		}
 	}
@@ -50,7 +52,9 @@ abstract class FeatureCheckinQuestion extends BaseDataWithOneID {
 		$stat->execute(array('id'=>$id,'fid'=>$feature->getId()));
 		if ($d = $stat->fetch()) {
 			if ($d['question_type'] == 'FREETEXT') {
-				return new FeatureCheckinQuestionFreeText($d);	
+				return new FeatureCheckinQuestionFreeText($d);		
+			} else if ($d['question_type'] == 'CONTENT') {
+				return new FeatureCheckinQuestionContent($d);
 			}
 		}
 	}

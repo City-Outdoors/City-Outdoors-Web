@@ -1,0 +1,39 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<h2>Details</h2>
+
+	<table class="verticalData">
+		<tr>
+			<th>Feature</th>
+			<td>{$feature->getId()}</td>
+		</tr>
+		<tr>
+			<th>Point Lat & Lng</th>
+			<td>{$feature->getPointLat()}, {$feature->getPointLng()}</td>
+		</tr>
+	</table>
+	
+	<h2>New Checkins</h2>
+
+	<form action="" method="post">
+
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+		<input type="hidden" name="action" value="newCheckinQuestion">
+
+		<div>
+			<label for="question">Question</label>
+			<textarea name="question" id="question"></textarea>
+		</div>
+		
+		
+		<div>
+			<label for="score">Scores that can be rewarded (comma separated)</label>
+			<input type="text" name="score" id="score" value="10,5">
+		</div>
+		
+		<input type="submit">
+
+	</form>	
+{/block}

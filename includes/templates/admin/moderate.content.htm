@@ -33,6 +33,22 @@
 		<div>Promote?</div>
 		<div><input type="checkbox" name="promote" value="yes"></div>
 		
+		{if $questionSearch->num() > 0}
+			<div>Content Questions</div>
+			{while $question = $questionSearch->nextResult()}
+				<div>{$question->getQuestion()|escape}</div>
+				<div>
+					<select name="question[{$question->getId()}]">
+						<option value="0" selected>0</option>
+						{foreach $question->getScores() as $s}
+							<option value="{$s}">{$s}</option>
+						{/foreach}
+					</select>
+				</div>
+			{/while}
+			
+		{/if}
+		
 		<input type="submit" name="action" value="Approve">
 		<input type="submit" name="action" value="Disapprove">
 		<a href="/featureContent.php?id={$content->getFeatureId()}" target="_blank">View Existing Comments</a>

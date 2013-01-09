@@ -17,6 +17,8 @@ if (!$featureCheckinQuestion) die('not found');
 
 if ($featureCheckinQuestion->getQuestionType() == 'FREETEXT') {
 	header("Location: /admin/featureCheckinQuestionFreeText.php?id=".$featureCheckinQuestion->getId());
+} else if ($featureCheckinQuestion->getQuestionType() == 'CONTENT') {
+	header("Location: /admin/featureCheckinQuestionContent.php?id=".$featureCheckinQuestion->getId());
 }
 
 

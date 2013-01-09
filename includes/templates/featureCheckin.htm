@@ -25,15 +25,24 @@
 								{if $featureCheckInQuestion->getAnswerExplanation()}
 									<div class="explanation">{$featureCheckInQuestion->getAnswerExplanation()}</div>
 								{/if}
-							{else}				
+							{else}		
+								{* some questions can only be answered once *}
 								{if $featureCheckInQuestion->getQuestionType() == "FREETEXT" }
-									<form enctype="multipart/form-data" action="" method="post">
-										<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
-										<input type="hidden" name="questionID" value="{$featureCheckInQuestion->getId()}">
-										<input type="text" name="answer">
-										<input type="submit" value="Submit Answer">								
-									</form>								
+									<div class="answerForm">
+										<form enctype="multipart/form-data" action="" method="post">
+											<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+											<input type="hidden" name="questionID" value="{$featureCheckInQuestion->getId()}">
+											<input type="text" name="answer">
+											<input type="submit" value="Submit Answer">								
+										</form>
+									</div>
 								{/if}
+							{/if}
+							{* but some questions can be answered multiple times *}
+							{if $featureCheckInQuestion->getQuestionType() == "CONTENT" }
+								<div class="answerForm">
+									<a href="/featureContent.php?id={$feature->getId()}#new-content-form">Try to answer this question</a>
+								</div>
 							{/if}
 						{/if}
 						

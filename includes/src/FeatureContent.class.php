@@ -114,6 +114,7 @@ class FeatureContent extends BaseDataWithOneID {
 	/** @return Boolean true if user account on this site, false if anonymous user **/
 	public function hasAuthor() {return (boolean)$this->created_by;  }
 	public function getAuthor() {return User::loadByID($this->created_by);  }
+	public function getAuthorID() {return $this->created_by;  }
 	public function hasPicture() {return (boolean)$this->picture_full_filename;  }
 	public function getFullPictureURL() { return '/content/'.$this->picture_full_filename; }
 	public function getNormalPictureURL() { return '/content/'.$this->picture_normal_filename; }

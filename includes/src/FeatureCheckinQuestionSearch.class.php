@@ -9,6 +9,7 @@
 class FeatureCheckinQuestionSearch extends BaseSearch {
 	
 	protected $orderBy = "sort_order DESC";
+	protected $types = array();
 	
 	public function  __construct() {
 		$this->className = "FeatureCheckinQuestion";
@@ -22,6 +23,12 @@ class FeatureCheckinQuestionSearch extends BaseSearch {
 		$this->featureIDs[] = $feature->getId();
 	}
 	
+	public function ofType($type) {
+		if (in_array($type, array('CONTENT','FREETEXT'))) {
+			$this->types[] = $type;
+		}
+	}
+	
 	protected function execute() {
 		if ($this->searchDone) throw new Exception("Search already done!");
 		$db = getDB();
@@ -31,6 +38,11 @@ class FeatureCheckinQuestionSearch extends BaseSearch {
 		
 		if ($this->featureIDs) {
 			$where[] = " feature_checkin_question.feature_id IN (".  implode(",", $this->featureIDs).") ";
+		}
+		if ($this->types) {
+			$typesForSQL = array();
+			foreach($this->types as $t) $typesForSQL[] = "'".$t."'";  // it is crucial ofType() function only allows set types otherwise there is an SOL injection security problem here
+			$where[] = " feature_checkin_question.question_type IN (".  implode(",", $typesForSQL).") ";
 		}
 
 		$sql = "SELECT feature_checkin_question.* ".
@@ -49,7 +61,9 @@ class FeatureCheckinQuestionSearch extends BaseSearch {
 		$d = array_shift($this->results);
 		if ($d) {
 			if ($d['question_type'] == 'FREETEXT') {
-				return new FeatureCheckinQuestionFreeText($d);
+				return new FeatureCheckinQuestionFreeText($d);	
+			} else if ($d['question_type'] == 'CONTENT') {
+				return new FeatureCheckinQuestionContent($d);
 			}
 		}
 	}

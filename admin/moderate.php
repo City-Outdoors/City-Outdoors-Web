@@ -21,6 +21,19 @@ if ($_POST && isset($_POST['contentID']) && isset($_POST['action']) && $_POST['C
 			if (isset($_POST['name'])) $content->updateCreatedName($_POST['name']);
 			$content->approve($currentUser);
 			if (isset($_POST['promote']) && $_POST['promote'] == 'yes') $content->promote($currentUser);
+			
+			if (isset($_POST['question']) && is_array($_POST['question'])) {
+				$feature = $content->getFeature();
+				foreach($_POST['question'] as $id=>$score) {
+					if (intval($score) > 0) {
+						$question = FeatureCheckinQuestion::findByIDInFeature($id, $feature);
+						if ($question && get_class($question) == 'FeatureCheckinQuestionContent') {
+							$question->awardPoints($content, $score);
+						}
+					}
+				}
+			}
+			
 		} else if ($_POST['action'] == 'Disapprove') {
 			$content->disapprove($currentUser);
 		}
@@ -34,10 +47,20 @@ $s->toModerateOnly();
 $content = $s->nextResult();
 
 
+
 $tpl = getSmarty($currentUser);
 
 if ($content) {
 	$tpl->assign('content',$content);
+	
+	$feature = $content->getFeature();
+	$tpl->assign('feature',$feature);
+	
+	$questionSearch = new FeatureCheckinQuestionSearch();
+	$questionSearch->withinFeature($feature);
+	$questionSearch->ofType("CONTENT");
+	$tpl->assign('questionSearch',$questionSearch);
+
 	$tpl->display('admin/moderate.content.htm');
 } else {
 	$tpl->display('admin/moderate.nothing.htm');
