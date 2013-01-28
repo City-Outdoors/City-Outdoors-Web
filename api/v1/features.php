@@ -7,7 +7,7 @@
  */
 require '../../includes/src/global.php';
 require '../../includes/src/APIV1Funcs.php';
-header('Content-type: application/xml');
+startXMLDoc();
 
 
 $featureSearch = new FeatureSearch();

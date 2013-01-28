@@ -16,4 +16,7 @@ function loadAPIUser() {
 }
 
 
-
+function startXMLDoc() {
+	header('Content-type: application/xml');
+	print '<?xml version="1.0" encoding="UTF-8"?>';		
+}
