@@ -36,6 +36,18 @@
 											<input type="submit" value="Submit Answer">								
 										</form>
 									</div>
+								{elseif $featureCheckInQuestion->getQuestionType() == "MULTIPLECHOICE"}
+									{foreach $featureCheckInQuestion->getPossibleAnswers() as $answer}
+										<div class="answerForm">
+											<form enctype="multipart/form-data" action="" method="post">
+												{$answer->getAnswer()|escape}
+												<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+												<input type="hidden" name="questionID" value="{$featureCheckInQuestion->getId()}">
+												<input type="hidden" name="answerID" value="{$answer->getId()}">
+												<input type="submit" value="This Answer">								
+											</form>
+										</div>
+									{/foreach}
 								{/if}
 							{/if}
 							{* but some questions can be answered multiple times *}
@@ -44,8 +56,18 @@
 									<a href="/featureContent.php?id={$feature->getId()}#new-content-form">Try to answer this question</a>
 								</div>
 							{/if}
+						{else}
+							{* Sometimes if there is no user we show possible answers anyway *}
+							{if $featureCheckInQuestion->getQuestionType() == "MULTIPLECHOICE"}
+								<div class="possibleAnswers">
+									<ul>
+										{foreach $featureCheckInQuestion->getPossibleAnswers() as $answer}
+											<li>{$answer->getAnswer()|escape}</li>
+										{/foreach}
+									</ul>
+								</div>
+							{/if}
 						{/if}
-						
 					</li>
 				{/foreach}
 			</ul>

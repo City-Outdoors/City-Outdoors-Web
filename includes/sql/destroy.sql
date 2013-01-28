@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS cms_content;
 DROP TABLE IF EXISTS feature_checkin_success;
 DROP TABLE IF EXISTS feature_checkin_failure;
 DROP TABLE IF EXISTS feature_checkin;
+DROP TABLE IF EXISTS feature_checkin_question_possible_answer;
 DROP TABLE IF EXISTS feature_checkin_question;
 DROP TABLE IF EXISTS feature_favourite;
 DROP TABLE IF EXISTS feature_content_image;

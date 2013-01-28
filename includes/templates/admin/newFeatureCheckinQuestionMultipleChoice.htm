@@ -1,0 +1,48 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<h2>Details</h2>
+
+	<table class="verticalData">
+		<tr>
+			<th>Feature</th>
+			<td>{$feature->getId()}</td>
+		</tr>
+		<tr>
+			<th>Point Lat & Lng</th>
+			<td>{$feature->getPointLat()}, {$feature->getPointLng()}</td>
+		</tr>
+	</table>
+	
+	<h2>New Checkins</h2>
+
+	<form action="" method="post">
+
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+		<input type="hidden" name="action" value="newCheckinQuestion">
+
+		<div>
+			<label for="question">Question</label>
+			<textarea name="question" id="question"></textarea>
+		</div>
+		
+		<table class="data">
+			<tr>
+				<th>Number</th>
+				<th>Answer</th>
+				<th>Score</th>
+			</tr>
+			{for $i=1 to $NUMBER_OF_QUESTION_FIELDS_TO_SHOW}
+				<tr class="{if $i %2 == 0}alternate{/if}">
+					<td>{$i}</td>
+					<td><input type="text" name="answer{$i}" value=""></td>
+					<td><input type="text" name="answerScores{$i}" value=""></td>
+				</tr>
+			{/for}
+		</table>
+				
+		<input type="submit">
+
+	</form>	
+{/block}

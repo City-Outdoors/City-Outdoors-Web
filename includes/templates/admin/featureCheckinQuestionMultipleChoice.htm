@@ -1,0 +1,144 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<h2>Feature Checkin Question</h2>
+
+	<form method="POST">
+		<input type="hidden" name="action" value="update">
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+		<table class="verticalData">
+			<tr>
+				<th>ID</th>
+				<td>{$featureCheckinQuestion->getId()}</td>
+			</tr>
+			<tr>
+				<th>Feature</th>
+				<td><a href="/admin/feature.php?id={$featureCheckinQuestion->getFeatureId()}">{$featureCheckinQuestion->getFeatureId()}</a></td>
+			</tr>
+			<tr>
+				<th>Type</th>
+				<td>{$featureCheckinQuestion->getQuestionType()|escape}</td>
+			</tr>
+			<tr>
+				<th>Question</th>
+				<td><textarea name="question">{$featureCheckinQuestion->getQuestion()|escape}</textarea></td>
+			</tr>
+			<tr>
+				<th>Answer Explanation</th>
+				<td><textarea name="answer_explanation" id="answer_explanation">{$featureCheckinQuestion->getAnswerExplanation()|escape}</textarea></td>
+			</tr>
+			<tr>
+				<th>Sort Order</th>
+				<td><input type="text" name="sort_order" value="{$featureCheckinQuestion->getSortOrder()|escape}"></td>
+			</tr>			
+		</table>
+
+		<input type="submit">
+	</form>
+
+	<h2>Answers</h2>
+	
+	<TABLE CLASS="data">
+		<tr>
+			<th>ID</th>
+			<th>Answer</th>
+			<th>Scores</th>
+			<th>Sort Order</th>
+			<th>&nbsp;</th>
+		</tr>
+		{foreach $featureCheckinQuestion->getPossibleAnswers() as $answer}
+			<tr class="{if $answer@index % 2 == 0}alternate{/if}">
+				<form method="POST">
+					<input type="hidden" name="action" value="updateAnswer">
+					<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+					<input type="hidden" name="answerID" value="{$answer->getId()}">
+					<td>{$answer->getId()}</td>
+					<td>
+						<input type="text" name="answer" value="{$answer->getAnswer()|escape}">
+					</td>
+					<td>
+						<input type="text" name="scores" value="{implode(",",$answer->getScores())}">
+					</td>
+					<td>
+						<input type="text" name="sortOrder" value="{$answer->getSortOrder()}">
+					</td>
+					<td>
+						<input type="submit" value="Update Answer">
+					</td>
+				</form>
+			</tr>
+		{/foreach}
+		<tr class="">
+			<form method="POST">
+				<input type="hidden" name="action" value="newAnswer">
+				<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+				<td>&nbsp;</td>
+				<td>
+					<input type="text" name="answer" value="">
+				</td>
+				<td>
+					<input type="text" name="scores" value="">
+				</td>
+				<td>
+					<input type="text" name="sortOrder" value="0">
+				</td>
+				<td>
+					<input type="submit" value="Add New Answer">
+				</td>
+			</form>
+		</tr>
+	</TABLE>	
+	
+	<h2>Correct Answers</h2>
+	
+	
+	<table class="data">
+		<tr>
+			<th>User ID</th>
+			<th>Answer</th>
+			<th>Score</th>
+		</tr>
+		{foreach $featureCheckinQuestion->getAllCorrectAnswersGiven() as $a}
+			<tr class="{cycle values="alternate,"}">
+				<td>{$a->getUserAccountID()}</td>
+				<td>{$a->getAnswerGiven()}</td>
+				<td>{$a->getScore()}</td>
+			</tr>
+		{/foreach}
+	</table>
+	
+	<h2>Wrong Answers</h2>
+	
+	
+	<table class="data">
+		<tr>
+			<th>User ID</th>
+			<th>Answer</th>
+		</tr>
+		{foreach $featureCheckinQuestion->getAllWrongAnswersGiven() as $a}
+			<tr class="{cycle values="alternate,"}">
+				<td>{$a->getUserAccountID()}</td>
+				<td>{$a->getAnswerGiven()}</td>
+			</tr>
+		{/foreach}
+	</table>
+		
+	
+{/block}
+
+
+{block name="finalScripts"}
+	<script type="text/javascript" src="/tinymce/tiny_mce.js?v={$assetsVersion}"></script>
+	<script>
+		$(document).ready(function(){
+			tinyMCE.init({
+				mode : "exact",
+				theme: "advanced",
+				elements : "answer_explanation",
+				external_link_list_url: "/admin/getPageLinkList.js.php?v={$assetsVersion}"
+			});
+		});
+	</script>
+
+{/block}

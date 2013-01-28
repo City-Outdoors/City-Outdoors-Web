@@ -39,6 +39,8 @@ abstract class FeatureCheckinQuestion extends BaseDataWithOneID {
 				return new FeatureCheckinQuestionFreeText($d);	
 			} else if ($d['question_type'] == 'CONTENT') {
 				return new FeatureCheckinQuestionContent($d);	
+			} else if ($d['question_type'] == 'MULTIPLECHOICE') {
+				return new FeatureCheckinQuestionMultipleChoice($d);	
 			}
 		}
 	}
@@ -55,6 +57,8 @@ abstract class FeatureCheckinQuestion extends BaseDataWithOneID {
 				return new FeatureCheckinQuestionFreeText($d);		
 			} else if ($d['question_type'] == 'CONTENT') {
 				return new FeatureCheckinQuestionContent($d);
+			} else if ($d['question_type'] == 'MULTIPLECHOICE') {
+				return new FeatureCheckinQuestionMultipleChoice($d);					
 			}
 		}
 	}
