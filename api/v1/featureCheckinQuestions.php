@@ -22,7 +22,7 @@ $user = loadAPIUser();
 		<?php if ($showLinks) { ?><link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/feature.php?id=<?php echo $feature->getId() ?>"/><?php } ?>
 		<checkinQuestions>
 			<?php foreach($feature->getCheckinQuestions() as $question) { ?>
-				<checkinQuestion id="<?php echo $question->getId() ?>" type="<?php echo htmlentities($question->getQuestionType()) ?>" question="<?php echo htmlentities($question->getQuestion()) ?>" <?php if ($user) { ?>hasAnswered="<?php echo ($question->hasAnswered($user)) ? 1 : 0 ?>"<?php } ?>>
+				<checkinQuestion id="<?php echo $question->getId() ?>" type="<?php echo htmlentities($question->getQuestionType(),ENT_QUOTES,'UTF-8') ?>" question="<?php echo htmlentities($question->getQuestion(),ENT_QUOTES,'UTF-8') ?>" <?php if ($user) { ?>hasAnswered="<?php echo ($question->hasAnswered($user)) ? 1 : 0 ?>"<?php } ?>>
 					<?php if ($user && $question->hasAnswered($user)) { ?>
 						<explanation>
 							<valueHTML><?php echo htmlentities($question->getAnswerExplanation()) ?></valueHTML>
