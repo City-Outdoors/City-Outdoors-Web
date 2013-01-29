@@ -9,6 +9,7 @@
 class UserSearch extends BaseSearch {
 	
 	protected $adminsOnly = false;
+	protected $userScoreChart = false;
 	
 	public function  __construct() {
 		$this->className = "User";
@@ -16,6 +17,10 @@ class UserSearch extends BaseSearch {
 	
 	public function adminsOnly() {
 		$this->adminsOnly = true;
+	}
+	
+	public function setUserScoreChart($v = true) {
+		$this->userScoreChart = $v;
 	}
 	
 	protected function execute() {
@@ -29,6 +34,13 @@ class UserSearch extends BaseSearch {
 		
 		if ($this->adminsOnly) {
 			$where[] = "  user_account.administrator   = 1 OR user_account.system_administrator   = 1 ";
+		}
+		if ($this->userScoreChart) {
+			// admin may want to answer Q's to check and we don't want them appearing on the charts, they have an unfair advantage.
+			$where[] = "  user_account.administrator   = 0 AND user_account.system_administrator   = 0 ";
+			// only show users with score
+			$where[] = "  user_account.cached_score > 0 ";
+			$orderBy = " user_account.cached_score DESC ";
 		}
 		
 		$sql = "SELECT  ".implode(" , ", $select).
