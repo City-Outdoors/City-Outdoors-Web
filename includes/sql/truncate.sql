@@ -1,6 +1,7 @@
 DELETE FROM cms_content_version;
 DELETE FROM cms_content;
 DELETE FROM feature_checkin_success;
+DELETE FROM feature_checkin_failure;
 DELETE FROM feature_checkin_question_possible_answer;
 DELETE FROM feature_checkin_question;
 DELETE FROM feature_favourite;
