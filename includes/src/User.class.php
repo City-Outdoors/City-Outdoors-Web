@@ -27,6 +27,9 @@ class User extends BaseDataWithOneID {
 	
 	protected $cached_score;
 
+	/**
+	 * @return \User 
+	 */
 	public static function loadByID($id) {
 		$db = getDB();
 		$stat = $db->prepare('SELECT * FROM user_account WHERE id=:id');
@@ -36,7 +39,10 @@ class User extends BaseDataWithOneID {
 			return new User($stat->fetch(PDO::FETCH_ASSOC));
 		}		
 	}
-
+	
+	/**
+	 * @return \User 
+	 */
 	public static function loadByIDAndSession($id,$session) {
 		$db = getDB();
 		$stat = $db->prepare("SELECT user_account.* FROM user_account ".
@@ -73,7 +79,9 @@ class User extends BaseDataWithOneID {
 		}		
 	}
 	
-
+	/**
+	 * @return \User 
+	 */
 	public static function loadByEmail($email) {
 		$db = getDB();
 		$stat = $db->prepare('SELECT * FROM user_account WHERE email=:email');
@@ -84,6 +92,9 @@ class User extends BaseDataWithOneID {
 		}		
 	}
 	
+	/**
+	 * @return \User 
+	 */	
 	public static function createByEmail($email,$password1,$password2) {
 		global $CONFIG;
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) throw new UserExceptionEmailNotValid("Email not Valid!");
@@ -122,7 +133,10 @@ class User extends BaseDataWithOneID {
 		
 	}
 	
-	/** @TODO catch duplicate errors **/
+	/**
+	 * @TODO catch duplicate errors
+	 * @return \User 
+	 */	
 	public static function createByTwitter($id,$name,$screen_name, $token,$secret) {
 		$data = array(
 				'display_name' => $name,
