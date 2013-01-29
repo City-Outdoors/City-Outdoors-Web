@@ -20,6 +20,8 @@ class ItemSearch extends BaseSearch {
 	
 	protected $fieldSearchField, $fieldSearchText = null; 
 	
+	protected $fieldHasValue;
+	
 	protected $fieldOrderBy = null;
 	
 	protected $includeChildCollections = false;
@@ -62,6 +64,10 @@ class ItemSearch extends BaseSearch {
 		$this->fieldSearchField = $field;
 		$this->fieldSearchText = $letter;
 		
+	}
+	
+	public function fieldHasValue(BaseItemFieldDefinition $field) {
+		$this->fieldHasValue = $field;
 	}
 	
 	public function orderByField(BaseItemFieldDefinition $field) {
@@ -110,6 +116,12 @@ class ItemSearch extends BaseSearch {
 			$joins = array_merge($joins, $j);
 			$where = array_merge($where, $w);
 		}
+		if ($this->fieldHasValue) {
+			list($j,$w) = $this->fieldHasValue->getHasValueJoinsAndWheres();
+			$joins = array_merge($joins, $j);
+			$where = array_merge($where, $w);			
+		}
+		
 		if ($this->titleMatches) {
 			list($j,$w) = $this->titleField->getValueMatchesJoinsAndWheres($this->titleMatches);
 			$joins = array_merge($joins, $j);

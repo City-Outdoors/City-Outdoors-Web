@@ -38,6 +38,21 @@ class Collection extends BaseDataWithOneID {
 		}		
 	}
 
+	/**
+	 * @return \Collection 
+	 */
+	public static function loadByFieldContentsSlug($slug) {
+		$db = getDB();
+		$stat = $db->prepare('SELECT collection.* FROM collection '.
+				'LEFT JOIN collection_has_field ON collection_has_field.collection_id = collection.id '.
+				'WHERE collection_has_field.field_contents_slug=:slug');
+		$stat->bindValue('slug', $slug);
+		$stat->execute();
+		if($stat->rowCount() == 1) {
+			return new Collection($stat->fetch(PDO::FETCH_ASSOC));
+		}		
+	}
+
 	/** Returns only one; but collections don't neccisarily have unique titles so beware. **/
 	public static function loadByTitle($title) {
 		$db = getDB();
@@ -164,6 +179,14 @@ class Collection extends BaseDataWithOneID {
 		$this->loadFields();
 		foreach($this->fields as $field) {
 			if ($field->getFieldId() == $id) return $field;
+		}
+	}
+	
+	/** @return BaseItemField **/
+	public function getFieldByFieldContentsSlug($slug) {
+		$this->loadFields();
+		foreach($this->fields as $field) {
+			if ($field->getFieldContentsSlug() == $slug) return $field;
 		}
 	}
 	

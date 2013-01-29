@@ -1,0 +1,50 @@
+
+{extends file='page.htm'}
+
+
+{block name="main"}
+	<h2 class="category-{$collection->getSlug()}">{$fieldToDisplay->getTitle()|escape}</h2>
+
+	<script type="text/javascript">
+		var markerData = {   };
+		var collectionID = {$collection->getId()};
+	</script>
+	
+	<div style="width: 490px; float: right;">
+		<ul class="collectionList" id="collectionListList">
+			{while $item = $itemSearch->nextResult()}
+				{$feature = $item->getFeature()}
+				<li class="cf" id="collectionListItem{$item->getFeatureID()|escape}">
+					{if $feature->getThumbnailURL()}
+						<img src="{$feature->getThumbnailURL()}">
+					{/if}
+					<h3><a href="/featureDetails.php?id={$item->getFeatureID()|escape}">{$item->getTitle()|escape}</a></h3>
+					<p>{$item->getFieldID($fieldToDisplay->getFieldId())->getValueAsHumanReadableHTML($currentUser)}</p>
+					<ul>
+						{foreach $item->getChildCollectionIDs() as $id}
+							{if $id != $hiddenCollection->getId()}
+								<li><img src="{$collections[$id]->getIconURL()}?v={$assetsVersion}" title="{$collections[$id]->getTitle()}"></li>
+							{/if}
+						{/foreach}
+					</ul>
+				</li>
+				<script type="text/javascript">				
+					markerData[{$item->getFeatureID()|escape}] = { lat: {$feature->getPointLat()} , lng: {$feature->getPointLng()},collectionID: {$item->getCollectionID()} , title: "{$item->getTitle()|escape}"    };
+				</script>
+			{/while}	
+		</ul>
+		
+		{capture name="url"}/fieldContents.php?s={$fieldToDisplay->getFieldContentsSlug()}{/capture}
+		{include file="paging.htm" search=$itemSearch url=$smarty.capture.url}
+	</div>
+	
+	<div id="map" style="width: 370px; height: 400px; position: relative; margin-top: 79px;"></div>	
+{/block}
+
+{block name="finalScripts"}
+	<script type="text/javascript" src="//maps.google.com/maps/api/js?v=3.5&sensor=false&key={$Config->GOOGLE_MAP_API_KEY}"></script>
+	<script type="text/javascript" src="/mapVariables.js.php?v={$assetsVersion}"></script>
+	<script type="text/javascript" src="/js/mapStyle.js?v={$assetsVersion}"></script>
+	<script type="text/javascript" src="/js/mapOnListPage.js?v={$assetsVersion}"></script>
+{/block}
+

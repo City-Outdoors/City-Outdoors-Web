@@ -51,6 +51,11 @@ if ($_POST && $_POST['action'] && isset($_POST['fieldID']) && $_POST['fieldID'] 
 			// must redirect here so when page reloads fields are in correct order. and so user reloading doesn't do anything
 			header("Location: /admin/collectionFields.php?c=".$collection->getSlug());
 			die();
+		} else if ($_POST['action'] == 'editFieldContentsSlug') {
+			$field->setFieldContentsSlug($_POST['value']);
+			// redirect here so user reloading doesn't do anything
+			header("Location: /admin/collectionFields.php?c=".$collection->getSlug());
+			die();
 		}
 	}
 }

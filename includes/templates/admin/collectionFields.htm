@@ -9,6 +9,7 @@
 			<th>Summary</th>
 			<th>In Content Areas</th>
 			<th>Sort Order</th>
+			<th>Field Contents Slug</th>
 			<th>&nbsp;</th>
 		</tr>
 		{foreach $collection->getFields() as $field}
@@ -53,6 +54,15 @@
 						<input type="submit" value="Edit">
 					</form>
 				</td>				
+				<td>
+					<form method="POST">
+						<input type="hidden" name="action" value="editFieldContentsSlug">
+						<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+						<input type="hidden" name="fieldID" value="{$field->getFieldID()}">
+						<input type="text" name="value" value="{$field->getFieldContentsSlug()|escape}">
+						<input type="submit" value="Edit">
+					</form>
+				</td>
 			</tr>
 		{/foreach}
 	</table>
