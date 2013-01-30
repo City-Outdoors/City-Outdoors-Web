@@ -65,7 +65,9 @@ class FeatureCheckinQuestionSearch extends BaseSearch {
 			} else if ($d['question_type'] == 'CONTENT') {
 				return new FeatureCheckinQuestionContent($d);
 			} else if ($d['question_type'] == 'MULTIPLECHOICE') {
-				return new FeatureCheckinQuestionMultipleChoice($d);
+				return new FeatureCheckinQuestionMultipleChoice($d);	
+			} else if ($d['question_type'] == 'HIGHERORLOWER') {
+				return new FeatureCheckinQuestionHigherOrLower($d);	
 			}
 		}
 	}

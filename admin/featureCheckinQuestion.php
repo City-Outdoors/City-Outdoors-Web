@@ -21,6 +21,8 @@ if ($featureCheckinQuestion->getQuestionType() == 'FREETEXT') {
 	header("Location: /admin/featureCheckinQuestionContent.php?id=".$featureCheckinQuestion->getId());
 } else if ($featureCheckinQuestion->getQuestionType() == 'MULTIPLECHOICE') {
 	header("Location: /admin/featureCheckinQuestionMultipleChoice.php?id=".$featureCheckinQuestion->getId());
+} else if ($featureCheckinQuestion->getQuestionType() == 'HIGHERORLOWER') {
+	header("Location: /admin/featureCheckinQuestionHigherOrLower.php?id=".$featureCheckinQuestion->getId());
 }
 
 
