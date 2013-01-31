@@ -32,7 +32,7 @@ $user = loadAPIUser();
 					<?php } ?>
 					<?php if ($user && $question->hasAnswered($user)) { ?>
 						<explanation>
-							<valueHTML><?php echo htmlentities($question->getAnswerExplanation()) ?></valueHTML>
+							<valueHTML><?php echo htmlentities($question->getAnswerExplanation(),ENT_NOQUOTES,'UTF-8') ?></valueHTML>
 						</explanation>
 					<?php } ?>
 				</checkinQuestion>
