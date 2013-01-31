@@ -23,6 +23,13 @@ $user = loadAPIUser();
 		<checkinQuestions>
 			<?php foreach($feature->getCheckinQuestions() as $question) { ?>
 				<checkinQuestion id="<?php echo $question->getId() ?>" type="<?php echo htmlentities($question->getQuestionType(),ENT_QUOTES,'UTF-8') ?>" question="<?php echo htmlentities($question->getQuestion(),ENT_QUOTES,'UTF-8') ?>" <?php if ($user) { ?>hasAnswered="<?php echo ($question->hasAnswered($user)) ? 1 : 0 ?>"<?php } ?>>
+					<?php if ($question->getQuestionType() == 'MULTIPLECHOICE') { ?>
+						<possibleAnswers>
+							<?php foreach($question->getPossibleAnswers() as $possibleAnswer) { ?>
+								<possibleAnswer id="<?php echo $possibleAnswer->getId($possibleAnswer) ?>"><?php echo htmlentities($possibleAnswer->getAnswer(),ENT_NOQUOTES,'UTF-8') ?></possibleAnswer>
+							<?php } ?>
+						</possibleAnswers>
+					<?php } ?>
 					<?php if ($user && $question->hasAnswered($user)) { ?>
 						<explanation>
 							<valueHTML><?php echo htmlentities($question->getAnswerExplanation()) ?></valueHTML>
