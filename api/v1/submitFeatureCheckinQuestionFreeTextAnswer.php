@@ -25,7 +25,13 @@ if ($featureCheckinQuestion->getQuestionType() != "FREETEXT") {
 $result = $featureCheckinQuestion->checkAndSaveAnswer($data['answer'], $user, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
 
 if ($result) {
-	?><data><result success="1">OK</result></data><?php
+	?><data>
+		<result success="1">OK
+			<explanation>
+				<valueHTML><?php echo htmlentities($featureCheckinQuestion->getAnswerExplanation(),ENT_NOQUOTES,'UTF-8') ?></valueHTML>
+			</explanation>
+		</result>
+	</data><?php
 } else {
 	?><data><result success="0">FAIL</result></data><?php
 }

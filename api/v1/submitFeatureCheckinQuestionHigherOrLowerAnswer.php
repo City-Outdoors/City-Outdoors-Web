@@ -27,7 +27,13 @@ $result = $featureCheckinQuestion->checkAndSaveAnswer($data['answer'], $user, $_
 if (is_null($result)) {
 	?><data><error>Could not parse answer</error></data><?php
 } else if ($result == 0) {
-	?><data><result success="1">OK</result></data><?php
+	?><data>
+		<result success="1">OK
+			<explanation>
+				<valueHTML><?php echo htmlentities($featureCheckinQuestion->getAnswerExplanation(),ENT_NOQUOTES,'UTF-8') ?></valueHTML>
+			</explanation>
+		</result>
+	</data><?php
 } else if ($result == 1 || $result == -1) {
 	?><data><result success="0" trueAnswer="<?php echo $result ?>">FAIL</result></data><?php
 }
