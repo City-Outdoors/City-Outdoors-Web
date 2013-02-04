@@ -310,9 +310,10 @@ class Feature extends BaseDataWithOneID {
 		$stat->execute(array('thumbnail_url'=>$thumbnail_url,'id'=>$this->id));
 	}
 	
-	function getCheckinQuestions() {
+	function getCheckinQuestions($includeDeleted = false) {
 		$s = new FeatureCheckinQuestionSearch();
 		$s->withinFeature($this);
+		if ($includeDeleted) $s->includeDeleted(true);
 		return $s->getAllResultsIndexed();
 	}
 	

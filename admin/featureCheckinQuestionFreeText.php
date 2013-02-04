@@ -25,6 +25,9 @@ if ($_POST && $_POST['action'] && $_POST['action'] == "update" && $_POST['CSFRTo
 	$featureCheckinQuestion->setAnswerExplanation($_POST['answer_explanation']);
 	$featureCheckinQuestion->setSortOrder($_POST['sort_order']);
 	$featureCheckinQuestion->setScoreForFreeTextQuestion($_POST['score']);
+	$featureCheckinQuestion->setActive($_POST['active'] == 'yes');
+	$featureCheckinQuestion->setInactiveReason($_POST['inactive_reason']);
+	$featureCheckinQuestion->setDeleted($_POST['deleted'] == 'yes');
 }
 
 

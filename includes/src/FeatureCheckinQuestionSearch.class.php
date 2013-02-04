@@ -10,6 +10,7 @@ class FeatureCheckinQuestionSearch extends BaseSearch {
 	
 	protected $orderBy = "sort_order DESC";
 	protected $types = array();
+	protected $includeDeleted = false;
 	
 	public function  __construct() {
 		$this->className = "FeatureCheckinQuestion";
@@ -29,6 +30,10 @@ class FeatureCheckinQuestionSearch extends BaseSearch {
 		}
 	}
 	
+	public function includeDeleted($val = true) {
+		$this->includeDeleted = $val;		
+	}
+	
 	protected function execute() {
 		if ($this->searchDone) throw new Exception("Search already done!");
 		$db = getDB();
@@ -43,6 +48,9 @@ class FeatureCheckinQuestionSearch extends BaseSearch {
 			$typesForSQL = array();
 			foreach($this->types as $t) $typesForSQL[] = "'".$t."'";  // it is crucial ofType() function only allows set types otherwise there is an SOL injection security problem here
 			$where[] = " feature_checkin_question.question_type IN (".  implode(",", $typesForSQL).") ";
+		}
+		if(!$this->includeDeleted) {
+			$where[] = " feature_checkin_question.deleted = 0";
 		}
 
 		$sql = "SELECT feature_checkin_question.* ".

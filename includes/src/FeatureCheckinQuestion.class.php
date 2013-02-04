@@ -15,6 +15,9 @@ abstract class FeatureCheckinQuestion extends BaseDataWithOneID {
 	protected $question_type;
 	protected $sort_order;
 	protected $score;
+	protected $active;
+	protected $inactive_reason;
+	protected $deleted;
 
 	public function __construct($data) {
 		parent::__construct($data);
@@ -25,6 +28,9 @@ abstract class FeatureCheckinQuestion extends BaseDataWithOneID {
 		if ($data && isset($data['question_type'])) $this->question_type = $data['question_type'];
 		if ($data && isset($data['sort_order'])) $this->sort_order = $data['sort_order'];
 		if ($data && isset($data['score'])) $this->score = json_decode ($data['score']);
+		if ($data && isset($data['active'])) $this->active = $data['active'];
+		if ($data && isset($data['deleted'])) $this->deleted = $data['deleted'];
+		if ($data && isset($data['inactive_reason'])) $this->inactive_reason = $data['inactive_reason'];
 	}	
  
 	/** @return FeatureCheckinQuestion **/
@@ -71,6 +77,9 @@ abstract class FeatureCheckinQuestion extends BaseDataWithOneID {
 	public function getQuestionType() { return $this->question_type; }
 	public function getFeatureID() { return $this->feature_id; }
 	public function getSortOrder() { return $this->sort_order; }
+	public function getIsActive() { return (boolean)$this->active; }
+	public function getIsDeleted() { return (boolean)$this->deleted; }
+	public function getInactiveReason() { return $this->inactive_reason; }
 
 	public function getAnswers() { return $this->answers; }
 	public function getAnswerExplanation() { return $this->answer_explanation; }
@@ -127,6 +136,28 @@ abstract class FeatureCheckinQuestion extends BaseDataWithOneID {
 		$stat = $db->prepare("UPDATE feature_checkin_question SET sort_order=:so WHERE id=:id");
 		$stat->execute(array('so'=>$sortOrder,'id'=>$this->id));
 	}
+	
+	public function setActive($active) {
+		$this->active = $active;
+		$db = getDB();
+		$stat = $db->prepare("UPDATE feature_checkin_question SET active=:a WHERE id=:id");
+		$stat->execute(array('a'=>$active?1:0,'id'=>$this->id));
+	}	
+	
+	
+	public function setInactiveReason($inactive_reason) {
+		$this->inactive_reason = $inactive_reason;
+		$db = getDB();
+		$stat = $db->prepare("UPDATE feature_checkin_question SET inactive_reason=:r WHERE id=:id");
+		$stat->execute(array('r'=>$inactive_reason,'id'=>$this->id));
+	}	
+	
+	public function setDeleted($deleted) {
+		$this->deleted = $deleted;
+		$db = getDB();
+		$stat = $db->prepare("UPDATE feature_checkin_question SET deleted=:d WHERE id=:id");
+		$stat->execute(array('d'=>$deleted?1:0,'id'=>$this->id));
+	}	
 }
 
 

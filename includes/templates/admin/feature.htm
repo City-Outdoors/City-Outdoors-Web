@@ -31,12 +31,14 @@
 		<tr>
 			<th>ID</th>
 			<th>Question</th>
+			<th>Deleted?</th>
 			<th>Sort Order</th>
 		</tr>
-		{foreach $feature->getCheckinQuestions() as $fciq}
+		{foreach $feature->getCheckinQuestions(true) as $fciq}
 			<tr class="{cycle values="alternate,"}">
 				<td><a href="/admin/featureCheckinQuestion.php?id={$fciq->getId()}">{$fciq->getId()}</a></td>
 				<td>{$fciq->getQuestion()|escape|nl2br}</td>
+				<td>{if $fciq->getIsDeleted()}DELETED{/if}</td>
 				<td>{$fciq->getSortOrder()}</td>
 			</tr>
 		{/foreach}

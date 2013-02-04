@@ -17,6 +17,26 @@
 				<td><a href="/admin/feature.php?id={$featureCheckinQuestion->getFeatureId()}">{$featureCheckinQuestion->getFeatureId()}</a></td>
 			</tr>
 			<tr>
+				<th>Active</th>
+				<td>
+					<label><input type="radio" name="active" value="yes" {if $featureCheckinQuestion->getIsActive()}checked{/if}>Yes</label>
+					<label><input type="radio" name="active" value="no" {if !$featureCheckinQuestion->getIsActive()}checked{/if}>No</label>
+				</td>
+			</tr>
+			<tr>
+				<th>Inactive Reason</th>
+				<td>
+					<textarea name="inactive_reason">{$featureCheckinQuestion->getInactiveReason()|escape|nl2br}</textarea>
+				</td>
+			</tr>			
+			<tr>
+				<th>Deleted</th>
+				<td>
+					<label><input type="radio" name="deleted" value="yes" {if $featureCheckinQuestion->getIsDeleted()}checked{/if}>Yes</label>
+					<label><input type="radio" name="deleted" value="no" {if !$featureCheckinQuestion->getIsDeleted()}checked{/if}>No</label>
+				</td>
+			</tr>
+			<tr>
 				<th>Type</th>
 				<td>{$featureCheckinQuestion->getQuestionType()|escape}</td>
 			</tr>
