@@ -63,6 +63,32 @@ class FeatureSearchTest extends AbstractTest {
 		$this->assertEquals($collection->getId(), $data[0]);
 		
     }
+
+	function testItemDeleted() {
+		global $CONFIG;
+		$db = $this->setupDB();
+
+		$user = User::createByEmail("test@example.com","pass","pass");		
+
+		# nothing
+		$feature = Feature::findOrCreateAtPosition(55, 1);
+		
+		$itemSearch = new FeatureSearch();
+		$this->assertEquals(0, $itemSearch->num());
+		
+		# now make item
+		$collection = Collection::create("Test", $user);
+		$item = $collection->getBlankItem($user);
+		$item->setPosition(55, 1);
+		$item->writeToDataBase($user);
+		$item->delete();
+		
+		# The feature only has a deleted item on it so it shouldn't appear!
+		$itemSearch = new FeatureSearch();
+		$this->assertEquals(0, $itemSearch->num());
+		
+		
+    }
 	
 	function testFeatureWith2Collections() {
 		global $CONFIG;

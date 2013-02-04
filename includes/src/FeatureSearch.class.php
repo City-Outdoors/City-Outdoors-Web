@@ -110,7 +110,7 @@ class FeatureSearch extends BaseSearch {
 		
 		if (!$this->showAllFeatures) {
 			// we search for features visible to a user eg (feature with content on it)
-			$joins[] = " LEFT JOIN item ON item.feature_id = feature.id ";
+			$joins[] = " LEFT JOIN item ON item.feature_id = feature.id AND item.deleted = 0";
 			$joins[] = " LEFT JOIN feature_content ON feature_content.feature_id = feature.id AND feature_content.approved_at IS NOT NULL ";
 			$where[] = " (item.id IS NOT NULL OR feature_content.id IS NOT NULL)";
 			$select[] = " GROUP_CONCAT(item.collection_id) AS has_collections_ids ";
