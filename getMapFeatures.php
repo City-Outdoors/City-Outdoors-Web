@@ -45,7 +45,7 @@ if (isset($_GET['collections'])) {
 
 $data = array('data'=>array(),'result'=>true);
 while($feature = $featureSearch->nextResult()) {
-	$inHiddenCollection = in_array($hiddenCollection->getId(), $feature->getCollectionIDS());
+	$inHiddenCollection = $hiddenCollection && in_array($hiddenCollection->getId(), $feature->getCollectionIDS());
 	$data['data'][] = array(
 			'id'=>$feature->getId(),
 			'lat'=>$feature->getPointLat(),
