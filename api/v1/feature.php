@@ -22,6 +22,7 @@ $featureContentSearch->approvedOnly();
 
 $itemSearch = new ItemSearch();
 $itemSearch->onFeature($feature);
+$itemSearch->includeDeleted(true);
 
 $childItemSearch = new ItemSearch();
 // $childItemSearch->hasParentItem($item); is called below in the <item> loop.
@@ -45,22 +46,26 @@ $fieldsInContentArea = isset($data['fieldInContentArea']) && $data['fieldInConte
 		</contents>
 		<items>
 			<?php while ($item = $itemSearch->nextResult()) { $collection = $item->getCollection(); $childItemSearch->hasParentItem($item); ?>
-				<item id="<?php echo $item->getId() ?>" collectionID="<?php echo $item->getCollectionID() ?>" slug="<?php echo htmlentities($item->getSlug(),ENT_QUOTES,'UTF-8') ?>">
-					<?php if ($showLinks) { ?>
-					<link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/collectionItem.php?slug=<?php echo $collection->getSlug() ?>&amp;islug=<?php echo $item->getSlug() ?>"/>
-					<link rel="collection" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/collection.php?slug=<?php echo $collection->getSlug() ?>"/>
-					<?php } ?>
-					<fields>
-						<?php foreach($item->getFields() as $field) { ?>
-							<?php if (is_null($fieldsInContentArea) || $field->isInContentArea($fieldsInContentArea) ) { ?>
-								<field id="<?php echo $field->getFieldID() ?>" title="<?php echo htmlentities($field->getTitle(),ENT_QUOTES,'UTF-8') ?>" hasValue="<?php echo $field->hasValue()?'yes':'no' ?>" type="<?php echo $field->getType() ?>">
-									<valueHTML><?php echo htmlentities($field->getValueAsHumanReadableHTML(),ENT_NOQUOTES,'UTF-8') ?></valueHTML>
-									<valueText><?php echo htmlentities($field->getValueAsHumanReadableText(),ENT_NOQUOTES,'UTF-8') ?></valueText>
-								</field>
-							<?php } ?>
+				<?php if ($item->getIsDeleted()) { ?>
+					<item id="<?php echo $item->getId() ?>" slug="<?php echo htmlentities($item->getSlug(),ENT_QUOTES,'UTF-8') ?>" deleted="yes"></item>
+				<?php } else  { ?>
+					<item id="<?php echo $item->getId() ?>" collectionID="<?php echo $item->getCollectionID() ?>" slug="<?php echo htmlentities($item->getSlug(),ENT_QUOTES,'UTF-8') ?>">
+						<?php if ($showLinks) { ?>
+						<link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/collectionItem.php?slug=<?php echo $collection->getSlug() ?>&amp;islug=<?php echo $item->getSlug() ?>"/>
+						<link rel="collection" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/collection.php?slug=<?php echo $collection->getSlug() ?>"/>
 						<?php } ?>
-					</fields>
-				</item>	
+						<fields>
+							<?php foreach($item->getFields() as $field) { ?>
+								<?php if (is_null($fieldsInContentArea) || $field->isInContentArea($fieldsInContentArea) ) { ?>
+									<field id="<?php echo $field->getFieldID() ?>" title="<?php echo htmlentities($field->getTitle(),ENT_QUOTES,'UTF-8') ?>" hasValue="<?php echo $field->hasValue()?'yes':'no' ?>" type="<?php echo $field->getType() ?>">
+										<valueHTML><?php echo htmlentities($field->getValueAsHumanReadableHTML(),ENT_NOQUOTES,'UTF-8') ?></valueHTML>
+										<valueText><?php echo htmlentities($field->getValueAsHumanReadableText(),ENT_NOQUOTES,'UTF-8') ?></valueText>
+									</field>
+								<?php } ?>
+							<?php } ?>
+						</fields>
+					</item>	
+				<?php } ?>
 			<?php } ?>
 		</items>
 		<childItems>

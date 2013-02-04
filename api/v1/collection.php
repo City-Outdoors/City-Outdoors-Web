@@ -17,6 +17,7 @@ if (!$collection) die();
 
 $itemSearch = new ItemSearch();
 $itemSearch->inCollection($collection);
+$itemSearch->includeDeleted(true);
 
 ?>
 <data>
@@ -33,13 +34,17 @@ $itemSearch->inCollection($collection);
 		</fields>
 		<items>
 			<?php while($item = $itemSearch->nextResult()) { ?>
-				<item id="<?php echo $item->getId() ?>" slug="<?php echo htmlentities($item->getSlug(),ENT_QUOTES,'UTF-8') ?>">
-					<title><?php echo htmlentities($item->getTitle(),ENT_NOQUOTES,'UTF-8') ?></title>
-					<?php if ($showLinks) { ?><link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/collectionItem.php?slug=<?php echo $collection->getSlug() ?>&amp;islug=<?php echo $item->getSlug() ?>"/><?php } ?>
-					<feature id="<?php echo $item->getFeatureId() ?>" lat="<?php echo $item->getLat() ?>" lng="<?php echo $item->getLng() ?>">
-						<link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/feature.php?id=<?php echo $item->getFeatureId() ?>"/>
-					</feature>
-				</item>
+				<?php if ($item->getIsDeleted()) { ?>
+					<item id="<?php echo $item->getId() ?>" slug="<?php echo htmlentities($item->getSlug(),ENT_QUOTES,'UTF-8') ?>" deleted="yes"></item>
+				<?php } else  { ?>
+					<item id="<?php echo $item->getId() ?>" slug="<?php echo htmlentities($item->getSlug(),ENT_QUOTES,'UTF-8') ?>">
+						<title><?php echo htmlentities($item->getTitle(),ENT_NOQUOTES,'UTF-8') ?></title>
+						<?php if ($showLinks) { ?><link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/collectionItem.php?slug=<?php echo $collection->getSlug() ?>&amp;islug=<?php echo $item->getSlug() ?>"/><?php } ?>
+						<feature id="<?php echo $item->getFeatureId() ?>" lat="<?php echo $item->getLat() ?>" lng="<?php echo $item->getLng() ?>">
+							<link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/feature.php?id=<?php echo $item->getFeatureId() ?>"/>
+						</feature>
+					</item>
+				<?php } ?>
 			<?php } ?>
 		</items>
 	</collection>
