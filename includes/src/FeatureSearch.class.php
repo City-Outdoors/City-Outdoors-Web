@@ -92,12 +92,12 @@ class FeatureSearch extends BaseSearch {
 		if ($this->collectionIDs) {
 			$where[] = " item.collection_id IN (".  implode(",", $this->collectionIDs).") ";
 		}
-		
+
+		// Which set of features do we show? Depends on the user &  $this->showAllFeatures flag.
 		if ($this->userFavourites) {
 			$joins[] = " JOIN feature_favourite ON feature_favourite.feature_id = feature.id AND feature_favourite.user_account_id = :fuid ";
 			$vars['fuid'] = $this->userFavourites->getId();
-		}
-		if ($this->userCheckedin) {
+		} else if ($this->userCheckedin) {
 			$joins[] = " JOIN feature_checkin_question ON feature_checkin_question.feature_id = feature.id";
 			$joins[] = " JOIN feature_checkin_success ON  feature_checkin_question.id =  feature_checkin_success.feature_checkin_question_id AND feature_checkin_success.user_account_id = :ciuid ";
 			$vars['ciuid'] = $this->userCheckedin->getId();
@@ -106,13 +106,12 @@ class FeatureSearch extends BaseSearch {
 			$joins[] = " LEFT JOIN feature_checkin_success ON  feature_checkin_question.id =  feature_checkin_success.feature_checkin_question_id AND feature_checkin_success.user_account_id = :ciuid ";
 			$where[] = " feature_checkin_success.id IS NULL ";
 			$vars['ciuid'] = $this->userNotCheckedin->getId();
-		}
-		
-		if (!$this->showAllFeatures) {
-			// we search for features visible to a user eg (feature with content on it)
+		} else if (!$this->showAllFeatures) {
+			// we search for features visible to a user - feature with content on it, item or question.
 			$joins[] = " LEFT JOIN item ON item.feature_id = feature.id AND item.deleted = 0";
 			$joins[] = " LEFT JOIN feature_content ON feature_content.feature_id = feature.id AND feature_content.approved_at IS NOT NULL ";
-			$where[] = " (item.id IS NOT NULL OR feature_content.id IS NOT NULL)";
+			$joins[] = " LEFT JOIN feature_checkin_question  ON feature_checkin_question.feature_id = feature.id AND feature_checkin_question.deleted = 0 ";
+			$where[] = " (item.id IS NOT NULL OR feature_content.id IS NOT NULL OR feature_checkin_question.id IS NOT NULL)";
 			$select[] = " GROUP_CONCAT(item.collection_id) AS has_collections_ids ";
 		}
 

@@ -89,6 +89,47 @@ class FeatureSearchTest extends AbstractTest {
 		
 		
     }
+
+	function testQuestion() {
+		global $CONFIG;
+		$db = $this->setupDB();
+
+		$user = User::createByEmail("test@example.com","pass","pass");		
+
+		# nothing
+		$feature = Feature::findOrCreateAtPosition(55, 1);
+
+		$itemSearch = new FeatureSearch();
+		$this->assertEquals(0, $itemSearch->num());
+
+		# now make question
+		$question = FeatureCheckinQuestionContent::create($feature, "Test?");
+
+		$itemSearch = new FeatureSearch();
+		$this->assertEquals(1, $itemSearch->num());
+
+	}
+
+	function testQuestionDeleted() {
+		global $CONFIG;
+		$db = $this->setupDB();
+
+		$user = User::createByEmail("test@example.com","pass","pass");		
+
+		# nothing
+		$feature = Feature::findOrCreateAtPosition(55, 1);
+
+		$itemSearch = new FeatureSearch();
+		$this->assertEquals(0, $itemSearch->num());
+
+		# now make question
+		$question = FeatureCheckinQuestionContent::create($feature, "Test?");
+		$question->setDeleted(true);
+
+		$itemSearch = new FeatureSearch();
+		$this->assertEquals(0, $itemSearch->num());
+
+	}
 	
 	function testFeatureWith2Collections() {
 		global $CONFIG;
