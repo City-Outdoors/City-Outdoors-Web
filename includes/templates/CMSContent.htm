@@ -2,6 +2,8 @@
 
 {extends file='page.htm'}
 
+{block name="pageTitle"}{$page->getPageTitle()|escape}{/block}
+
 {block name="main"}
 
 	{if $currentUser && $currentUser->isAdministrator()}

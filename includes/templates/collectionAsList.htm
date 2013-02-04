@@ -2,6 +2,8 @@
 
 {extends file='page.htm'}
 
+{block name="pageTitle"}{$collection->getTitle()|escape}{/block}
+
 {block name="main"}
 
 	<script type="text/javascript">
