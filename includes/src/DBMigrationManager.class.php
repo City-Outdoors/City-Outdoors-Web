@@ -29,7 +29,7 @@ class DBMigrationManager {
 		$handle = opendir($dir);		
 		while (false !== ($file = readdir($handle))) {
 			if ($file != '.' && $file != '..') {
-				if ($verbose) echo "Checking ".$file."\n";
+				if ($verbose) echo "Loading ".$file."\n";
 				if (substr($file, -4) == '.sql') {
 					$migrations[] = new DBMigration(substr($file, 0, -4), file_get_contents($dir.$file));
 				}
@@ -52,7 +52,11 @@ class DBMigrationManager {
 		// Finally apply the new ones!
 		if ($verbose) {
 			foreach($migrations as $migration) {
-				if (!$migration->getApplied()) print "Will apply ".$migration->getId()."\n";				
+				if (!$migration->getApplied()) {
+					print "Will apply ".$migration->getId()."\n";				
+				} else {
+					print "Already Applied ".$migration->getId()."\n";
+				}
 			}
 		}
 		$stat = $db->prepare("INSERT INTO migration (id, installed_at) VALUES (:id, :at)");
