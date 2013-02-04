@@ -28,9 +28,9 @@ $email = isset($data['email']) ? $data['email'] : '';
 
 logInfo("New Feature Report");
 if ($user) {
-	$featureContent = $feature->newContent($data['comment'], $user, $name, $email, true, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
+	$featureContent = $feature->newContent($comment, $user, $name, $email, true, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
 } else {
-	$featureContent = $feature->newAnonymousContent($data['comment'],  $name, $email, true, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
+	$featureContent = $feature->newAnonymousContent($comment,  $name, $email, true, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
 }
 if (isset($_FILES['photo']['error']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 	logInfo(" ... which has image");
