@@ -7,7 +7,8 @@
 {block name="main"}
 
 
-		
+	{if $childItemSearch}
+	
 	<div class="featureDetailsChildren">
 		{if $childItemSearch->num() > 0}
 			<h3>There are {$childItemSearch->numOnAllPages()} features here.</h3>
@@ -31,5 +32,9 @@
 		{include file="paging.htm" search=$childItemSearch url=$smarty.capture.url}
 
 	</div>
+	
+	{else}
+	<p>No details to show.</p>
+	{/if}
 {/block}
 
