@@ -47,6 +47,28 @@
 					<input type="text" name="icon_offset_y" value="{$collection->getIconOffsetY()|escape}">
 				</td>
 			</tr>
+			</tr>
+			<tr>
+				<th>Question Icon URL</th>
+				<td>
+					{if $collection->getQuestionIconURL()}<img src="{$collection->getQuestionIconURL()}">{/if}
+					<input type="text" name="question_icon_url" value="{$collection->getQuestionIconURL()|escape}">
+				</td>
+			</tr>
+			<tr>
+				<th>Question Icon Width X Height</th>
+				<td>
+					<input type="text" name="question_icon_width" value="{$collection->getQuestionIconWidth()|escape}"> X
+					<input type="text" name="question_icon_height" value="{$collection->getQuestionIconHeight()|escape}">
+				</td>
+			</tr>
+			<tr>
+				<th>Question Icon Offset X x Y (from top left)</th>
+				<td>
+					<input type="text" name="question_icon_offset_x" value="{$collection->getQuestionIconOffsetX()|escape}"> X
+					<input type="text" name="question_icon_offset_y" value="{$collection->getQuestionIconOffsetY()|escape}">
+				</td>
+			</tr>
 		</table>
 		
 		<input type="submit">

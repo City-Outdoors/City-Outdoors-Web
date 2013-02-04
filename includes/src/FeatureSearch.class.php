@@ -21,11 +21,12 @@ class FeatureSearch extends BaseSearch {
 	
 	/** @var User **/
 	private $userCheckedin;
-	
-	
+		
 	/** @var User **/
 	private $userNotCheckedin;
 	
+	/** @var User **/
+	private $userCheckedinInformation;	
 	
 	private $collectionIDs = array();
 	
@@ -57,10 +58,26 @@ class FeatureSearch extends BaseSearch {
 		$this->userFavourites = $user;
 	}
 	
+	/**
+	 * Only show features the user has checked in on.
+	 * @param User $user 
+	 */
 	public function userCheckedin(User $user) {
 		$this->userCheckedin = $user;
 	}
 	
+	/**
+	 * Include info on whether the user has checked in or not at each feature 
+	 * @param User $user 
+	 */
+	public function userCheckedinInformation(User $user = null) {
+		$this->userCheckedinInformation = $user;
+	}
+	
+	/**
+	 * Only show features the user has NOT checked in on.
+	 * @param User $user 
+	 */
 	public function userNotCheckedin(User $user) {
 		$this->userNotCheckedin = $user;
 	}
@@ -113,11 +130,18 @@ class FeatureSearch extends BaseSearch {
 			$joins[] = " LEFT JOIN feature_checkin_question  ON feature_checkin_question.feature_id = feature.id AND feature_checkin_question.deleted = 0 ";
 			$where[] = " (item.id IS NOT NULL OR feature_content.id IS NOT NULL OR feature_checkin_question.id IS NOT NULL)";
 			$select[] = " GROUP_CONCAT(item.collection_id) AS has_collections_ids ";
+			if ($this->userCheckedinInformation) {
+				$joins[] = " LEFT JOIN feature_checkin_success ON  feature_checkin_success.feature_checkin_question_id = feature_checkin_question.id AND user_account_id = :ciuid ";
+				$vars['ciuid'] = $this->userCheckedinInformation->getId();
+				$select[] = " GROUP_CONCAT(feature_checkin_question.id) AS has_feature_checkin_question_ids ";
+				$select[] = " GROUP_CONCAT(feature_checkin_success.feature_checkin_question_id) AS has_answered_feature_checkin_question_ids ";
+			}
 		}
 
 		$sql = "SELECT ".implode(" , ", $select).
 			"FROM feature ".implode(" ", $joins).(count($where) > 0 ? " WHERE ".implode(" AND ", $where) : "")." GROUP BY feature.id";
 		$stat = $db->prepare($sql);
+		//die($sql);
 		$stat->execute($vars);
 		while($d = $stat->fetch(PDO::FETCH_ASSOC)) {
 			$this->results[] = $d;
@@ -125,5 +149,27 @@ class FeatureSearch extends BaseSearch {
 		$this->searchDone = true;
 	}
 	
+	public function nextResult() {
+		if (!$this->searchDone) $this->execute();
+		$d = array_shift($this->results);
+		if ($d) {
+			if ($this->userCheckedinInformation) {
+				$questionIDs = explode(",",$d['has_feature_checkin_question_ids']);
+				$answeredQuestionIDs = explode(",", $d['has_answered_feature_checkin_question_ids']);
+				$d['has_user_answered_all_questions'] = $this->areAllQuestionsAnswered($questionIDs, $answeredQuestionIDs);
+			}
+			return new Feature($d);
+		}
+	}
+	
+	public function areAllQuestionsAnswered($questionIDs, $answeredQuestionIDs) {
+		if (count($questionIDs) == 0) return true;
+		foreach($questionIDs as $qID) {
+			if (!in_array($qID, $answeredQuestionIDs)) {
+				return false;
+			}
+		}
+		return true;		
+	}
 }
 	

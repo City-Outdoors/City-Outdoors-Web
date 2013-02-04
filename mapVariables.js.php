@@ -22,6 +22,11 @@ while($collection = $collectionSearch->nextResult()) {
 		'icon_offset_x'=>$collection->getIconOffsetX(),
 		'icon_offset_y'=>$collection->getIconOffsetY(),
 		'icon_url'=>$collection->getIconURL(),
+		'question_icon_height'=>$collection->getQuestionIconHeight(),
+		'question_icon_width'=>$collection->getQuestionIconWidth(),
+		'question_icon_offset_x'=>$collection->getQuestionIconOffsetX(),
+		'question_icon_offset_y'=>$collection->getQuestionIconOffsetY(),
+		'question_icon_url'=>$collection->getQuestionIconURL(),
 	);
 }
 

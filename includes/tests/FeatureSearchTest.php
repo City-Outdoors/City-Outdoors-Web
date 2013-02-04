@@ -131,6 +131,86 @@ class FeatureSearchTest extends AbstractTest {
 
 	}
 	
+
+	/** tests userCheckedinInformation() and getHasUserAnsweredAllQuestions() functions. **/
+	function testQuestionUnansweredInfo1() {
+		global $CONFIG;
+		$db = $this->setupDB();
+
+		$user = User::createByEmail("test@example.com","pass","pass");		
+		$feature = Feature::findOrCreateAtPosition(55, 1);
+		$question1 = FeatureCheckinQuestionFreeText::create($feature, "Test?","123");
+
+		# search
+		$featureSearch = new FeatureSearch();
+		$featureSearch->userCheckedinInformation($user);
+		$this->assertEquals(1, $featureSearch->num());
+		
+		$feature = $featureSearch->nextResult();
+		$this->assertEquals(false, $feature->getHasUserAnsweredAllQuestions());
+	}
+
+	/** tests userCheckedinInformation() and getHasUserAnsweredAllQuestions() functions. **/
+	function testQuestionUnansweredInfo2() {
+		global $CONFIG;
+		$db = $this->setupDB();
+
+		$user = User::createByEmail("test@example.com","pass","pass");		
+		$feature = Feature::findOrCreateAtPosition(55, 1);
+		$question1 = FeatureCheckinQuestionFreeText::create($feature, "Test?","123");
+		$question1->checkAndSaveAnswer("123", $user);
+		$question2 = FeatureCheckinQuestionFreeText::create($feature, "Quack?","duck");
+		
+		# search
+		$featureSearch = new FeatureSearch();
+		$featureSearch->userCheckedinInformation($user);
+		$this->assertEquals(1, $featureSearch->num());
+		
+		$feature = $featureSearch->nextResult();
+		$this->assertEquals(false, $feature->getHasUserAnsweredAllQuestions());
+	}
+
+	/** tests userCheckedinInformation() and getHasUserAnsweredAllQuestions() functions. **/
+	function testQuestionAnsweredInfo1() {
+		global $CONFIG;
+		$db = $this->setupDB();
+
+		$user = User::createByEmail("test@example.com","pass","pass");		
+		$feature = Feature::findOrCreateAtPosition(55, 1);
+		$question1 = FeatureCheckinQuestionFreeText::create($feature, "Test?","123");
+		$question1->checkAndSaveAnswer("123", $user);
+		
+		# search
+		$featureSearch = new FeatureSearch();
+		$featureSearch->userCheckedinInformation($user);
+		$this->assertEquals(1, $featureSearch->num());
+		
+		$feature = $featureSearch->nextResult();
+		$this->assertEquals(true, $feature->getHasUserAnsweredAllQuestions());
+	}
+
+	/** tests userCheckedinInformation() and getHasUserAnsweredAllQuestions() functions. **/
+	function testQuestionAnsweredInfo2() {
+		global $CONFIG;
+		$db = $this->setupDB();
+
+		$user = User::createByEmail("test@example.com","pass","pass");		
+		$feature = Feature::findOrCreateAtPosition(55, 1);
+		$question1 = FeatureCheckinQuestionFreeText::create($feature, "Test?","123");
+		$question1->checkAndSaveAnswer("123", $user);
+		$question2 = FeatureCheckinQuestionFreeText::create($feature, "Quack?","duck");
+		$question2->checkAndSaveAnswer("duck", $user);
+		
+		# search
+		$featureSearch = new FeatureSearch();
+		$featureSearch->userCheckedinInformation($user);
+		$this->assertEquals(1, $featureSearch->num());
+		
+		$feature = $featureSearch->nextResult();
+		$this->assertEquals(true, $feature->getHasUserAnsweredAllQuestions());
+	}
+	
+	
 	function testFeatureWith2Collections() {
 		global $CONFIG;
 		$db = $this->setupDB();

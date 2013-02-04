@@ -19,6 +19,7 @@ if ($_POST && $_POST['action'] && $_POST['action'] == "update" && $_POST['CSFRTo
 	if (trim($_POST['thumbnailurl'])) $collection->setThumbnailURLFromURL($_POST['thumbnailurl']);
 	$collection->setDescription($_POST['description']);
 	$collection->setIcon($_POST['icon_url'], $_POST['icon_width'], $_POST['icon_height'], $_POST['icon_offset_x'], $_POST['icon_offset_y']);
+	$collection->setQuestionIcon($_POST['question_icon_url'], $_POST['question_icon_width'], $_POST['question_icon_height'], $_POST['question_icon_offset_x'], $_POST['question_icon_offset_y']);
 }
 
 

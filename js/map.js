@@ -95,6 +95,15 @@ function mapMarkersGetIconForCollection(collectionID) {
 		);
 }
 
+function mapMarkersGetQuestionIconForCollection(collectionID) {
+	return new google.maps.MarkerImage(
+			collectionData[collectionID].question_icon_url,
+			new google.maps.Size(parseInt(collectionData[collectionID].question_icon_width), parseInt(collectionData[collectionID].question_icon_height)),
+			new google.maps.Point(0,0),
+			new google.maps.Point(parseInt(collectionData[collectionID].question_icon_offset_x), parseInt(collectionData[collectionID].question_icon_offset_y))
+		);
+}
+
 function mapMarkersGetDefaultIcon() {
 	return new google.maps.MarkerImage(
 			'/img/marker-usercontent-med.png',
@@ -146,7 +155,7 @@ function mapMarkersTimerEvent() {
 					if (!(thisMarkerData.id in mapMarkersMarkers)) {
 						mapMarkersAddMarker(thisMarkerData.lat,thisMarkerData.lng, thisMarkerData.id, 
 							thisMarkerData.collectionIDS, thisMarkerData.title, thisMarkerData.thumbnailURL , 
-							thisMarkerData.inHiddenCollection);
+							thisMarkerData.inHiddenCollection, thisMarkerData.answeredAllQuestions, data.userID);
 					}
 				}					
 			}
@@ -154,7 +163,7 @@ function mapMarkersTimerEvent() {
 		}
 	});
 }
-function mapMarkersAddMarker(lat, lng, id, collectionIDS, title, thumbnailURL, inHiddenCollection) {
+function mapMarkersAddMarker(lat, lng, id, collectionIDS, title, thumbnailURL, inHiddenCollection, answeredAllQuestions, userID) {
 	// this is in an seperate function so the ID in the anonymous function is picked up properly 
 	// http://stackoverflow.com/questions/2489483/google-maps-marker-click-event
 	var data = {
@@ -163,7 +172,11 @@ function mapMarkersAddMarker(lat, lng, id, collectionIDS, title, thumbnailURL, i
 			optimized: false,
 		};
 	if (collectionIDS.length > 0) {
-		data.icon = mapMarkersGetIconForCollection(collectionIDS[0]);
+		if (userID && !answeredAllQuestions) {
+			data.icon = mapMarkersGetQuestionIconForCollection(collectionIDS[0]);
+		} else {
+			data.icon = mapMarkersGetIconForCollection(collectionIDS[0]);			
+		}
 	} else {
 		data.icon = mapMarkersGetDefaultIcon();
 	}

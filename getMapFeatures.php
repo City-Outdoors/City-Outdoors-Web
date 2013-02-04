@@ -12,6 +12,7 @@ $currentUser = getCurrentUser();
 $featureSearch = new FeatureSearch();
 $featureSearch->withinBounds($_GET['left'], $_GET['right'], $_GET['top'], $_GET['bottom']);
 $featureSearch->visibleToUser($currentUser);
+$featureSearch->userCheckedinInformation($currentUser);
 
 $hiddenCollection = Collection::loadBySlug($CONFIG->HIDDEN_COLLECTION_SLUG);
 
@@ -43,7 +44,7 @@ if (isset($_GET['collections'])) {
 }
 
 
-$data = array('data'=>array(),'result'=>true);
+$data = array('data'=>array(),'result'=>true, 'userID'=>($currentUser?$currentUser->getId():null));
 while($feature = $featureSearch->nextResult()) {
 	$inHiddenCollection = $hiddenCollection && in_array($hiddenCollection->getId(), $feature->getCollectionIDS());
 	$data['data'][] = array(
@@ -53,7 +54,8 @@ while($feature = $featureSearch->nextResult()) {
 			'collectionIDS'=>$feature->getCollectionIDS(),
 			'title'=>$feature->getTitle(),
 			'thumbnailURL'=>$feature->getThumbnailURL(),
-			'inHiddenCollection'=>$inHiddenCollection
+			'inHiddenCollection'=>$inHiddenCollection,
+			'answeredAllQuestions'=>($currentUser ? $feature->getHasUserAnsweredAllQuestions() : true),
 		);
 }
 

@@ -20,6 +20,9 @@ class Feature extends BaseDataWithOneID {
 	/** populated by FeatureSearch **/
 	protected $has_collections_ids;
 	
+	/** populated by FeatureSearch  **/
+	protected $has_user_answered_all_questions;
+	
 	/** @return Feature **/
 	public static function findByID($id) {
 		global  $CONFIG;
@@ -86,6 +89,7 @@ class Feature extends BaseDataWithOneID {
 		if ($data && isset($data['bounds_min_lng'])) $this->bounds_min_lng = $data['bounds_min_lng'];
 		if ($data && isset($data['bounds_max_lng'])) $this->bounds_max_lng = $data['bounds_max_lng'];
 		if ($data && isset($data['has_collections_ids'])) $this->has_collections_ids = $data['has_collections_ids'];
+		if ($data && isset($data['has_user_answered_all_questions'])) $this->has_user_answered_all_questions = $data['has_user_answered_all_questions'];
 		if ($data && isset($data['title'])) $this->title = $data['title'];
 		if ($data && isset($data['thumbnail_url'])) $this->thumbnail_url = $data['thumbnail_url'];
 	}	
@@ -100,7 +104,7 @@ class Feature extends BaseDataWithOneID {
 	public function getBoundsMaxLat() { return $this->bounds_max_lat; }	
 	
 	public function getCollectionIDS() { return $this->has_collections_ids ? explode(",", $this->has_collections_ids) : array(); }
-
+	public function getHasUserAnsweredAllQuestions() { return $this->has_user_answered_all_questions; }
 	
 	public function newContent($body, User $by, $name=null, $email=null, $report=false, $userAgent = null, $ip=null) {
 		$db = getDB();

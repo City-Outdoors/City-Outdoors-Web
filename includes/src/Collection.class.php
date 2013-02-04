@@ -22,6 +22,12 @@ class Collection extends BaseDataWithOneID {
 	protected $icon_offset_y;
 	protected $icon_url;
 	
+	protected $question_icon_width;
+	protected $question_icon_height;
+	protected $question_icon_offset_x;
+	protected $question_icon_offset_y;
+	protected $question_icon_url;
+	
 	protected $description;
 	protected $thumbnail_url;	
 			
@@ -121,6 +127,11 @@ class Collection extends BaseDataWithOneID {
 		if ($data && isset($data['icon_offset_x'])) $this->icon_offset_x = $data['icon_offset_x'];
 		if ($data && isset($data['icon_offset_y'])) $this->icon_offset_y = $data['icon_offset_y'];
 		if ($data && isset($data['icon_url'])) $this->icon_url = $data['icon_url'];
+		if ($data && isset($data['question_icon_height'])) $this->question_icon_height = $data['question_icon_height'];
+		if ($data && isset($data['question_icon_width'])) $this->question_icon_width = $data['question_icon_width'];
+		if ($data && isset($data['question_icon_offset_x'])) $this->question_icon_offset_x = $data['question_icon_offset_x'];
+		if ($data && isset($data['question_icon_offset_y'])) $this->question_icon_offset_y = $data['question_icon_offset_y'];
+		if ($data && isset($data['question_icon_url'])) $this->question_icon_url = $data['question_icon_url'];
 		if ($data && isset($data['description'])) $this->description = $data['description'];
 		if ($data && isset($data['thumbnail_url'])) $this->thumbnail_url = $data['thumbnail_url'];
 	}
@@ -132,6 +143,11 @@ class Collection extends BaseDataWithOneID {
 	public function getIconOffsetX() { return $this->icon_offset_x ? $this->icon_offset_x : Collection::DEFAULT_ICON_OFFSET_X; }
 	public function getIconOffsetY() { return $this->icon_offset_y ? $this->icon_offset_y : Collection::DEFAULT_ICON_OFFSET_Y; }
 	public function getIconURL() { return $this->icon_url ? $this->icon_url : Collection::DEFAULT_ICON_URL; }
+	public function getQuestionIconHeight() { return $this->question_icon_height ? $this->question_icon_height : Collection::DEFAULT_ICON_HEIGHT; }
+	public function getQuestionIconWidth() { return $this->question_icon_width ? $this->question_icon_width : Collection::DEFAULT_ICON_WIDTH; }
+	public function getQuestionIconOffsetX() { return $this->question_icon_offset_x ? $this->question_icon_offset_x : Collection::DEFAULT_ICON_OFFSET_X; }
+	public function getQuestionIconOffsetY() { return $this->question_icon_offset_y ? $this->question_icon_offset_y : Collection::DEFAULT_ICON_OFFSET_Y; }
+	public function getQuestionIconURL() { return $this->question_icon_url ? $this->question_icon_url : Collection::DEFAULT_ICON_URL; }
 	public function getDescription() { return $this->description; }
 	public function getThumbnailURL() { return $this->thumbnail_url; }
 	
@@ -301,6 +317,20 @@ class Collection extends BaseDataWithOneID {
 				"icon_width =:icon_width ,icon_offset_x =:icon_offset_x , icon_offset_y=:icon_offset_y WHERE id=:id");
 		$stat->execute(array('icon_url'=>$this->icon_url,'icon_height'=>$this->icon_height,'icon_width'=>$this->icon_width,
 			'icon_offset_x'=>$this->icon_offset_x,'icon_offset_y'=>$this->icon_offset_y,'id'=>$this->id));
+	}
+	
+	
+	public function setQuestionIcon($url,$width,$height,$offset_x, $offset_y) {
+		$this->question_icon_url = $url;
+		$this->question_icon_height = $height;
+		$this->question_icon_width = $width;
+		$this->question_icon_offset_x = $offset_x;
+		$this->question_icon_offset_y = $offset_y;
+		$db = getDB();
+		$stat = $db->prepare("UPDATE collection SET question_icon_url=:icon_url, question_icon_height=:icon_height , ".
+				"question_icon_width =:icon_width ,question_icon_offset_x =:icon_offset_x , question_icon_offset_y=:icon_offset_y WHERE id=:id");
+		$stat->execute(array('icon_url'=>$this->question_icon_url,'icon_height'=>$this->question_icon_height,'icon_width'=>$this->question_icon_width,
+			'icon_offset_x'=>$this->question_icon_offset_x,'icon_offset_y'=>$this->question_icon_offset_y,'id'=>$this->id));
 	}
 	
 	
