@@ -18,6 +18,18 @@
 			<td>{if $featureContent->isReport()}Report{else}Comment{/if}</td>
 		</tr>
 		<tr>
+			<th>From User</th>
+			<td>{$featureContent->getCreatedBy()}</td>
+		</tr>
+		<tr>
+			<th>From Name</th>
+			<td>{$featureContent->getDisplayName()|escape}</td>
+		</tr>
+		<tr>
+			<th>From Email</th>
+			<td>{$featureContent->getCreatedEmail()|escape}</td>
+		</tr>
+		<tr>
 			<th>Body</th>
 			<td>{$featureContent->getBody()|escape}</td>
 		</tr>
