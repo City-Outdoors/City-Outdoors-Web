@@ -15,8 +15,13 @@ if (!$currentUser->isAdministrator()) die('No Access');
 $feature = Feature::loadByID($_GET['id']);
 if (!$feature) die('not found');
 
+$itemSearch = new ItemSearch();
+$itemSearch->onFeature($feature);
+$itemSearch->includeDeleted(true);
+
 $tpl = getSmarty($currentUser);
 $tpl->assign('feature',$feature);
+$tpl->assign('itemSearch',$itemSearch);
 $tpl->assign('collectionSearch', new CollectionSearch);
 $tpl->display('admin/feature.htm');
 

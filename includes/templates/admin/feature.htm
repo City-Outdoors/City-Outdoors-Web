@@ -17,6 +17,31 @@
 	
 	<h2>Items</h2>
 	
+	<table class="data">
+		<tr>
+			<th>ID</th>
+			<th>Collection</th>
+			<th>Title</th>
+			<th>Deleted</th>
+			<th>&nbsp;</th>
+		</tr>
+		{while $item = $itemSearch->nextResult()}
+			{$itemCollection = $item->getCollection()}
+			<tr class="{cycle values="alternate,"}">
+				<td><a href="/admin/item.php?c={$itemCollection->getSlug()}&i={$item->getId()}">{$item->getId()}</a></td>
+				<td>{$itemCollection->getTitle()|escape}</td>
+				<td>{$item->getTitle()|escape}</td>
+				<td>
+					{if $item->getIsDeleted()}DELETED{/if}
+				</td>
+				<td>
+					<a href="/admin/item.php?c={$itemCollection->getSlug()}&i={$item->getId()}">View Item</a>
+				</td>
+			</tr>
+		{/while}	
+	</table>
+	
+	
 	{if $Config->ALLOW_EDITING_COLLECTION_ITEMS_IN_ADMIN_UI}
 		<ul>
 		{while $collection = $collectionSearch->nextResult()}
