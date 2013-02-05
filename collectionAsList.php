@@ -12,7 +12,6 @@ $currentUser = getCurrentUser();
 
 $collection = Collection::loadBySlug($_GET['c']);
 if (!$collection) die('not found');
-if (!$collection->canUserRead($currentUser)) die('no access');
 
 
 $tpl = getSmarty($currentUser);

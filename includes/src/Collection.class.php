@@ -272,18 +272,6 @@ class Collection extends BaseDataWithOneID {
 		return new Item(array("collection_id"=>$this->id));
 	}
 	
-	public function canUserRead(User $user = null) {
-		return true;
-	}
-	
-	public function canUserAdmin(User $user = null) {
-		return  $user && $user->isAdministrator();
-	}	
-	
-	public function canUserEdit(User $user = null) {
-		return $user && $user->isAdministrator();
-	}	
-	
 	public function setTitle($title) {
 		$this->title = $title;
 		$db = getDB();
