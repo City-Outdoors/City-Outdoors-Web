@@ -8,20 +8,11 @@
 
 class CollectionSearch extends BaseSearch {
 	
-	protected $user;
-	protected $publicOnly = false;
 
 	public function  __construct() {
 		$this->className = "Collection";
 	}
 	
-	public function visibleToUser(User $user) {
-		$this->user = $user;
-	}
-
-	public function publicOnly() {
-		$this->publicOnly = true;
-	}
 	
 	protected function execute() {
 		if ($this->searchDone) throw new Exception("Search already done!");
@@ -30,12 +21,6 @@ class CollectionSearch extends BaseSearch {
 		$joins = array();
 		$vars = array();
 
-		if ($this->user) {
-			// TODO
-		} else if ($this->publicOnly) {
-			// This is in an ELSE IF clause with user as you can't search for both at once, that doesn't make sense.
-			// TODO
-		}
 		
 
 		$sql = "SELECT collection.* ".

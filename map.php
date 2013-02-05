@@ -12,11 +12,7 @@ $currentUser = getCurrentUser();
 
 
 $collectionSearch = new CollectionSearch();
-if ($currentUser) {
-	$collectionSearch->visibleToUser($currentUser);
-} else {
-	$collectionSearch->publicOnly();
-}
+
 
 $tpl = getSmarty($currentUser);
 $tpl->assign('inCollectionTab',true);
