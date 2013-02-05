@@ -87,6 +87,8 @@ class FeatureSearch extends BaseSearch {
 		$db = getDB();
 		$where = array();
 		$joins = array();
+		$joinItems = false; $joinContent = false; $joinQuestions = false;
+		$leftJoinItems = false; $leftJoinContent = false; $leftJoinQuestions = false;
 		$vars = array();
 		$select = array('feature.*');
 		
@@ -107,6 +109,7 @@ class FeatureSearch extends BaseSearch {
 			$vars['boundsBottom'] = $this->boundsBottom;
 		}
 		if ($this->collectionIDs) {
+			$joinItems = true;
 			$where[] = " item.collection_id IN (".  implode(",", $this->collectionIDs).") ";
 		}
 
@@ -115,19 +118,17 @@ class FeatureSearch extends BaseSearch {
 			$joins[] = " JOIN feature_favourite ON feature_favourite.feature_id = feature.id AND feature_favourite.user_account_id = :fuid ";
 			$vars['fuid'] = $this->userFavourites->getId();
 		} else if ($this->userCheckedin) {
-			$joins[] = " JOIN feature_checkin_question ON feature_checkin_question.feature_id = feature.id";
+			$joinQuestions = true;
 			$joins[] = " JOIN feature_checkin_success ON  feature_checkin_question.id =  feature_checkin_success.feature_checkin_question_id AND feature_checkin_success.user_account_id = :ciuid ";
 			$vars['ciuid'] = $this->userCheckedin->getId();
 		} else if ($this->userNotCheckedin) {
-			$joins[] = " JOIN feature_checkin_question ON feature_checkin_question.feature_id = feature.id";
+			$joinQuestions = true;
 			$joins[] = " LEFT JOIN feature_checkin_success ON  feature_checkin_question.id =  feature_checkin_success.feature_checkin_question_id AND feature_checkin_success.user_account_id = :ciuid ";
 			$where[] = " feature_checkin_success.id IS NULL ";
 			$vars['ciuid'] = $this->userNotCheckedin->getId();
 		} else if (!$this->showAllFeatures) {
 			// we search for features visible to a user - feature with content on it, item or question.
-			$joins[] = " LEFT JOIN item ON item.feature_id = feature.id AND item.deleted = 0";
-			$joins[] = " LEFT JOIN feature_content ON feature_content.feature_id = feature.id AND feature_content.approved_at IS NOT NULL ";
-			$joins[] = " LEFT JOIN feature_checkin_question  ON feature_checkin_question.feature_id = feature.id AND feature_checkin_question.deleted = 0 ";
+			$leftJoinItems = $leftJoinContent = $leftJoinQuestions = true;
 			$where[] = " (item.id IS NOT NULL OR feature_content.id IS NOT NULL OR feature_checkin_question.id IS NOT NULL)";
 			$select[] = " GROUP_CONCAT(item.collection_id) AS has_collections_ids ";
 			if ($this->userCheckedinInformation) {
@@ -137,9 +138,26 @@ class FeatureSearch extends BaseSearch {
 				$select[] = " GROUP_CONCAT(feature_checkin_success.feature_checkin_question_id) AS has_answered_feature_checkin_question_ids ";
 			}
 		}
+		
+		if ($joinContent) {
+			array_unshift($joins," JOIN feature_content ON feature_content.feature_id = feature.id AND feature_content.approved_at IS NOT NULL ");
+		} else if ($leftJoinContent) {
+			array_unshift($joins," LEFT JOIN feature_content ON feature_content.feature_id = feature.id AND feature_content.approved_at IS NOT NULL ");
+		}
+		if ($joinItems) {
+			array_unshift($joins, " JOIN item ON item.feature_id = feature.id AND item.deleted = 0");
+		} else if ($leftJoinItems) {
+			array_unshift($joins, " LEFT JOIN item ON item.feature_id = feature.id AND item.deleted = 0");
+		}
+		if ($joinQuestions) {
+			array_unshift($joins, " JOIN feature_checkin_question  ON feature_checkin_question.feature_id = feature.id AND feature_checkin_question.deleted = 0 ");
+		} else if ($leftJoinQuestions) {
+			array_unshift($joins, " LEFT JOIN feature_checkin_question  ON feature_checkin_question.feature_id = feature.id AND feature_checkin_question.deleted = 0 ");
+		}
+
 
 		$sql = "SELECT ".implode(" , ", $select).
-			"FROM feature ".implode(" ", $joins).(count($where) > 0 ? " WHERE ".implode(" AND ", $where) : "")." GROUP BY feature.id";
+			" FROM feature ".implode(" ", $joins).(count($where) > 0 ? " WHERE ".implode(" AND ", $where) : "")." GROUP BY feature.id";
 		$stat = $db->prepare($sql);
 		//die($sql);
 		$stat->execute($vars);

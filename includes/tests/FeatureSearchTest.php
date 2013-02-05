@@ -246,5 +246,89 @@ class FeatureSearchTest extends AbstractTest {
 		$this->assertEquals($collection2->getId(), $data[1]);
 		
     }
+	
+	
+	function userCheckedIn() {
+		global $CONFIG;
+		$db = $this->setupDB();
+
+		$user = User::createByEmail("test@example.com","pass","pass");	
+		$question1 = FeatureCheckinQuestionFreeText::create($feature, "Test?","123");
+		$question1->checkAndSaveAnswer("123", $user);
+		
+		# test
+		$featureSearch = new FeatureSearch();
+		$featureSearch->userCheckedin($currentUser);
+		$this->assertEquals(1, count($data));
+		
+		$featureSearch = new FeatureSearch();
+		$featureSearch->userNotCheckedin($currentUser);
+		$this->assertEquals(0, count($data));
+	}
+	
+	function userNotCheckedIn() {
+		global $CONFIG;
+		$db = $this->setupDB();
+
+		$user = User::createByEmail("test@example.com","pass","pass");	
+		$question1 = FeatureCheckinQuestionFreeText::create($feature, "Test?","123");
+		
+		# test
+		$featureSearch = new FeatureSearch();
+		$featureSearch->userCheckedin($currentUser);
+		$this->assertEquals(0, count($data));
+		
+		$featureSearch = new FeatureSearch();
+		$featureSearch->userNotCheckedin($currentUser);
+		$this->assertEquals(1, count($data));
+	}
+	
+
+	function userCheckedInWithItem() {
+		global $CONFIG;
+		$db = $this->setupDB();
+
+		$user = User::createByEmail("test@example.com","pass","pass");
+		$collection1 = Collection::create("Test", $user);
+		$item1 = $collection1->getBlankItem($user);
+		$item1->setPosition(55, 1);
+		$item1->writeToDataBase($user);
+		$question1 = FeatureCheckinQuestionFreeText::create($feature, "Test?","123");
+		$question1->checkAndSaveAnswer("123", $user);
+		
+		# test
+		$featureSearch = new FeatureSearch();
+		$featureSearch->userCheckedin($currentUser);
+		$featureSearch->withinCollection($collection1);
+		$this->assertEquals(1, count($data));
+		
+		$featureSearch = new FeatureSearch();
+		$featureSearch->userNotCheckedin($currentUser);
+		$featureSearch->withinCollection($collection1);
+		$this->assertEquals(0, count($data));
+	}
+	
+	function userNotCheckedInWithItem() {
+		global $CONFIG;
+		$db = $this->setupDB();
+
+		$user = User::createByEmail("test@example.com","pass","pass");	
+		$collection1 = Collection::create("Test", $user);
+		$item1 = $collection1->getBlankItem($user);
+		$item1->setPosition(55, 1);
+		$item1->writeToDataBase($user);
+		$question1 = FeatureCheckinQuestionFreeText::create($feature, "Test?","123");
+		
+		# test
+		$featureSearch = new FeatureSearch();
+		$featureSearch->userCheckedin($currentUser);
+		$featureSearch->withinCollection($collection1);
+		$this->assertEquals(0, count($data));
+		
+		$featureSearch = new FeatureSearch();
+		$featureSearch->userNotCheckedin($currentUser);
+		$featureSearch->withinCollection($collection1);
+		$this->assertEquals(1, count($data));
+	}	
 }
 

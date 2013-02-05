@@ -13,6 +13,12 @@ class CollectionSearch extends BaseSearch {
 		$this->className = "Collection";
 	}
 	
+	private $withFeatureCheckinQuestions = false;
+	public function withFeatureCheckinQuestions($withFeatureCheckinQuestions = true) {
+		$this->withFeatureCheckinQuestions = $withFeatureCheckinQuestions;
+		
+	}
+	
 	
 	protected function execute() {
 		if ($this->searchDone) throw new Exception("Search already done!");
@@ -21,6 +27,11 @@ class CollectionSearch extends BaseSearch {
 		$joins = array();
 		$vars = array();
 
+		if ($this->withFeatureCheckinQuestions) {
+			$joins[] = " JOIN item ON item.collection_id = collection.id ";
+			$joins[] = " JOIN feature_checkin_question ON feature_checkin_question.feature_id = item.feature_id AND feature_checkin_question.deleted = 0";
+			
+		}
 		
 
 		$sql = "SELECT collection.* ".
