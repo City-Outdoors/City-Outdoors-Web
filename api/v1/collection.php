@@ -24,8 +24,8 @@ $itemSearch->includeDeleted(true);
 	<collection id="<?php echo $collection->getId() ?>" slug="<?php echo htmlentities($collection->getSlug(),ENT_QUOTES,'UTF-8') ?>">
 		<title><?php echo htmlentities($collection->getTitle(),ENT_NOQUOTES,'UTF-8') ?></title>
 		<?php if ($showLinks) { ?><link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/collection.php?slug=<?php echo $collection->getSlug() ?>"/><?php } ?>
-		<icon height="<?php print $collection->getIconHeight() ?>" width="<?php print $collection->getIconWidth() ?>" offset_x="<?php print $collection->getIconOffsetX() ?>" offset_y="<?php print $collection->getIconOffsetY() ?>"><?php print $collection->getIconURL() ?></icon>
-		<questionIcon height="<?php print $collection->getQuestionIconHeight() ?>" width="<?php print $collection->getQuestionIconWidth() ?>" offset_x="<?php print $collection->getQuestionIconOffsetX() ?>" offset_y="<?php print $collection->getQuestionIconOffsetY() ?>"><?php print $collection->getQuestionIconURL() ?></questionIcon>
+		<icon height="<?php print $collection->getIconHeight() ?>" width="<?php print $collection->getIconWidth() ?>" offset_x="<?php print $collection->getIconOffsetX() ?>" offset_y="<?php print $collection->getIconOffsetY() ?>" url="<?php print $collection->getIconURL() ?>"/>
+		<questionIcon height="<?php print $collection->getQuestionIconHeight() ?>" width="<?php print $collection->getQuestionIconWidth() ?>" offset_x="<?php print $collection->getQuestionIconOffsetX() ?>" offset_y="<?php print $collection->getQuestionIconOffsetY() ?>" url="<?php print $collection->getQuestionIconURL() ?>"/>
 		<fields>
 			<?php foreach($collection->getFields() as $field) { ?>
 				<field id="<?php echo $field->getFieldID() ?>">
