@@ -143,11 +143,29 @@ class Collection extends BaseDataWithOneID {
 	public function getIconOffsetX() { return $this->icon_offset_x ? $this->icon_offset_x : Collection::DEFAULT_ICON_OFFSET_X; }
 	public function getIconOffsetY() { return $this->icon_offset_y ? $this->icon_offset_y : Collection::DEFAULT_ICON_OFFSET_Y; }
 	public function getIconURL() { return $this->icon_url ? $this->icon_url : Collection::DEFAULT_ICON_URL; }
+	public function getIconURLAbsolute() { 
+		global $CONFIG;
+		$iconURL = $this->icon_url ? $this->icon_url : Collection::DEFAULT_ICON_URL;
+		if (substr($iconURL, 0, 1) == "/") {
+			return 'http://'.$CONFIG->HTTP_HOST.$iconURL;
+		} else {
+			return $iconURL;
+		}
+	}
 	public function getQuestionIconHeight() { return $this->question_icon_height ? $this->question_icon_height : Collection::DEFAULT_ICON_HEIGHT; }
 	public function getQuestionIconWidth() { return $this->question_icon_width ? $this->question_icon_width : Collection::DEFAULT_ICON_WIDTH; }
 	public function getQuestionIconOffsetX() { return $this->question_icon_offset_x ? $this->question_icon_offset_x : Collection::DEFAULT_ICON_OFFSET_X; }
 	public function getQuestionIconOffsetY() { return $this->question_icon_offset_y ? $this->question_icon_offset_y : Collection::DEFAULT_ICON_OFFSET_Y; }
 	public function getQuestionIconURL() { return $this->question_icon_url ? $this->question_icon_url : Collection::DEFAULT_ICON_URL; }
+	public function getQuestionIconURLAbsolute() { 
+		global $CONFIG;
+		$iconURL = $this->question_icon_url ? $this->question_icon_url : Collection::DEFAULT_ICON_URL;
+		if (substr($iconURL, 0, 1) == "/") {
+			return 'http://'.$CONFIG->HTTP_HOST.$iconURL;
+		} else {
+			return $iconURL;
+		}
+	}
 	public function getDescription() { return $this->description; }
 	public function getThumbnailURL() { return $this->thumbnail_url; }
 	
