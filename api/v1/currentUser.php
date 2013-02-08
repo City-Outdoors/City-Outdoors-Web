@@ -15,7 +15,7 @@ $user = loadAPIUser();
 if ($user) { 
 ?>
 	<data>
-		<user id="<?php print $user->getId() ?>" email="<?php htmlspecialchars(print $user->getEmail()) ?>"  name="<?php htmlspecialchars(print $user->getName()) ?>" score="<?php htmlspecialchars(print $user->getCachedScore()) ?>">
+		<user id="<?php print $user->getId() ?>" email="<?php print htmlspecialchars($user->getEmail(),ENT_QUOTES,'UTF-8') ?>"  name="<?php print htmlspecialchars($user->getName(),ENT_QUOTES,'UTF-8') ?>" score="<?php print intval($user->getCachedScore()) ?>">
 		</user>
 	</data>
 <?php } else { ?>
