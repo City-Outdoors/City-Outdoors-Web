@@ -78,7 +78,7 @@ $fieldsInContentArea = isset($data['fieldInContentArea']) && $data['fieldInConte
 				<?php if ($question->getIsDeleted()) { ?>
 					<checkinQuestion id="<?php echo $question->getId() ?>" type="<?php echo htmlentities($question->getQuestionType(),ENT_QUOTES,'UTF-8') ?>" deleted="yes"></checkinQuestion>
 				<?php } else { ?>
-					<checkinQuestion id="<?php echo $question->getId() ?>" type="<?php echo htmlentities($question->getQuestionType(),ENT_QUOTES,'UTF-8') ?>" question="<?php echo htmlentities($question->getQuestion(),ENT_QUOTES,'UTF-8') ?>"  active="<?php echo ($question->getIsActive()) ? 'yes' : 'no' ?>" <?php if ($user) { ?>hasAnswered="<?php echo ($question->hasAnswered($user)) ? 1 : 0 ?>"<?php } ?>>
+					<checkinQuestion id="<?php echo $question->getId() ?>" type="<?php echo htmlentities($question->getQuestionType(),ENT_QUOTES,'UTF-8') ?>" question="<?php echo htmlentities($question->getQuestion(),ENT_QUOTES,'UTF-8') ?>"  active="<?php echo ($question->getIsActive()) ? 'yes' : 'no' ?>" <?php if ($user) { ?>hasAnswered="<?php echo ($question->hasAnswered($user)) ? 'yes' : 'no' ?>"<?php } ?>>
 						<?php if ($question->getQuestionType() == 'MULTIPLECHOICE') { ?>
 							<possibleAnswers>
 								<?php foreach($question->getPossibleAnswers() as $possibleAnswer) { ?>
