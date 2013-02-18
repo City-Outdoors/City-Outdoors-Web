@@ -28,7 +28,7 @@ if ($result) {
 	?><data>
 		<result success="1">OK
 			<explanation>
-				<valueHTML><?php echo htmlentities($featureCheckinQuestion->getAnswerExplanation(),ENT_NOQUOTES,'UTF-8') ?></valueHTML>
+				<valueHTML><?php echo xmlEscape($featureCheckinQuestion->getAnswerExplanation(),false) ?></valueHTML>
 			</explanation>
 		</result>
 	</data><?php

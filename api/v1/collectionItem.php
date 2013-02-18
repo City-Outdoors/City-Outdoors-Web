@@ -25,15 +25,15 @@ $feature = $item->getFeature();
 ?>
 <data>
 	<?php if ($item->getIsDeleted()) { ?>
-		<item id="<?php echo $item->getId() ?>" slug="<?php echo htmlentities($item->getSlug(),ENT_QUOTES,'UTF-8') ?>" deleted="yes"></item>
+		<item id="<?php echo $item->getId() ?>" slug="<?php echo xmlEscape($item->getSlug(),true) ?>" deleted="yes"></item>
 	<?php } else  { ?>
-		<item id="<?php echo $item->getId() ?>" slug="<?php echo htmlentities($item->getSlug(),ENT_QUOTES,'UTF-8') ?>">
+		<item id="<?php echo $item->getId() ?>" slug="<?php echo xmlEscape($item->getSlug(),true) ?>">
 			<link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/collectionItem.php?slug=<?php echo $collection->getSlug() ?>&amp;islug=<?php echo $item->getSlug() ?>"/>
 			<fields>
 				<?php foreach($item->getFields() as $field) { ?>
-					<field id="<?php echo $field->getFieldID() ?>" title="<?php echo htmlentities($field->getTitle(),ENT_QUOTES,'UTF-8') ?>">
-						<valueHTML><?php echo htmlentities($field->getValueAsHumanReadableHTML(),ENT_NOQUOTES,'UTF-8') ?></valueHTML>
-						<valueText><?php echo htmlentities($field->getValueAsHumanReadableText(),ENT_NOQUOTES,'UTF-8') ?></valueText>
+					<field id="<?php echo $field->getFieldID() ?>" title="<?php echo xmlEscape($field->getTitle(),true) ?>">
+						<valueHTML><?php echo xmlEscape($field->getValueAsHumanReadableHTML(),false) ?></valueHTML>
+						<valueText><?php echo xmlEscape($field->getValueAsHumanReadableText(),false) ?></valueText>
 					</field>
 				<?php } ?>
 			</fields>

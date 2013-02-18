@@ -23,24 +23,24 @@ $user = loadAPIUser();
 		<checkinQuestions>
 			<?php foreach($feature->getCheckinQuestions(true) as $question) { ?>
 				<?php if ($question->getIsDeleted()) { ?>
-					<checkinQuestion id="<?php echo $question->getId() ?>" type="<?php echo htmlentities($question->getQuestionType(),ENT_QUOTES,'UTF-8') ?>" deleted="yes"></checkinQuestion>
+					<checkinQuestion id="<?php echo $question->getId() ?>" type="<?php echo xmlEscape($question->getQuestionType(),true) ?>" deleted="yes"></checkinQuestion>
 				<?php } else { ?>
-					<checkinQuestion id="<?php echo $question->getId() ?>" type="<?php echo htmlentities($question->getQuestionType(),ENT_QUOTES,'UTF-8') ?>" question="<?php echo htmlentities($question->getQuestion(),ENT_QUOTES,'UTF-8') ?>" active="<?php echo ($question->getIsActive()) ? 'yes' : 'no' ?>" <?php if ($user) { ?>hasAnswered="<?php echo ($question->hasAnswered($user)) ? 'yes' : 'no' ?>"<?php } ?>>
+					<checkinQuestion id="<?php echo $question->getId() ?>" type="<?php echo xmlEscape($question->getQuestionType(),true) ?>" question="<?php echo xmlEscape($question->getQuestion(),true) ?>" active="<?php echo ($question->getIsActive()) ? 'yes' : 'no' ?>" <?php if ($user) { ?>hasAnswered="<?php echo ($question->hasAnswered($user)) ? 'yes' : 'no' ?>"<?php } ?>>
 						<?php if ($question->getQuestionType() == 'MULTIPLECHOICE') { ?>
 							<possibleAnswers>
 								<?php foreach($question->getPossibleAnswers() as $possibleAnswer) { ?>
-									<possibleAnswer id="<?php echo $possibleAnswer->getId($possibleAnswer) ?>"><?php echo htmlentities($possibleAnswer->getAnswer(),ENT_NOQUOTES,'UTF-8') ?></possibleAnswer>
+									<possibleAnswer id="<?php echo $possibleAnswer->getId($possibleAnswer) ?>"><?php echo xmlEscape($possibleAnswer->getAnswer(),false) ?></possibleAnswer>
 								<?php } ?>
 							</possibleAnswers>
 						<?php } ?>
 						<?php if ($user && $question->hasAnswered($user)) { ?>
 							<explanation>
-								<valueHTML><?php echo htmlentities($question->getAnswerExplanation(),ENT_NOQUOTES,'UTF-8') ?></valueHTML>
+								<valueHTML><?php echo xmlEscape($question->getAnswerExplanation(),false) ?></valueHTML>
 							</explanation>
 						<?php } ?>
 						<?php if (!$question->getIsActive()) { ?>
 							<inactiveReason>
-								<valueText><?php echo htmlentities($question->getInactiveReason(),ENT_NOQUOTES,'UTF-8') ?></valueText>
+								<valueText><?php echo xmlEscape($question->getInactiveReason(),false) ?></valueText>
 							</inactiveReason>
 						<?php } ?>						
 					</checkinQuestion>

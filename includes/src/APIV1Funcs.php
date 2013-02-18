@@ -20,3 +20,13 @@ function startXMLDoc() {
 	header('Content-type: application/xml');
 	print '<?xml version="1.0" encoding="UTF-8"?>';		
 }
+
+function xmlEscape($s,$inAttribute=true) {
+	if ($inAttribute) {
+		return str_replace(array('&','>','<','"'), array('&amp;','&gt;','&lt;','&quot;'), $s);
+	} else {
+		return str_replace(array('&','>','<'), array('&amp;','&gt;','&lt;'), $s);
+	}
+}
+
+
