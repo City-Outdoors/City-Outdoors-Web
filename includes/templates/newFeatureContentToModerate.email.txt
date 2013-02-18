@@ -1,0 +1,21 @@
+Hi,
+
+There is new content on {$siteTitle} to moderate.
+
+Feature:
+{$feature->getTitle()}
+
+Comment:
+{$featureContent->getBody()}
+
+{if $featureContent->hasPicture()}
+Picture:
+{$featureContent->getNormalPictureURL()}
+{/if}
+
+Please visit the admin interface to moderate it.
+https://{$httpsHost}/admin/moderate.php
+
+Thanks,
+{$siteTitle}
+

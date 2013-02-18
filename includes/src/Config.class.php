@@ -16,6 +16,7 @@ class Config {
 			'BCRYPT_ROUNDS'=>5,
 			'EMAILS_FROM'=>"test@example.com",
 			'EMAIL_REPORTS_TO'=>"",
+			'EMAIL_CONTENT_TO_MODERATE_TO'=>"",
 			'HTTP_HOST'=>"",
 			'HTTPS_HOST'=>"",
 			'HTTPS_AVAILABLE'=>false,

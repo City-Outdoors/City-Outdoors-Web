@@ -131,7 +131,9 @@ class Feature extends BaseDataWithOneID {
 		$data['id'] = $db->lastInsertId();
 		// normally we do a join to include the user row when we load FeatureContent. Need to add the data in now instead.
 		$data['display_name'] = $by->getName();
-		return new FeatureContent($data);
+		$featureContent =  new FeatureContent($data);
+		if (FeatureContent::isCreatedContentModerated($by)) $this->emailModeratorsNewFeatureContent ($featureContent, $by);
+		return $featureContent; 
 	}
 	
 	public function newAnonymousContent($body, $name=null, $email=null, $report=false, $userAgent = null, $ip=null) {
@@ -156,9 +158,25 @@ class Feature extends BaseDataWithOneID {
 		}
 		$stat->execute($data);
 		$data['id'] = $db->lastInsertId();
-		return new FeatureContent($data);
+		$featureContent =  new FeatureContent($data);
+		if (FeatureContent::isCreatedContentModerated(null)) $this->emailModeratorsNewFeatureContent ($featureContent);
+		return $featureContent; 
 	}
 
+	protected function emailModeratorsNewFeatureContent(FeatureContent $featureContent, User $by = null) {
+		global $CONFIG;
+		if ($CONFIG->EMAIL_CONTENT_TO_MODERATE_TO) {
+			$tplEmail = getEmailSmarty();
+			$tplEmail->assign('featureContentByUser',$by);
+			$tplEmail->assign('featureContent',$featureContent);
+			$tplEmail->assign('feature',$this);
+			$body = $tplEmail->fetch('newFeatureContentToModerate.email.txt');
+			//print ($body); die();
+			mail($CONFIG->EMAIL_CONTENT_TO_MODERATE_TO, "New content to moderate.", $body, "From: ".$CONFIG->EMAILS_FROM);
+		}
+	}
+	
+	
 	/** should return true if all questions for this feature have been answered **/
 	public function hasUserCheckedIn(User $user) {
 		$db = getDB();
