@@ -31,7 +31,7 @@
 			<li {if $smarty.server.PHP_SELF == '/featureContent.php'}class="current"{/if}><a href="/featureContent.php?id={$feature->getId()}">Add Comment</a><div class="arrow"></li>
 			<li {if $smarty.server.PHP_SELF == '/featureReports.php'}class="current"{/if}><a href="/featureReports.php?id={$feature->getId()}">Report It</a><div class="arrow"></li>
 			{if $feature->hasCheckedInQuestions()}
-				<li {if $smarty.server.PHP_SELF == '/featureCheckin.php'}class="current"{/if}><a href="/featureCheckin.php?id={$feature->getId()}">Explore</a><div class="arrow"></li>
+				<li {if $smarty.server.PHP_SELF == '/featureCheckin.php'}class="current"{/if}><a href="/featureDetails.php?id={$feature->getId()}#Checkin">Explore</a><div class="arrow"></li>
 			{/if}
 		</ul>
 

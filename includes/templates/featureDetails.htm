@@ -46,6 +46,88 @@ $('document').ready(function(){
 		{if count($items) > 0}
 			{foreach $items as $item}{SmartyHelper::showFields($item, 'left')}{/foreach}
 		{/if}	
+		
+		{if count($featureCheckInQuestions) > 0}
+			<div class="featureDetailsCheckin" id="Checkin">
+				<h3>Explore</h3>
+				<ul class="checkInQuestions">
+					{foreach $featureCheckInQuestions as $featureCheckInQuestion}
+						<li class="cf">
+							<p class="question">{$featureCheckInQuestion->getQuestion()|escape|nl2br}</p>
+							{if $featureCheckInQuestion->getIsActive()}
+								{if $currentUser}
+									{if $featureCheckInQuestion->hasAnswered($currentUser)}
+										<p class="done">You have already answered this question!</p>
+
+										{if $featureCheckInQuestion->getAnswerExplanation()}
+											<div class="explanation">{$featureCheckInQuestion->getAnswerExplanation()}</div>
+										{/if}
+									{else}		
+										{* some questions can only be answered once *}
+										{if $featureCheckInQuestion->getQuestionType() == "FREETEXT" }
+											<div class="answerForm">
+												<form enctype="multipart/form-data" action="" method="post">
+													<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+													<input type="hidden" name="questionID" value="{$featureCheckInQuestion->getId()}">
+													<input type="text" name="answer">
+													<input type="submit" value="Submit Answer">								
+												</form>
+											</div>
+										{elseif $featureCheckInQuestion->getQuestionType() == "HIGHERORLOWER" }
+											<div class="answerForm">
+												<form enctype="multipart/form-data" action="" method="post">
+													<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+													<input type="hidden" name="questionID" value="{$featureCheckInQuestion->getId()}">
+													<input type="text" name="answer">
+													<input type="submit" value="Submit Answer">								
+												</form>
+											</div>
+										{elseif $featureCheckInQuestion->getQuestionType() == "MULTIPLECHOICE"}
+											{foreach $featureCheckInQuestion->getPossibleAnswers() as $answer}
+												<div class="answerForm">
+													<form enctype="multipart/form-data" action="" method="post">
+														{$answer->getAnswer()|escape}
+														<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+														<input type="hidden" name="questionID" value="{$featureCheckInQuestion->getId()}">
+														<input type="hidden" name="answerID" value="{$answer->getId()}">
+														<input type="submit" value="This Answer">								
+													</form>
+												</div>
+											{/foreach}
+										{/if}
+									{/if}
+									{* but some questions can be answered multiple times *}
+									{if $featureCheckInQuestion->getQuestionType() == "CONTENT" }
+										<div class="answerForm">
+											<a href="/featureContent.php?id={$feature->getId()}#new-content-form">Try to answer this question</a>
+										</div>
+									{/if}
+								{else}
+									{* Sometimes if there is no user we show possible answers anyway *}
+									{if $featureCheckInQuestion->getQuestionType() == "MULTIPLECHOICE"}
+										<div class="possibleAnswers">
+											<ul>
+												{foreach $featureCheckInQuestion->getPossibleAnswers() as $answer}
+													<li>{$answer->getAnswer()|escape}</li>
+												{/foreach}
+											</ul>
+										</div>
+									{/if}
+								{/if}
+							{else}
+								{* Question is inactive *}
+								<p class="inactive">This question can't be answered at the moment. {$featureCheckInQuestion->getInactiveReason()|escape|nl2br}</p>
+							{/if}
+						</li>
+					{/foreach}
+				</ul>
+
+				{if !$currentUser}
+					<p>You must log in to answer questions.</p>
+				{/if}
+			</div>
+		{/if}
+		
 	</div>
 	<div class="featureDetailsDetails cf">
 	<div class="featureDetailsMap cf">
