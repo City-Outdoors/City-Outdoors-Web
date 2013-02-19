@@ -22,7 +22,7 @@ if (isset($data['email']) && isset($data['password'])) {
 
 if ($user && $loginToken) { ?>
 	<data>
-		<user id="<?php print $user->getId() ?>" token="<?php print $loginToken ?>" email="<?php print htmlspecialchars($user->getEmail(),ENT_QUOTES,'UTF-8') ?>"  name="<?php print htmlspecialchars($user->getName(),ENT_QUOTES,'UTF-8') ?>" score="<?php print intval($user->getCachedScore()) ?>">
+		<user id="<?php print $user->getId() ?>" token="<?php print $loginToken ?>" email="<?php print xmlEscape($user->getEmail(),true) ?>"  name="<?php print xmlEscape($user->getName(),true) ?>" score="<?php print intval($user->getCachedScore()) ?>">
 		</user>
 	</data>
 <?php } else { ?>

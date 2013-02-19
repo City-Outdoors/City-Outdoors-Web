@@ -19,7 +19,7 @@ $featureSearch->userFavourites($user);
 <data>
 	<features>
 		<?php while($feature = $featureSearch->nextResult()) { ?>
-			<feature id="<?php echo $feature->getId() ?>" lat="<?php echo $feature->getPointLat() ?>" lng="<?php echo $feature->getPointLng() ?>" title="<?php echo htmlspecialchars($feature->getTitle(),ENT_QUOTES,'UTF-8') ?>" answeredAllQuestions="<?php echo  $feature->getHasUserAnsweredAllQuestions() ? 'yes' : 'no' ?>">
+			<feature id="<?php echo $feature->getId() ?>" lat="<?php echo $feature->getPointLat() ?>" lng="<?php echo $feature->getPointLng() ?>" title="<?php echo xmlEscape($feature->getTitle(),true) ?>" answeredAllQuestions="<?php echo  $feature->getHasUserAnsweredAllQuestions() ? 'yes' : 'no' ?>">
 				<?php if ($showLinks) { ?><link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/feature.php?id=<?php echo $feature->getId() ?>"/><?php } ?>
 				<items><?php foreach($feature->getCollectionIDS() as $collectionID) { ?><item collectionID="<?php echo $collectionID ?>"/><?php } ?></items>
 			</feature>

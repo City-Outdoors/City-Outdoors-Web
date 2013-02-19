@@ -21,7 +21,7 @@ if ($email && $password) {
 		if ($user->checkPassword($data['password'])) {
 			$loginToken = $user->getNewSessionID();
 			?><data>
-				<user id="<?php print $user->getId() ?>" token="<?php print $loginToken ?>" email="<?php print htmlspecialchars($user->getEmail(),ENT_QUOTES,'UTF-8') ?>"  name="<?php print htmlspecialchars($user->getName(),ENT_QUOTES,'UTF-8') ?>" score="<?php print intval($user->getCachedScore()) ?>" state="existing">
+				<user id="<?php print $user->getId() ?>" token="<?php print $loginToken ?>" email="<?php print xmlEscape($user->getEmail(),true) ?>"  name="<?php print xmlEscape($user->getName(),true) ?>" score="<?php print intval($user->getCachedScore()) ?>" state="existing">
 				</user>
 			</data><?php 
 		} else { 
@@ -34,7 +34,7 @@ if ($email && $password) {
 			$user = User::createByEmail($email,$password,$password);
 			$loginToken = $user->getNewSessionID();
 			?><data>
-				<user id="<?php print $user->getId() ?>" token="<?php print $loginToken ?>" email="<?php print htmlspecialchars($user->getEmail(),ENT_QUOTES,'UTF-8') ?>"  name="<?php print htmlspecialchars($user->getName(),ENT_QUOTES,'UTF-8') ?>" score="<?php print intval($user->getCachedScore()) ?>"  state="new">
+				<user id="<?php print $user->getId() ?>" token="<?php print $loginToken ?>" email="<?php print xmlEscape($user->getEmail(),true) ?>"  name="<?php print xmlEscape($user->getName(),true) ?>" score="<?php print intval($user->getCachedScore()) ?>"  state="new">
 				</user>
 			</data><?php 
 		} catch (UserExceptionEmailNotValid $e) { 
