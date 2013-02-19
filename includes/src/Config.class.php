@@ -49,6 +49,7 @@ class Config {
 			'ASSETS_VERSION'=>1,
 			'FACEBOOK_LINK'=>'https://www.facebook.com/',
 			'ALLOW_EDITING_COLLECTION_ITEMS_IN_ADMIN_UI'=>true,
+			'EXTENSIONS'=>array(),
 		);
 	
 	

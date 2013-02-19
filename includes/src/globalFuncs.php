@@ -54,7 +54,14 @@ function getSmarty(User $user = null) {
 	global $CURRENT_USER, $CONFIG, $_COOKIE;
 	require_once dirname(__FILE__).'/../libs/smarty/Smarty.class.php';
 	$s = new Smarty();
-	$s->template_dir = dirname(__FILE__) . '/../templates/';
+	$templateDirs = array();
+	if (is_array($CONFIG->EXTENSIONS)) {
+		foreach($CONFIG->EXTENSIONS as $extensionName) {
+			$templateDirs[] = dirname(__FILE__) . '/../../extension.'.$extensionName."/includes/templates/";
+		}
+	}
+	$templateDirs[] = dirname(__FILE__) . '/../templates/';
+	$s->template_dir = $templateDirs;
 	$s->compile_dir = dirname(__FILE__) . '/../smarty_c/';
 	$s->assign('Config',$CONFIG);
 	$s->assign('httpHost',$CONFIG->HTTP_HOST);
@@ -106,7 +113,14 @@ function getEmailSmarty() {
 	global $CONFIG;
 	require_once dirname(__FILE__).'/../libs/smarty/Smarty.class.php';
 	$s = new Smarty();
-	$s->template_dir = dirname(__FILE__) . '/../templates/';
+	$templateDirs = array();
+	if (is_array($CONFIG->EXTENSIONS)) {
+		foreach($CONFIG->EXTENSIONS as $extensionName) {
+			$templateDirs[] = dirname(__FILE__) . '/../../extension/'.$extensionName."/includes/templates/";
+		}
+	}
+	$templateDirs[] = dirname(__FILE__) . '/../templates/';
+	$s->template_dir = $templateDirs;
 	$s->compile_dir = dirname(__FILE__) . '/../smarty_c/';
 	$s->assign('httpHost',$CONFIG->HTTP_HOST);
 	$s->assign('httpsHost',$CONFIG->HTTPS_HOST);
