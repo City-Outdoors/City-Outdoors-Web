@@ -1,0 +1,62 @@
+<div id="header" class="wrapper">
+	{if $showCookieInfo}
+		<div id="cookieConsent">
+			<form name="frmAcceptCookies" method="post">
+				We use cookies to improve your experience. By viewing our content you are accepting the use of cookies. <a href="/privacyPolicy.php">About cookies we use</a>.
+				<input type="submit" name="acceptCookieContinue" value="Continue" class="button"></input>
+			</form>
+		</div>
+	{/if}
+	<div id="brand" class="cf">
+		<div id="account-links">
+			{if $currentUser}
+				You are logged in as <strong>{$currentUser->getName()|escape}</strong>
+				<a href="{$mostSecureDomain}/myAccount/" title="My Account">My Account</a>
+				<a href="{$mostSecureDomain}/logout.php">Log out</a>
+			{else}
+				<a href="{$mostSecureDomain}/login.php" title="Log In">Log in</a>
+				<a href="{$mostSecureDomain}/signup.php" title="Sign Up">Register</a>
+			{/if}		
+		</div>
+		{if !$inHomeTab} 
+			<a href="/" id="logo">
+				<img src="/img/header-logo.png?v={$assetsVersion}" alt="{$siteTitle}" title="{$siteTitle}">
+			</a>
+		{/if}
+	</div>
+	<ul class="nav">
+		<form action="/search.php" method="get">
+			<fieldset>
+				<input type="search" placeholder="Search…" name="search" {if isset($searchTerm)}value="{$searchTerm|escape}"{/if}><input type="submit" value="Search">
+			</fieldset>
+		</form>			
+		<li class="{if $inHomeTab}current{/if}"><a href="/">Home</a></li>			
+		<li class="{if $inCollectionTab}current {/if}hasChild"><a href="/map.php">Explore Parks</a></li>				
+		<li class="{if $inWildlifeTab}current {/if}hasChild"><a href="/wildlife.php?month={date("n")}">Wildlife</a></li>
+		<li class="{if $inWhatsOnTab}current {/if}hasChild"><a href="/whatson.php?month={date("n")}">What&rsquo;s On</a></li>				
+	</ul>
+	{if $inCollectionTab}
+		<ul class="secondaryNav cf">
+			<li class="{if $inMap}current{/if}"><a href="/map.php" title="Map">Map</a></li>
+			{foreach $collections as $collection}
+				<li class="{if $inCollectionId == $collection->getId()}current{/if}"><a href="/collectionAsList.php?c={$collection->getSlug()}" title="{$collection->getTitle()|escape}">{$collection->getTitle()|escape}</a></li>
+			{/foreach}
+		</ul>
+	{/if}
+	{if isset($monthlyPageURLForSubNav) && $monthlyPageURLForSubNav }
+		<ul class="secondaryNav cf">
+			<li class="{if $thisMonth == 1}current{/if}"><a href="{$monthlyPageURLForSubNav}1">January</a></li>
+			<li class="{if $thisMonth == 2}current{/if}"><a href="{$monthlyPageURLForSubNav}2">February</a></li>
+			<li class="{if $thisMonth == 3}current{/if}"><a href="{$monthlyPageURLForSubNav}3">March</a></li>
+			<li class="{if $thisMonth == 4}current{/if}"><a href="{$monthlyPageURLForSubNav}4">April</a></li>
+			<li class="{if $thisMonth == 5}current{/if}"><a href="{$monthlyPageURLForSubNav}5">May</a></li>
+			<li class="{if $thisMonth == 6}current{/if}"><a href="{$monthlyPageURLForSubNav}6">June</a></li>
+			<li class="{if $thisMonth == 7}current{/if}"><a href="{$monthlyPageURLForSubNav}7">July</a></li>
+			<li class="{if $thisMonth == 8}current{/if}"><a href="{$monthlyPageURLForSubNav}8">August</a></li>
+			<li class="{if $thisMonth == 9}current{/if}"><a href="{$monthlyPageURLForSubNav}9">September</a></li>
+			<li class="{if $thisMonth == 10}current{/if}"><a href="{$monthlyPageURLForSubNav}10">October</a></li>
+			<li class="{if $thisMonth == 11}current{/if}"><a href="{$monthlyPageURLForSubNav}11">November</a></li>
+			<li class="{if $thisMonth == 12}current{/if}"><a href="{$monthlyPageURLForSubNav}12">December</a></li>
+		</ul>
+	{/if}
+</div>	
