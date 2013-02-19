@@ -9,9 +9,19 @@
 		{if $childItemSearch->num() > 0}
 			<h3>There are {$childItemSearch->numOnAllPages()} features here.</h3>
 			<ul class="collectionList withIcon">
+				{assign "lastSlugSeen" ""}
 				{while $item = $childItemSearch->nextResult()}
 					{$childFeature = $item->getFeature()}
+					{if $lastSlugSeen != $collections[$item->getCollectionID()]->getSlug()}
+						<li class="cf">
+							<h2 class="category-{$collections[$item->getCollectionID()]->getSlug()}">
+								{$collections[$item->getCollectionID()]->getTitle()|escape}
+							</h2>
+						</li>
+					{/if}
+					{assign "lastSlugSeen" $collections[$item->getCollectionID()]->getSlug()}
 					<li class="cf" style="background-image: url('{$collections[$item->getCollectionID()]->getIconURL()}')">
+						
 						{if $childFeature->getThumbnailURL()}
 							<img src="{$childFeature->getThumbnailURL()}">
 						{/if}						
