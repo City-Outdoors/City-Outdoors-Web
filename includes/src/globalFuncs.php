@@ -91,6 +91,7 @@ function getSmarty(User $user = null) {
 	$s->assign('inWildlifeTab',false);
 	$s->assign('inCollectionTab',false);
 	$s->assign('inCollectionId',false);
+	$s->assign('inFieldContentsSlug', false);
 	$s->assign('inMap',false);
 	$s->registerClass('CMSContent','CMSContent');
 	$s->registerClass('SmartyHelper','SmartyHelper');

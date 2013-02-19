@@ -25,6 +25,8 @@ $tpl = getSmarty($currentUser);
 $tpl->assign('collection', $collection);
 $tpl->assign('fieldToDisplay', $fieldToDisplay);
 $tpl->assign('itemSearch', $itemSearch);
+$tpl->assign('inCollectionTab',true);
+$tpl->assign('inFieldContentsSlug', $fieldToDisplay->getFieldContentsSlug());
 $tpl->display('fieldContents.htm');
 
 
