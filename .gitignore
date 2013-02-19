@@ -1,3 +1,8 @@
 includes/config.ini
 includes/tests.config.ini
 includes/smarty_c/*.php
+content/featureMaps/
+content/2012/
+content/2013/
+content/pdf/
+content/uploads/
