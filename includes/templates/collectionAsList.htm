@@ -13,6 +13,12 @@
 	
 	<div style="width: 490px; float: right;">
 		<h2 class="category-{$collection->getSlug()}">{$collection->getTitle()|escape}</h2>
+		
+		<div class="above-list-content">
+			{capture name="blockName"}above_collection_as_list_{$collection->getSlug()}{/capture}
+			{CMSContent::renderBlock($smarty.capture.blockName)}
+		</div>
+		
 	{capture name="urlNoLetter"}/collectionAsList.php?c={$collection->getSlug()}{/capture}
 	{a2z url=$smarty.capture.urlNoLetter active=$activeLetter}
 		{if $activeLetter}<a class="atozViewAll" href="/collectionAsList.php?c={$collection->getSlug()}">View All</a>{/if}<p>{$itemSearch->numOnAllPages()} {$collection->getTitle()|escape} found.</p>
