@@ -27,16 +27,29 @@ $name = isset($data['name']) ? $data['name'] : '';
 $email = isset($data['email']) ? $data['email'] : '';
 
 logInfo("New Feature Report");
-if ($user) {
-	$featureContent = $feature->newContent($comment, $user, $name, $email, true, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
+
+if (isset($_FILES['photo']['error']) && in_array($_FILES['photo']['error'], array(UPLOAD_ERR_INI_SIZE,UPLOAD_ERR_FORM_SIZE))) {
+
+	?><data><error code="NEW_FEATURE_REPORT_PHOTO_TO_BIG">Sorry, The file you uploaded was to big! Please reduce it or comment without it.</error></data><?
+
+} else if (isset($_FILES['photo']['error']) && in_array($_FILES['photo']['error'], array(UPLOAD_ERR_PARTIAL ,UPLOAD_ERR_NO_TMP_DIR, UPLOAD_ERR_CANT_WRITE, UPLOAD_ERR_EXTENSION))) {
+
+	?><data><error code="NEW_FEATURE_REPORT_PHOTO_ERROR">Sorry, there was a problem uploading this file. Please try again or contact us for help.</error></data><?
+
 } else {
-	$featureContent = $feature->newAnonymousContent($comment,  $name, $email, true, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
-}
-if (isset($_FILES['photo']['error']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-	logInfo(" ... which has image");
-	$featureContent->newImage($_FILES['photo']['name'],$_FILES['photo']['tmp_name']);
-}
 
+	if ($user) {
+		$featureContent = $feature->newContent($comment, $user, $name, $email, true, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
+	} else {
+		$featureContent = $feature->newAnonymousContent($comment,  $name, $email, true, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
+	}
+	
+	if (isset($_FILES['photo']['error']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+		logInfo(" ... which has image");
+		$featureContent->newImage($_FILES['photo']['name'],$_FILES['photo']['tmp_name']);
+	}
 
-?><data><result>OK</result></data>
+	?><data><result success="yes">OK</result></data><?
+
+}
 

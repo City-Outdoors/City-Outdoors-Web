@@ -50,6 +50,7 @@ class Config {
 			'FACEBOOK_LINK'=>'https://www.facebook.com/',
 			'ALLOW_EDITING_COLLECTION_ITEMS_IN_ADMIN_UI'=>true,
 			'EXTENSIONS'=>array(),
+			'MAXIMUM_UPLOAD_ALLOWED'=>10485760,
 		);
 	
 	
@@ -57,8 +58,40 @@ class Config {
 		$this->data = array_merge($this->data, parse_ini_file($filename));
 	}
 	
-	public function __get($key) { return $this->data[$key];	 }
+	public function __get($key) { 
+		if ($key == 'MAXIMUM_UPLOAD_ALLOWED') {
+			$upload_limit = min($this->ini_get_in_bytes('upload_max_filesize'), $this->ini_get_in_bytes('post_max_size'), $this->ini_get_in_bytes('memory_limit'));
+			return isset($this->data[$key]) ?  min($this->data[$key], $upload_limit) : $upload_limit;
+		} else {
+			return $this->data[$key];	 
+		}
+	}
+	
+	/** With thanks to http://www.php.net/manual/en/function.ini-get.php example 1 **/
+	private function ini_get_in_bytes($key) {
+		$val = ini_get($key);
+		$last = strtolower($val[strlen($val)-1]);
+		switch($last) {
+			// The 'G' modifier is available since PHP 5.1.0
+			case 'g':
+				$val *= 1024;
+			case 'm':
+				$val *= 1024;
+			case 'k':
+				$val *= 1024;
+		}
+		return $val;
+	}
+	
+	
 	public function __set($key,$val) { $this->data[$key] = $val;	}
-	public function __isset($key) { return isset($this->data[$key]);	}
+	public function __isset($key) { 
+		if ($key == 'MAXIMUM_UPLOAD_ALLOWED') {
+			// We pull this from the server config so it's always set.
+			return true;
+		} else {
+			return isset($this->data[$key]);	
+		}
+	}
 	
 }
