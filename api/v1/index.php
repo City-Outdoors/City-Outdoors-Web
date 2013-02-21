@@ -13,7 +13,7 @@ startXMLDoc();
 <data>
 	<startingBounds minLat="<?php print $CONFIG->MAP_STARTING_MIN_LAT ?>" maxLat="<?php print $CONFIG->MAP_STARTING_MAX_LAT ?>"
 		minLng="<?php print $CONFIG->MAP_STARTING_MIN_LNG ?>" maxLng="<?php print $CONFIG->MAP_STARTING_MAX_LNG ?>" />
-	<uploads max_size="<?php  print $CONFIG->MAXIMUM_UPLOAD_ALLOWED ?>" />
+	<uploads maxSize="<?php  print $CONFIG->MAXIMUM_UPLOAD_ALLOWED ?>" />
 	<?php if ($showLinks) { ?>
 	<link rel="features" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/features.php"/>
 	<link rel="collections" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/collections.php"/>
