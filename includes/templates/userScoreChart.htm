@@ -7,13 +7,13 @@
 		{$lastScore = -1}
 		{$position = 0}
 	
-	<ul class="">
+	<ul class="userScoreChart">
 		{while $user = $userSearch->nextResult()}
 			{if $user->getCachedScore() != $lastScore}
 				{$lastScore = $user->getCachedScore()}
 				{$position = $position + 1}
 			{/if}
-			<li>
+			<li class="{cycle values="alternate,"}">
 				<div class="position">{$position}</div>
 				<div class="user">{$user->getName()|escape}</div>
 				<div class="score">{$user->getCachedScore()|escape}</div>
