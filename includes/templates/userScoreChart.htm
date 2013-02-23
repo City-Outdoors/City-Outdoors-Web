@@ -16,7 +16,7 @@
 			<li class="{cycle values="alternate,"}">
 				<div class="position">{$position}{$position|ordinal}</div>
 				<div class="user">{$user->getName()|escape}</div>
-				<div class="score">{$user->getCachedScore()|escape}</div>
+				<div class="score">{$user->getCachedScore()|number_format}</div>
 			</li>
 		{/while}	
 	</ul>
