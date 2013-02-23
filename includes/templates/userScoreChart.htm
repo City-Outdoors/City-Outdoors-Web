@@ -14,7 +14,7 @@
 				{$position = $position + 1}
 			{/if}
 			<li class="{cycle values="alternate,"}">
-				<div class="position">{$position}</div>
+				<div class="position">{$position}{$position|ordinal}</div>
 				<div class="user">{$user->getName()|escape}</div>
 				<div class="score">{$user->getCachedScore()|escape}</div>
 			</li>
