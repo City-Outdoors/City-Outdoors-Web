@@ -55,6 +55,8 @@ class CMSContent extends BaseDataWithOneID {
 				'above_myaccount_feature_content',
 				'above_myaccount_feature_index',
 				'above_myaccount_feature_favourites',
+				'above_signup',
+				'above_login',
 			);
 	}
 	

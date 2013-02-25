@@ -10,7 +10,9 @@
 			Please <a href="/login.php">log in</a> or register to save your favourites.
 		</p>
 	{/if}	
-	<p>This text explains the benefits of registering for an account and the site's data retention policy. Lorem ipsum dolor sit amet.</p>
+	<div>
+		{CMSContent::renderBlock('above_signup')}
+	</div>
 	
 	<div class="rightHalf">
 		<img src="/img/twitter-logo-blue.png?v={$assetsVersion}" alt="Twitter"><br />
