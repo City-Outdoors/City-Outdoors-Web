@@ -11,6 +11,7 @@
 		<div id="account-links">
 			{if $currentUser}
 				You are logged in as <strong>{$currentUser->getName()|escape}</strong>
+				{if $currentUser->getCachedScore() > 0}({$currentUser->getCachedScore()|number_format}){/if}
 				<a href="{$mostSecureDomain}/myAccount/" title="My Account">My Account</a>
 				<a href="{$mostSecureDomain}/logout.php">Log out</a>
 			{else}
