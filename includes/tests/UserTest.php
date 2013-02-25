@@ -107,5 +107,22 @@ class UserTests  extends AbstractTest {
 		}		
 	}
 	
+	/**
+	 * if name not passed set from email 
+	 */
+	function testNoName() {
+        $this->setupDB();
+        $user = User::createByEmail("test@example.com","pass","pass");		
+		$this->assertEquals('test', $user->getName());  
+		$user = User::loadByEmail('test@example.com');
+		$this->assertEquals('test', $user->getName());  
+	}
 	
+	function testHasName() {
+        $this->setupDB();
+        $user = User::createByEmail("test@example.com","pass","pass","Jimmy");		
+		$this->assertEquals('Jimmy', $user->getName()); 
+		$user = User::loadByEmail('test@example.com');
+		$this->assertEquals('Jimmy', $user->getName());  		
+	}
 }

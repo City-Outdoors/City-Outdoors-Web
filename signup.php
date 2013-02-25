@@ -21,7 +21,7 @@ if (isset($_POST) && isset($_POST['email'])) {
 		$tpl->assign('errorMessage','Please agree to the terms and conditions');
 	} else {
 		try {
-			$user = User::createByEmail($_POST['email'],$_POST['password1'],$_POST['password2']);
+			$user = User::createByEmail($_POST['email'],$_POST['password1'],$_POST['password2'],(isset($_POST['name'])?$_POST['name']:null));
 			logInUser($user);
 			header("Location: /");
 			die();	

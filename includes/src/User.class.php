@@ -95,7 +95,7 @@ class User extends BaseDataWithOneID {
 	/**
 	 * @return \User 
 	 */	
-	public static function createByEmail($email,$password1,$password2) {
+	public static function createByEmail($email,$password1,$password2,$displayName=null) {
 		global $CONFIG;
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) throw new UserExceptionEmailNotValid("Email not Valid!");
 		if ($password1 != $password2) throw new UserExceptionPasswordsDontMatch("Passwords don't match");
@@ -103,10 +103,12 @@ class User extends BaseDataWithOneID {
 		
 		$passwordSalt = generateRandomString(22);
 		
-		$emailBits = explode('@', $email, 2);
-		
+		if (!$displayName) {
+			$emailBits = explode('@', $email, 2);
+			$displayName = $emailBits[0];
+		}
 		$data = array(
-				'display_name' => $emailBits[0],
+				'display_name' => $displayName,
 				'email' => $email,
 				'password_crypted' => crypt($password1,'$2a$'.$CONFIG->BCRYPT_ROUNDS.'$'.$passwordSalt),
 				'password_salt' => $passwordSalt,
