@@ -58,6 +58,7 @@
 			<th>Question</th>
 			<th>Deleted?</th>
 			<th>Sort Order</th>
+			<th>&nbsp;</th>
 		</tr>
 		{foreach $feature->getCheckinQuestions(true) as $fciq}
 			<tr class="{cycle values="alternate,"}">
@@ -65,6 +66,9 @@
 				<td>{$fciq->getQuestion()|escape|nl2br}</td>
 				<td>{if $fciq->getIsDeleted()}DELETED{/if}</td>
 				<td>{$fciq->getSortOrder()}</td>
+				<td>
+					<a href="/admin/featureCheckinQuestion.php?id={$fciq->getId()}">View Question</a>
+				</td>
 			</tr>
 		{/foreach}
 	</table>
