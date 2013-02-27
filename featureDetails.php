@@ -58,9 +58,9 @@ if ($currentUser && isset($_POST['CSFRToken']) && $_POST['CSFRToken'] == $_SESSI
 			} else if ($a == 0) {
 				$tpl->assign('okMessage','That is correct!');
 			} else if ($a == 1) {
-				$tpl->assign('errorMessage','Sorry, that is wrong. To high! Try a lower answer.');
+				$tpl->assign('errorMessage','Sorry, that is wrong. Too high! Try a lower answer.');
 			} else if ($a == -1) {
-				$tpl->assign('errorMessage','Sorry, that is wrong. To low! Try a higher answer.');
+				$tpl->assign('errorMessage','Sorry, that is wrong. Too low! Try a higher answer.');
 			}				
 		}
 	}
