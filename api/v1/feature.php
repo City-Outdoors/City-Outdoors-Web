@@ -23,9 +23,12 @@ $featureContentSearch->approvedOnly();
 $itemSearch = new ItemSearch();
 $itemSearch->onFeature($feature);
 if ($showDeleted) $itemSearch->includeDeleted(true);
+$hasItems = ($itemSearch->num() > 0);
 
-$childItemSearch = new ItemSearch();
-// $childItemSearch->hasParentItem($item); is called below in the <item> loop.
+if ($hasItems) {
+	$childItemSearch = new ItemSearch();
+	// $childItemSearch->hasParentItem($item); is called below in the <item> loop.
+}
 
 $fieldsInContentArea = isset($data['fieldInContentArea']) && $data['fieldInContentArea'] ? $data['fieldInContentArea'] : null;
 
@@ -69,9 +72,9 @@ $fieldsInContentArea = isset($data['fieldInContentArea']) && $data['fieldInConte
 			<?php } ?>
 		</items>
 		<childItems>
-			<?php while ($item = $childItemSearch->nextResult()) { ?>
+			<?php if ($hasItems) { while ($item = $childItemSearch->nextResult()) { ?>
 				<item id="<?php echo $item->getId() ?>"></item>
-			<?php } ?>
+			<?php } } ?>
 		</childItems>
 		<checkinQuestions>
 			<?php foreach($feature->getCheckinQuestions($showDeleted) as $question) { ?>
