@@ -7,9 +7,9 @@
  */
 
 /** This can be passed to API and is used in most end points, so just checked here. **/
-$showLinks = isset($_GET['showLinks']) ? intval($_GET['showLinks']) : true;
+$showLinks = isset($_GET['showLinks']) ? intval($_GET['showLinks']) || substr(strtolower(trim($_GET['showLinks'])),0,1) == 'y' : true;
 /** This can be passed to API and is used in most end points, so just checked here. **/
-$showDeleted = isset($_GET['showDeleted']) ? intval($_GET['showDeleted']) : false;
+$showDeleted = isset($_GET['showDeleted']) ? intval($_GET['showDeleted']) || substr(strtolower(trim($_GET['showDeleted'])),0,1) == 'y' : false;
 
 function loadAPIUser() {
 	$data = array_merge($_POST,$_GET);
