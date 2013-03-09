@@ -21,8 +21,8 @@ $user = loadAPIUser();
 	<feature id="<?php echo $feature->getId() ?>" lat="<?php echo $feature->getPointLat() ?>" lng="<?php echo $feature->getPointLng() ?>">
 		<?php if ($showLinks) { ?><link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/feature.php?id=<?php echo $feature->getId() ?>"/><?php } ?>
 		<checkinQuestions>
-			<?php foreach($feature->getCheckinQuestions(true) as $question) { ?>
-				<?php if ($question->getIsDeleted()) { ?>
+			<?php foreach($feature->getCheckinQuestions($showDeleted) as $question) { ?>
+				<?php if ($question->getIsDeleted()) {   ?>
 					<checkinQuestion id="<?php echo $question->getId() ?>" type="<?php echo xmlEscape($question->getQuestionType(),true) ?>" deleted="yes"></checkinQuestion>
 				<?php } else { ?>
 					<checkinQuestion id="<?php echo $question->getId() ?>" type="<?php echo xmlEscape($question->getQuestionType(),true) ?>" question="<?php echo xmlEscape($question->getQuestion(),true) ?>" active="<?php echo ($question->getIsActive()) ? 'yes' : 'no' ?>" <?php if ($user) { ?>hasAnswered="<?php echo ($question->hasAnswered($user)) ? 'yes' : 'no' ?>"<?php } ?>>

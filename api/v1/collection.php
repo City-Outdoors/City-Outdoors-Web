@@ -17,7 +17,7 @@ if (!$collection) die();
 
 $itemSearch = new ItemSearch();
 $itemSearch->inCollection($collection);
-$itemSearch->includeDeleted(true);
+if ($showDeleted) $itemSearch->includeDeleted(true);
 
 ?>
 <data>

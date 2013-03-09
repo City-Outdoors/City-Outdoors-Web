@@ -6,7 +6,10 @@
  * @url https://github.com/City-Outdoors/City-Outdoors-Web
  */
 
+/** This can be passed to API and is used in most end points, so just checked here. **/
 $showLinks = isset($_GET['showLinks']) ? intval($_GET['showLinks']) : true;
+/** This can be passed to API and is used in most end points, so just checked here. **/
+$showDeleted = isset($_GET['showDeleted']) ? intval($_GET['showDeleted']) : false;
 
 function loadAPIUser() {
 	$data = array_merge($_POST,$_GET);
@@ -28,5 +31,4 @@ function xmlEscape($s,$inAttribute=true) {
 		return str_replace(array('&','>','<'), array('&amp;','&gt;','&lt;'), $s);
 	}
 }
-
 
