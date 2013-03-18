@@ -41,26 +41,26 @@ if ($currentUser && isset($_POST['CSFRToken']) && $_POST['CSFRToken'] == $_SESSI
 	if ($q) {
 		if ($q->getQuestionType() == "FREETEXT") {
 			if ($q->checkAndSaveAnswer($_POST['answer'], $currentUser, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR'])) {
-				$tpl->assign('okMessage','That is correct!');
+				$tpl->assign('okMessageBlock','feature_checkin_question_answered_correctly');
 			} else {
-				$tpl->assign('errorMessage','Sorry, that is wrong.');
+				$tpl->assign('errorMessageBlock','feature_checkin_question_answered_wrongly');
 			}
 		} else if ($q->getQuestionType() == "MULTIPLECHOICE") {
 			if ($q->checkAndSaveAnswer($_POST['answerID'], $currentUser, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR'])) {
-				$tpl->assign('okMessage','That is correct!');
+				$tpl->assign('okMessageBlock','feature_checkin_question_answered_correctly');
 			} else {
-				$tpl->assign('errorMessage','Sorry, that is wrong.');
+				$tpl->assign('errorMessageBlock','feature_checkin_question_answered_wrongly');
 			}				
 		} else if ($q->getQuestionType() == "HIGHERORLOWER") {
 			$a = $q->checkAndSaveAnswer($_POST['answer'], $currentUser, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
 			if (is_null($a)) {
-				$tpl->assign('errorMessage','Sorry, that is wrong. Did you type in a number?');
+				$tpl->assign('errorMessageBlock','feature_checkin_question_higher_or_lower_not_a_number');
 			} else if ($a == 0) {
-				$tpl->assign('okMessage','That is correct!');
+				$tpl->assign('okMessageBlock','feature_checkin_question_answered_correctly');
 			} else if ($a == 1) {
-				$tpl->assign('errorMessage','Sorry, that is wrong. Too high! Try a lower answer.');
+				$tpl->assign('errorMessageBlock','feature_checkin_question_higher_or_lower_wrong_to_high');
 			} else if ($a == -1) {
-				$tpl->assign('errorMessage','Sorry, that is wrong. Too low! Try a higher answer.');
+				$tpl->assign('errorMessageBlock','feature_checkin_question_higher_or_lower_wrong_to_low');
 			}				
 		}
 	}
