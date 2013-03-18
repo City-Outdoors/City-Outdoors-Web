@@ -35,8 +35,14 @@
 			{if $okMessage}
 				<span class="msgOk">{$okMessage}</span>
 			{/if}
+			{if $okMessageBlock}
+				<span class="msgOk">{CMSContent::renderBlock($okMessageBlock)}</span>
+			{/if}
 			{if $errorMessage}
 				<span class="msgError">{$errorMessage}</span>
+			{/if}
+			{if $errorMessageBlock}
+				<span class="msgError">{CMSContent::renderBlock($errorMessageBlock)}</span>
 			{/if}
 			{block name="main"}{/block}
 		</div>

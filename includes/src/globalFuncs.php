@@ -78,11 +78,23 @@ function getSmarty(User $user = null) {
 	} else {
 		$s->assign('okMessage',null);
 	}
+	if (isset($_SESSION['okMessageBlock'])) {
+		$s->assign('okMessageBlock',$_SESSION['okMessageBlock']);
+		unset($_SESSION['okMessageBlock']);
+	} else {
+		$s->assign('okMessageBlock',null);
+	}
 	if (isset($_SESSION['errorMessage'])) {
 		$s->assign('errorMessage',$_SESSION['errorMessage']);
 		unset($_SESSION['errorMessage']);
 	} else {
 		$s->assign('errorMessage',null);
+	}       
+	if (isset($_SESSION['errorMessageBlock'])) {
+		$s->assign('errorMessageBlock',$_SESSION['errorMessageBlock']);
+		unset($_SESSION['errorMessageBlock']);
+	} else {
+		$s->assign('errorMessageBlock',null);
 	}       
 	$s->assign('canMakeFeatureContent',  FeatureContent::canCreate($user));
 	$s->assign('canMakeReport',  true);
