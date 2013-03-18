@@ -13,6 +13,10 @@ $currentUser = mustBeLoggedIn();
 if (!$currentUser->isAdministrator()) die('No Access');
 
 $tpl = getSmarty($currentUser);
-$tpl->assign('CMSBlocks',  CMSContent::getBlockSlugs());
+
+$search = new CMSContentSearch();
+$search->blocksOnly();
+
+$tpl->assign('CMSBlockSearch', $search );
 $tpl->display('admin/listCMSBlocks.htm');
 

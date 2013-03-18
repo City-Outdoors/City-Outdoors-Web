@@ -15,6 +15,7 @@ class CMSContentSearch extends BaseSearch {
 	}
 	
 	public function pagesOnly() { $this->type = "pages"; }
+	public function blocksOnly() { $this->type = "blocks"; }
 	
 	protected function execute() {
 		if ($this->searchDone) throw new Exception("Search already done!");
@@ -25,6 +26,8 @@ class CMSContentSearch extends BaseSearch {
 
 		if ($this->type == "pages") {
 			$where[] = " cms_content.page_slug IS NOT NULL ";
+		} else if ($this->type == "blocks") {
+			$where[] = " cms_content.block_slug IS NOT NULL ";
 		}
 
 		$sql = "SELECT cms_content.* ".

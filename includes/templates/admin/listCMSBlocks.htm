@@ -7,14 +7,14 @@
 			<th>Slug</th>
 			<th>&nbsp;</th>
 		</tr>
-		{foreach $CMSBlocks as $block}
+		{while $CMSBlock = $CMSBlockSearch->nextResult()}
 			<tr class="{cycle values="alternate,"}">
-				<td>{$block|escape}</td>
+				<td>{$CMSBlock->getBlockSlug()|escape}</td>
 				<td>
-					<a href="/admin/editCMSBlock.php?s={$block}">Edit</a>
+					<a href="/admin/editCMSBlock.php?s={$CMSBlock->getBlockSlug()|escape}">Edit</a>
 				</td>
 			</tr>
-		{/foreach}		
+		{/while}	
 	</table>
 
 {/block}

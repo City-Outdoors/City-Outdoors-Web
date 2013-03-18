@@ -11,55 +11,6 @@
 
 class CMSContent extends BaseDataWithOneID {
 
-	public static function getBlockSlugs() {
-		return array(
-				'map_page_intro',
-				'new_report_intro',
-				'new_feature_content_intro',
-				'terms_and_conditions',
-				'privacy_policy',
-				'home_page_first_left',
-				'home_page_first_middle',
-				'home_page_first_right',
-				'home_page_second_right',
-				'comment_submitted_successfully',
-				'report_submitted_successfully',
-				'whatson-jan',
-				'whatson-feb',
-				'whatson-mar',
-				'whatson-apr',
-				'whatson-may',
-				'whatson-jun',
-				'whatson-jul',
-				'whatson-aug',
-				'whatson-sep',
-				'whatson-oct',
-				'whatson-nov',
-				'whatson-dec',
-				'wildlife-jan',
-				'wildlife-feb',
-				'wildlife-mar',
-				'wildlife-apr',
-				'wildlife-may',
-				'wildlife-jun',
-				'wildlife-jul',
-				'wildlife-aug',
-				'wildlife-sep',
-				'wildlife-oct',
-				'wildlife-nov',
-				'wildlife-dec',
-				'above_comment_form',
-				'above_report_form',
-				'above_feature_checkin',
-				'above_myaccount_feature_checkins',
-				'above_myaccount_feature_content',
-				'above_myaccount_feature_index',
-				'above_myaccount_feature_favourites',
-				'above_signup',
-				'above_login',
-			);
-	}
-	
 	protected $page_slug;
 	protected $page_title;
 	protected $block_slug;
