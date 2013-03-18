@@ -14,6 +14,22 @@ if (!$currentUser->isAdministrator()) die('No Access');
 
 $tpl = getSmarty($currentUser);
 
+
+if (isset($_GET['scan']) && $_GET['scan']) {
+	
+	$out = parse_ini_file('../includes/CMSBlocks.ini');
+	foreach($out as $name=>$defaultContent) {
+		$block = CMSContent::loadBlockBySlug($name);
+		if (!$block) {
+			$block = CMSContent::createBlock($name, $currentUser);
+			if ($defaultContent) {
+				$block->newVersion($defaultContent, $currentUser);
+			}
+		}
+	}
+	$tpl->assign('okMessage','Scanned');
+}
+
 $search = new CMSContentSearch();
 $search->blocksOnly();
 
