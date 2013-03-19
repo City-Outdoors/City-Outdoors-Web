@@ -17,6 +17,7 @@
 				<div class="position">{$position}{$position|ordinal}</div>
 				<div class="user">{$user->getName()|escape}</div>
 				<div class="score">{$user->getCachedScore()|number_format}</div>
+				<div class="after"></div>
 			</li>
 		{/while}	
 	</ul>
