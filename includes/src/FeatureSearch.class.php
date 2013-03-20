@@ -10,6 +10,7 @@ class FeatureSearch extends BaseSearch {
 	
 	private $boundsLeft, $boundsRight, $boundsTop, $boundsBottom;
 	
+	private $sortBy = '';
 	
 	private $showAllFeatures = false;
 	
@@ -70,16 +71,22 @@ class FeatureSearch extends BaseSearch {
 	 * Include info on whether the user has checked in or not at each feature 
 	 * @param User $user 
 	 */
-	public function userCheckedinInformation(User $user = null) {
+	public function userCheckedinInformation(User $user = null, $sortByQuestionSortOrder = false) {
 		$this->userCheckedinInformation = $user;
+		if ($sortByQuestionSortOrder) {
+			$this->sortBy = 'questionSortOrder';
+		}
 	}
 	
 	/**
 	 * Only show features the user has NOT checked in on.
 	 * @param User $user 
 	 */
-	public function userNotCheckedin(User $user) {
+	public function userNotCheckedin(User $user, $sortByQuestionSortOrder = false) {
 		$this->userNotCheckedin = $user;
+		if ($sortByQuestionSortOrder) {
+			$this->sortBy = 'questionSortOrder';
+		}		
 	}
 	
 	protected function execute() {
@@ -158,6 +165,11 @@ class FeatureSearch extends BaseSearch {
 
 		$sql = "SELECT ".implode(" , ", $select).
 			" FROM feature ".implode(" ", $joins).(count($where) > 0 ? " WHERE ".implode(" AND ", $where) : "")." GROUP BY feature.id";
+		if ($this->sortBy == 'questionSortOrder') {
+			$sql .= " ORDER BY feature_checkin_question.sort_order DESC";
+		} else {
+			
+		}
 		$stat = $db->prepare($sql);
 		//die($sql);
 		$stat->execute($vars);

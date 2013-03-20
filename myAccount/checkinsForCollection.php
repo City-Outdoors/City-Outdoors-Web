@@ -17,12 +17,12 @@ $tpl = getSmarty($currentUser);
 $tpl->assign('collection',$collection);
 
 $featureSearch = new FeatureSearch();
-$featureSearch->userCheckedin($currentUser);
+$featureSearch->userCheckedin($currentUser, true);
 $featureSearch->withinCollection($collection);
 $tpl->assign('featureSearch',$featureSearch);
 
 $featureSearchToDo = new FeatureSearch();
-$featureSearchToDo->userNotCheckedin($currentUser);
+$featureSearchToDo->userNotCheckedin($currentUser, true);
 $featureSearchToDo->withinCollection($collection);
 $tpl->assign('featureSearchToDo',$featureSearchToDo);
 
