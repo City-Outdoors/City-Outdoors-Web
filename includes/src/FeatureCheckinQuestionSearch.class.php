@@ -24,6 +24,12 @@ class FeatureCheckinQuestionSearch extends BaseSearch {
 		$this->featureIDs[] = $feature->getId();
 	}
 	
+	protected  $collectionIDs = array();
+	
+	public function  withinCollection(Collection $collection) {
+		$this->collectionIDs[] = $collection->getId();
+	}
+	
 	public function ofType($type) {
 		if (in_array($type, array('CONTENT','FREETEXT'))) {
 			$this->types[] = $type;
@@ -43,6 +49,10 @@ class FeatureCheckinQuestionSearch extends BaseSearch {
 		
 		if ($this->featureIDs) {
 			$where[] = " feature_checkin_question.feature_id IN (".  implode(",", $this->featureIDs).") ";
+		} 
+		if ($this->collectionIDs) {
+			$joins[] = " JOIN item ON item.feature_id = feature_checkin_question.feature_id " ;
+			$where[] = " item.collection_id IN (".  implode(",", $this->collectionIDs).") ";			
 		}
 		if ($this->types) {
 			$typesForSQL = array();
