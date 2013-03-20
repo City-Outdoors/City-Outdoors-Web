@@ -86,6 +86,7 @@ class Item extends BaseDataWithOneID {
 	
 	
 
+	public function getParentItemID() { return $this->parent_id; }
 	public function getParentItem() { return Item::loadById($this->parent_id); }
 	
 	public function getChildCollectionIDs() {

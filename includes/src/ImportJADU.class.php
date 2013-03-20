@@ -89,14 +89,16 @@ class ImportJADU {
 					} else {						
 						$item = $collection->getBlankItem($userToWrite);
 						$this->log(" ... new item");
-						if ($parentCollection) {
-							$parentItem = $this->findParentItemInCollectionFor(
-									$parentCollection, 
-									$lat, 
-									$lng, 
-									isset($fields[$fieldNameMapsToParent]) ? $fields[$fieldNameMapsToParent] : null
-								);
-						}
+					}
+					
+					if ($parentCollection && !$item->getParentItemID()) {
+						$this->log(" ... finding parent ID");
+						$parentItem = $this->findParentItemInCollectionFor(
+								$parentCollection, 
+								$lat, 
+								$lng, 
+								isset($fields[$fieldNameMapsToParent]) ? $fields[$fieldNameMapsToParent] : null
+							);
 					}
 
 					# Position
@@ -161,9 +163,7 @@ class ImportJADU {
 				} else {
 					$this->log(".. No Lat/Lng so skipped!");
 				}
-
 			}
-
 			$page++;
 		}
 		
