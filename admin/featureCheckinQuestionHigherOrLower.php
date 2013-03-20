@@ -21,6 +21,7 @@ if ($featureCheckinQuestion->getQuestionType() != 'HIGHERORLOWER') {
 
 if ($_POST && $_POST['action'] && $_POST['action'] == "update" && $_POST['CSFRToken'] == $_SESSION['CSFRToken']) {
 	$featureCheckinQuestion->setQuestion($_POST['question']);
+	$featureCheckinQuestion->setSortOrder($_POST['sort_order']);
 	$featureCheckinQuestion->setAnswerExplanation($_POST['answer_explanation']);
 	$featureCheckinQuestion->setAnswers($_POST['answers']);
 	$featureCheckinQuestion->setScoresFromString($_POST['score']);
