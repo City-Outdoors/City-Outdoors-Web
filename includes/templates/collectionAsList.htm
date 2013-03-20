@@ -35,7 +35,7 @@
 					<p>{$item->getDescription()|truncate:180:"..."|escape}</p>
 					<ul>
 						{foreach $item->getChildCollectionIDs() as $id}
-							{if $id != $hiddenCollection->getId()}
+							{if !$hiddenCollection || $id != $hiddenCollection->getId()}
 								<li><img src="{$collections[$id]->getIconURL()}?v={$assetsVersion}" title="{$collections[$id]->getTitle()}"></li>
 							{/if}
 						{/foreach}
