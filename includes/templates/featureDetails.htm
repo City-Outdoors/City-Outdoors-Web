@@ -59,9 +59,6 @@ $('document').ready(function(){
 									{if $featureCheckInQuestion->hasAnswered($currentUser)}
 										<p class="done">You have already answered this question!</p>
 
-										{if $featureCheckInQuestion->getAnswerExplanation()}
-											<div class="explanation">{$featureCheckInQuestion->getAnswerExplanation()}</div>
-										{/if}
 									{else}		
 										{* some questions can only be answered once *}
 										{if $featureCheckInQuestion->getQuestionType() == "FREETEXT" }
@@ -102,6 +99,9 @@ $('document').ready(function(){
 											<a href="/featureContent.php?id={$feature->getId()}#new-content-form">Try to answer this question</a>
 										</div>
 									{/if}
+									{if $featureCheckInQuestion->getShowAnswerExplanationToUser($currentUser)}
+										<div class="explanation">{$featureCheckInQuestion->getAnswerExplanation()}</div>
+									{/if}									
 								{else}
 									{* Sometimes if there is no user we show possible answers anyway *}
 									{if $featureCheckInQuestion->getQuestionType() == "MULTIPLECHOICE"}
@@ -113,7 +113,7 @@ $('document').ready(function(){
 											</ul>
 										</div>
 									{/if}
-								{/if}
+								{/if}								
 							{else}
 								{* Question is inactive *}
 								<p class="inactive">This question can't be answered at the moment. {$featureCheckInQuestion->getInactiveReason()|escape|nl2br}</p>

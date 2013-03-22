@@ -33,7 +33,7 @@ $user = loadAPIUser();
 								<?php } ?>
 							</possibleAnswers>
 						<?php } ?>
-						<?php if ($user && $question->hasAnswered($user)) { ?>
+						<?php if ($user && $question->getShowAnswerExplanationToUser($user)) { ?>
 							<explanation>
 								<valueHTML><?php echo xmlEscape($question->getAnswerExplanation(),false) ?></valueHTML>
 							</explanation>

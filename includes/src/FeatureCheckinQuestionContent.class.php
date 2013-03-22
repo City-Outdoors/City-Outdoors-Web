@@ -70,6 +70,14 @@ class FeatureCheckinQuestionContent extends BaseFeatureCheckinQuestion {
 		$stat->execute($data);
 		
 	}
+	
+	
+	public function getShowAnswerExplanationToUser(User $user) {
+		$db = getDB();
+		$stat = $db->prepare("SELECT * FROM feature_content WHERE created_by=:uid AND feature_id=:fid");
+		$stat->execute(array('uid'=>$user->getId(),'fid'=>$this->feature_id));
+		return $stat->rowCount() > 0;
+	}
 }
 
 

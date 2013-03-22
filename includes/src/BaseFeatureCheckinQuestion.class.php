@@ -91,6 +91,10 @@ abstract class BaseFeatureCheckinQuestion extends BaseDataWithOneID {
 		return $stat->rowCount() > 0;				
 	}
 	
+	public function getShowAnswerExplanationToUser(User $user) {
+		return $this->hasAnswered($user);
+	}
+	
 	public function getAllCorrectAnswersGiven() {
 		$db = getDB();
 		$stat = $db->prepare("SELECT * FROM feature_checkin_success WHERE feature_checkin_question_id=:qid");

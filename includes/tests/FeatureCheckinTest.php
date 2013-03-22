@@ -90,4 +90,60 @@ class FeatureCheckinTest extends AbstractTest {
 		
 	}
 		
+	function testContentModerationFails() {
+		$db = $this->setupDB();
+
+		$user = User::createByEmail("test@test.com", "password", "password");
+		$feature = Feature::findOrCreateAtPosition(55, 2);		
+		$q1 = FeatureCheckinQuestionContent::create($feature, "Photo a  cats!");
+		
+		# 0 no answers
+		$this->assertEquals(false, $q1->hasAnswered($user));
+		$this->assertEquals(false, $q1->getShowAnswerExplanationToUser($user));
+		
+		# 1 answer
+		$content = $feature->newContent("Photo of a dog!", $user);
+		
+		# 2 before moderation
+		$this->assertEquals(false, $q1->hasAnswered($user));
+		$this->assertEquals(true, $q1->getShowAnswerExplanationToUser($user));
+		
+		# 3 moderate and fail
+		$content->disapprove($user);
+		
+		# 4 after moderation
+		$this->assertEquals(false, $q1->hasAnswered($user));
+		$this->assertEquals(true, $q1->getShowAnswerExplanationToUser($user));
+		
+	}
+	
+		
+	function testContentModerationPasses() {
+		$db = $this->setupDB();
+
+		$user = User::createByEmail("test@test.com", "password", "password");
+		$feature = Feature::findOrCreateAtPosition(55, 2);		
+		$q1 = FeatureCheckinQuestionContent::create($feature, "Photo a  cats!");
+		
+		# 0 no answers
+		$this->assertEquals(false, $q1->hasAnswered($user));
+		$this->assertEquals(false, $q1->getShowAnswerExplanationToUser($user));
+		
+		# 1 answer
+		$content = $feature->newContent("Photo of a dog!", $user);
+		
+		# 2 before moderation
+		$this->assertEquals(false, $q1->hasAnswered($user));
+		$this->assertEquals(true, $q1->getShowAnswerExplanationToUser($user));
+		
+		# 3 moderate and pass
+		$content->approve($user);
+		$q1->awardPoints($content, 10);
+		
+		# 4 after moderation
+		$this->assertEquals(true, $q1->hasAnswered($user));
+		$this->assertEquals(true, $q1->getShowAnswerExplanationToUser($user));
+		
+	}
+	
 }
