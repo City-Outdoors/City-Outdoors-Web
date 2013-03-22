@@ -17,6 +17,7 @@ if (!$collection) die('not found');
 
 $s = new FeatureCheckinQuestionSearch;
 $s->withinCollection($collection);
+$s->includeDeleted(true);
 		
 $tpl = getSmarty($currentUser);
 $tpl->assign('checkinQuestionSearch',$s);
