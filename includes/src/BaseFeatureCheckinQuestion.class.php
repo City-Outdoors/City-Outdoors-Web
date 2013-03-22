@@ -6,7 +6,7 @@
  * @url https://github.com/City-Outdoors/City-Outdoors-Web
  */
 
-abstract class FeatureCheckinQuestion extends BaseDataWithOneID {
+abstract class BaseFeatureCheckinQuestion extends BaseDataWithOneID {
 
 	protected $feature_id;
 	protected $question;

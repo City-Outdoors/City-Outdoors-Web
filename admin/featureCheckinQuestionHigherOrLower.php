@@ -12,7 +12,7 @@ require '../includes/src/global.php';
 $currentUser = mustBeLoggedIn();
 if (!$currentUser->isAdministrator()) die('No Access');
 
-$featureCheckinQuestion = FeatureCheckinQuestion::findByID($_GET['id']);
+$featureCheckinQuestion = BaseFeatureCheckinQuestion::findByID($_GET['id']);
 if (!$featureCheckinQuestion) die('not found');
 
 if ($featureCheckinQuestion->getQuestionType() != 'HIGHERORLOWER') {

@@ -26,7 +26,7 @@ if ($_POST && isset($_POST['contentID']) && isset($_POST['action']) && $_POST['C
 				$feature = $content->getFeature();
 				foreach($_POST['question'] as $id=>$score) {
 					if (intval($score) > 0) {
-						$question = FeatureCheckinQuestion::findByIDInFeature($id, $feature);
+						$question = BaseFeatureCheckinQuestion::findByIDInFeature($id, $feature);
 						if ($question && get_class($question) == 'FeatureCheckinQuestionContent') {
 							$question->awardPoints($content, $score);
 						}

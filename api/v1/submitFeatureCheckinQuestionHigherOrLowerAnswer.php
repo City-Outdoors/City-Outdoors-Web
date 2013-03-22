@@ -15,7 +15,7 @@ if (!$user) die("<data><error>No User</error></data>");
 
 $data = array_merge($_POST,$_GET);
 
-$featureCheckinQuestion = FeatureCheckinQuestion::findByID($data['id']);
+$featureCheckinQuestion = BaseFeatureCheckinQuestion::findByID($data['id']);
 if (!$featureCheckinQuestion) die("<data><error>No Feature Checkin Question</error></data>");
 
 if ($featureCheckinQuestion->getQuestionType() != "HIGHERORLOWER") {

@@ -6,7 +6,7 @@
  * @url https://github.com/City-Outdoors/City-Outdoors-Web
  */
 
-class FeatureCheckinQuestionHigherOrLower extends FeatureCheckinQuestion {
+class FeatureCheckinQuestionHigherOrLower extends BaseFeatureCheckinQuestion {
 
 	public function __construct($data) {
 		parent::__construct($data);

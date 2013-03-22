@@ -37,7 +37,7 @@ $tpl->assign('featureImageSearchCount',$featureImageSearch->num());
 
 
 if ($currentUser && isset($_POST['CSFRToken']) && $_POST['CSFRToken'] == $_SESSION['CSFRToken']) {
-	$q = FeatureCheckinQuestion::findByIDInFeature($_POST['questionID'], $feature);
+	$q = BaseFeatureCheckinQuestion::findByIDInFeature($_POST['questionID'], $feature);
 	if ($q) {
 		if ($q->getQuestionType() == "FREETEXT") {
 			if ($q->checkAndSaveAnswer($_POST['answer'], $currentUser, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR'])) {
