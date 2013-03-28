@@ -15,7 +15,7 @@
 	<form action="/admin/editItem.php?c={$collection->getSlug()}&i={$item->getId()}" method="post">
 		<input type="hidden" name="submit" value="yes">
 		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
-		<table class="">
+		<table class="verticalData">
 			<tr>
 				<th>ID</th>
 				<td>{$item->getID()}</td>

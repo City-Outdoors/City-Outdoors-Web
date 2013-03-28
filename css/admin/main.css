@@ -106,10 +106,20 @@ table.verticalData {
 table.verticalData td {
   padding: 10px;
 }
+table.verticalData td input.big {
+  width: 100%;
+  display: block;
+}
+table.verticalData td textarea {
+  width: 100%;
+  display: block;
+  height: 150px;
+}
 table.verticalData th {
   font-weight: bold;
   text-align: right;
   padding: 10px;
+  vertical-align: top;
 }
 h2 {
   font-size: 140%;

@@ -9,7 +9,7 @@
 		<table class="verticalData">
 			<tr>
 				<th>Collection</th>
-				<td><input type="text" name="title" value="{$collection->getTitle()|escape}"></td>
+				<td><input type="text" name="title" value="{$collection->getTitle()|escape}" class="big"></td>
 			</tr>
 			<tr>
 				<th>Slug</th>
@@ -19,7 +19,7 @@
 				<th>Thumbnail</th>
 				<td>
 					{if $collection->getThumbnailURL()}<img src="{$collection->getThumbnailURL()}">{/if}
-					<input type="text" name="thumbnailurl" value="{$collection->getThumbnailURL()|escape}">
+					<input type="text" name="thumbnailurl" value="{$collection->getThumbnailURL()|escape}" class="big">
 				</td>
 			</tr>
 			<tr>
@@ -30,7 +30,7 @@
 				<th>Icon URL</th>
 				<td>
 					{if $collection->getIconURL()}<img src="{$collection->getIconURL()}">{/if}
-					<input type="text" name="icon_url" value="{$collection->getIconURL()|escape}">
+					<input type="text" name="icon_url" value="{$collection->getIconURL()|escape}" class="big">
 				</td>
 			</tr>
 			<tr>
@@ -52,7 +52,7 @@
 				<th>Question Icon URL</th>
 				<td>
 					{if $collection->getQuestionIconURL()}<img src="{$collection->getQuestionIconURL()}">{/if}
-					<input type="text" name="question_icon_url" value="{$collection->getQuestionIconURL()|escape}">
+					<input type="text" name="question_icon_url" value="{$collection->getQuestionIconURL()|escape}" class="big">
 				</td>
 			</tr>
 			<tr>
