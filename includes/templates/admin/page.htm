@@ -12,10 +12,15 @@
 
 		<div id="pageWrapper">
 			<div id="header">
+				<div id="headerCurrentUser">
+					{$currentUser->getName()|escape} 
+					<a href="/">Return to site</a>
+					<a href="/logout.php">Logout</a>
+				</div>
+				
 				<h1><a href="/admin/" >{$siteTitle}</a></h1>
-				{$currentUser->getName()|escape} 
 
-				<a href="/">Return to site</a>
+				
 				<a href="/admin/moderate.php">Moderate</a>
 				<a href="/admin/listFeatures.php">Features</a>
 				<a href="/admin/listFeaturesAsMap.php">(map)</a>
@@ -40,7 +45,7 @@
 				{block name="content"}{/block}
 			</div>
 			<div id="footer">
-				{$siteTitle}
+				{$siteTitle}. Powered by <a href="https://github.com/organizations/City-Outdoors">City Outdoors</a>.
 			</div>
 		</div>
 
