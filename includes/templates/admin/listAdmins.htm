@@ -17,7 +17,7 @@
 		</tr>
 		{while $user = $userSearch->nextResult()}
 			<tr class="{cycle values="alternate,"}">
-				<td>{$user->getId()}</td>
+				<td><a href="/admin/user.php?id={$user->getId()}">{$user->getId()}</a></td>
 				<td>{$user->getName()|escape}</td>
 				<td>{$user->getProfileURl()}</td>
 				<td>{$user->getEmail()|escape}</td>
@@ -57,7 +57,7 @@
 					{/if}
 				</td>
 				<td>
-					&nbsp;
+					<a href="/admin/user.php?id={$user->getId()}">View</a>
 				</td>
 			</tr>
 		{/while}		
