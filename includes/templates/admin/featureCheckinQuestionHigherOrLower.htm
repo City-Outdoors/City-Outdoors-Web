@@ -80,7 +80,7 @@
 		</tr>
 		{foreach $featureCheckinQuestion->getAllCorrectAnswersGiven() as $a}
 			<tr class="{cycle values="alternate,"}">
-				<td>{$a->getUserAccountID()}</td>
+				<td><a href="/admin/user.php?id={$a->getUserAccountID()}">{$a->getUserAccountID()}</a></td>
 				<td>{$a->getAnswerGiven()|escape|nl2br}</td>
 				<td>{$a->getScore()}</td>
 			</tr>
@@ -98,7 +98,7 @@
 		</tr>
 		{foreach $featureCheckinQuestion->getAllWrongAnswersGiven() as $a}
 			<tr class="{cycle values="alternate,"}">
-				<td>{$a->getUserAccountID()}</td>
+				<td><a href="/admin/user.php?id={$a->getUserAccountID()}">{$a->getUserAccountID()}</a></td>
 				<td>{$a->getAnswerGiven()|escape|nl2br}</td>
 				<td>{$a->getScore()}</td>
 			</tr>

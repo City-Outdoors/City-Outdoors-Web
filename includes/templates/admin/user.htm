@@ -1,0 +1,62 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+		
+	<table class="verticalData">
+		<tr>
+			<th>ID</th>
+			<td>{$user->getId()}</td>
+		</tr>
+		<tr>
+			<th>Display Name</th>
+			<td>{$user->getName()|escape}</td>
+		</tr>
+		<tr>
+			<th>Profile URL</th>
+			<td>{$user->getProfileURl()}</td>
+		</tr>
+		<tr>
+			<th>Email</th>
+			<td>{$user->getEmail()|escape}</td>
+		</tr>
+		<tr>
+			<th>Twitter ID</th>
+			<td>{$user->getTwitterID()|escape}</td>
+		</tr>
+		<tr>
+			<th>Twitter Screen Name</th>
+			<td>{$user->getTwitterScreenName()|escape}</td>
+		</tr>
+		<tr>
+			<th>Enabled</th>
+			<td>
+				{if $user->isEnabled()}
+					Yes
+					<form method="POST" onsubmit="return confirm('are you sure?');">
+						<input type="hidden" name="action" value="disable">
+						<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+						<input type="hidden" name="userID" value="{$user->getID()}">
+						<input type="submit" value="Disable">
+					</form>
+				{else}
+					No
+					<form method="POST">
+						<input type="hidden" name="action" value="enable">
+						<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+						<input type="hidden" name="userID" value="{$user->getID()}">
+						<input type="submit" value="Enable">
+					</form>						
+				{/if}
+			</td>
+		</tr>
+		<tr>
+			<th>Admin</th>
+			<td>{if $user->isAdministrator()}Yes{else}No{/if}</td>
+		</tr>
+		<tr>
+			<th>System Admin</th>
+			<td>{if $user->isSystemAdministrator()}Yes{else}No{/if}</td>
+		</tr>
+	</table>
+
+{/block}

@@ -17,35 +17,17 @@
 		</tr>
 		{while $user = $userSearch->nextResult()}
 			<tr class="{cycle values="alternate,"}">
-				<td>{$user->getId()}</td>
+				<td><a href="/admin/user.php?id={$user->getId()}">{$user->getId()}</a></td>
 				<td>{$user->getName()|escape}</td>
 				<td>{$user->getProfileURl()}</td>
 				<td>{$user->getEmail()|escape}</td>
 				<td>{$user->getTwitterID()|escape}</td>
 				<td>{$user->getTwitterScreenName()|escape}</td>				
-				<td>
-					{if $user->isEnabled()}
-						Yes
-						<form method="POST" onsubmit="return confirm('are you sure?');">
-							<input type="hidden" name="action" value="disable">
-							<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
-							<input type="hidden" name="userID" value="{$user->getID()}">
-							<input type="submit" value="Disable">
-						</form>
-					{else}
-						No
-						<form method="POST">
-							<input type="hidden" name="action" value="enable">
-							<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
-							<input type="hidden" name="userID" value="{$user->getID()}">
-							<input type="submit" value="Enable">
-						</form>						
-					{/if}
-				</td>
+				<td>{if $user->isEnabled()}Yes{else}No{/if}</td>
 				<td>{if $user->isAdministrator()}Yes{else}No{/if}</td>
 				<td>{if $user->isSystemAdministrator()}Yes{else}No{/if}</td>
 				<td>
-					&nbsp;
+					<a href="/admin/user.php?id={$user->getId()}">View</a>
 				</td>
 			</tr>
 		{/while}		
