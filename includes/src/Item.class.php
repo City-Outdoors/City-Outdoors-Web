@@ -276,10 +276,17 @@ class Item extends BaseDataWithOneID {
 		}
 	}
 
-	public function setChildOf(Item $parentItem) {
+	public function setChildOf(Item $parentItem = null) {
 		$db = getDB();
-		$stat = $db->prepare('UPDATE item SET parent_id=:parent_id WHERE id=:id');
-		$stat->execute(array('parent_id'=>$parentItem->getId(),'id'=>$this->id));
+		if ($parentItem) {
+			$stat = $db->prepare('UPDATE item SET parent_id=:parent_id WHERE id=:id');
+			$stat->execute(array('parent_id'=>$parentItem->getId(),'id'=>$this->id));
+			$this->parent_id = $parentItem->getId();
+		} else {
+			$stat = $db->prepare('UPDATE item SET parent_id=null WHERE id=:id');
+			$stat->execute(array('id'=>$this->id));
+			$this->parent_id = null;			
+		}
 	}
 	
 	public function __destruct() {

@@ -19,14 +19,31 @@ if (!$collection) die('not found');
 $item = Item::loadByIdIncollection($_GET['i'], $collection);
 if (!$item) die('not found');
 
+
+$tpl = getSmarty($currentUser);
+
 if ($_POST && $_POST['action'] && $_POST['CSFRToken'] == $_SESSION['CSFRToken']) {
 	if ($_POST['action'] == 'delete') {
 		$item->delete();
+		$tpl->assign('okMessage','Deleted!');		
+	} else if ($_POST['action'] == 'removeParentItem') {
+		$item->setChildOf(null);
+		$tpl->assign('okMessage','Parent removed');
+	} else if ($_POST['action'] == 'addParentItem') {
+		$parentItem = Item::loadById($_POST['parentID']);
+		if ($parentItem) {
+			if ($parentItem->getId() == $item->getId()) {
+				$tpl->assign('errorMessage',"you can't set something as it's own Parent");
+			} else { 
+				$item->setChildOf($parentItem);
+				$tpl->assign('okMessage','Parent set');
+			}
+		}
 	}
 }
 
-$tpl = getSmarty($currentUser);
 $tpl->assign('collection',$collection);
 $tpl->assign('item',$item);
+$tpl->assign('parentItem',$item->getParentItem());
 $tpl->display('admin/item.htm');
 
