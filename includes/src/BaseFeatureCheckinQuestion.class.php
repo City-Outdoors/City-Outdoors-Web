@@ -33,7 +33,7 @@ abstract class BaseFeatureCheckinQuestion extends BaseDataWithOneID {
 		if ($data && isset($data['inactive_reason'])) $this->inactive_reason = $data['inactive_reason'];
 	}	
  
-	/** @return FeatureCheckinQuestion **/
+	/** @return BaseFeatureCheckinQuestion **/
 	public static function findByID($id) {
 		global  $CONFIG;
 		$db = getDB();
@@ -53,7 +53,7 @@ abstract class BaseFeatureCheckinQuestion extends BaseDataWithOneID {
 		}
 	}
  
-	/** @return FeatureCheckinQuestion **/
+	/** @return BaseFeatureCheckinQuestion **/
 	public static function findByIDInFeature($id, Feature $feature) {
 		global  $CONFIG;
 		$db = getDB();
