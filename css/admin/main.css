@@ -145,3 +145,26 @@ div.featureDetailsImages {
 div.featureDetailsImages img {
   margin: 0 auto;
 }
+.msgOk,
+.msgError {
+  padding: 10px;
+  border-width: 1px;
+  border-style: solid;
+  font-weight: bold;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+}
+.msgOk {
+  background-color: #dfd;
+  border-color: #bdb;
+  color: #6a6;
+}
+.msgError {
+  background-color: #fdd;
+  border-color: #dbb;
+  color: #a66;
+}
+.msgError a {
+  color: #622;
+}

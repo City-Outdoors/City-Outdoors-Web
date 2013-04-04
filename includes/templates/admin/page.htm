@@ -39,8 +39,8 @@
 				
 			</div>
 			<div id="adminContent">
-				{if $okMessage}{$okMessage}{/if}
-				{if $errorMessage}{$errorMessage}{/if}
+				{if $okMessage}<div class="msgOk">{$okMessage}</div>{/if}
+				{if $errorMessage}<div class="msgError">{$errorMessage}</div>{/if}
 				
 				{block name="content"}{/block}
 			</div>
