@@ -30,11 +30,11 @@ logInfo("New Feature Report");
 
 if (isset($_FILES['photo']['error']) && in_array($_FILES['photo']['error'], array(UPLOAD_ERR_INI_SIZE,UPLOAD_ERR_FORM_SIZE))) {
 
-	?><data><error code="NEW_FEATURE_REPORT_PHOTO_TO_BIG">Sorry, The file you uploaded was to big! Please reduce it or comment without it.</error></data><?
+	?><data><error code="NEW_FEATURE_REPORT_PHOTO_TO_BIG">Sorry, The file you uploaded was to big! Please reduce it or comment without it.</error></data><?php
 
 } else if (isset($_FILES['photo']['error']) && in_array($_FILES['photo']['error'], array(UPLOAD_ERR_PARTIAL ,UPLOAD_ERR_NO_TMP_DIR, UPLOAD_ERR_CANT_WRITE, UPLOAD_ERR_EXTENSION))) {
 
-	?><data><error code="NEW_FEATURE_REPORT_PHOTO_ERROR">Sorry, there was a problem uploading this file. Please try again or contact us for help.</error></data><?
+	?><data><error code="NEW_FEATURE_REPORT_PHOTO_ERROR">Sorry, there was a problem uploading this file. Please try again or contact us for help.</error></data><?php
 
 } else {
 
@@ -49,7 +49,7 @@ if (isset($_FILES['photo']['error']) && in_array($_FILES['photo']['error'], arra
 		$featureContent->newImage($_FILES['photo']['name'],$_FILES['photo']['tmp_name']);
 	}
 
-	?><data><result success="yes">OK</result></data><?
+	?><data><result success="yes">OK</result></data><?php
 
 }
 
