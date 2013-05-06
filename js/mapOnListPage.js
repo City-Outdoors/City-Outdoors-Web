@@ -2,6 +2,7 @@
 
 var markerLayer;
 var map;
+var infoWindow;
 
 
 $(document).ready(function() {
@@ -18,6 +19,10 @@ $(document).ready(function() {
 	};
 	map = new google.maps.Map(document.getElementById("map"), myOptions);
 	
+	infoWindow = new google.maps.InfoWindow({
+			content: 'Loading ...'
+		});
+	
 	for(id in collectionData) {
 		collectionData[id].icon = new google.maps.MarkerImage(
 				collectionData[id].icon_url,
@@ -31,7 +36,7 @@ $(document).ready(function() {
 	var hasData = false;
 	for (id in markerData) {
 		var position = new google.maps.LatLng(markerData[id].lat,markerData[id].lng);
-		addMarker(position, id, markerData[id].collectionID, markerData[id].title);
+		addMarker(position, id, markerData[id].collectionID, markerData[id].title, markerData[id].thumbnailURL);
 		bounds.extend(position);
 		hasData = true;
 	}
@@ -58,7 +63,7 @@ $(document).ready(function() {
 
 });
 
-function addMarker(position, id, collectionID, title) {
+function addMarker(position, id, collectionID, title, thumbnailURL) {
 	// this is in an seperate function so the ID in the anonymous function is picked up properly 
 	// http://stackoverflow.com/questions/2489483/google-maps-marker-click-event
 	var data = {
@@ -70,13 +75,26 @@ function addMarker(position, id, collectionID, title) {
 		};
 	var marker = new google.maps.Marker(data);
 	google.maps.event.addListener(marker, "click", function() {
-		markerClicked(id,title); 
+		markerClicked(id,title,this, thumbnailURL); 
 	});
 }
 
-function markerClicked(id, title) {
+function markerClicked(id, title,marker, thumbnailURL) {
 	$('#collectionListList li').removeClass('current');
 	$('#collectionListItem'+id).addClass('current');
+	
+	var html;
+	if (!title) title = "Images and comments";
+	if (inHiddenCollection) {
+		html = '<h3>'+title+'</h3>';
+	} else {
+		html = '<a class="mapPopup" href="/featureDetails.php?id='+id+'"><h3>'+title+'</h3>';
+		if (thumbnailURL) html += '<img src="'+thumbnailURL+'">';
+			html += '</a>'
+	}
+	infoWindow.setContent(html);
+	infoWindow.open(map,marker);
+	
 }
 
 function highlightFeature(id) {

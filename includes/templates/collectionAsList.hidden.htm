@@ -9,6 +9,7 @@
 	<script type="text/javascript">
 		var markerData = {   };
 		var collectionID = {$collection->getId()};
+		var inHiddenCollection = true;
 	</script>
 	
 	<div style="width: 490px; float: right;">
@@ -40,7 +41,7 @@
 					{/if}
 				</li>
 				<script type="text/javascript">				
-					markerData[{$item->getFeatureID()|escape}] = { lat: {$feature->getPointLat()} , lng: {$feature->getPointLng()},collectionID: {$item->getCollectionID()}   , title: "{$item->getTitle()|escape}"      };
+					markerData[{$item->getFeatureID()|escape}] = { lat: {$feature->getPointLat()} , lng: {$feature->getPointLng()},collectionID: {$item->getCollectionID()}   , title: "{$item->getTitle()|escape}"  ,  thumbnailURL: "{$feature->getThumbnailURL()}"  };
 				</script>
 			{/while}	
 		</ul>
