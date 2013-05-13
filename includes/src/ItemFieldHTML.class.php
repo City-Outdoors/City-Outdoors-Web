@@ -20,10 +20,21 @@ class ItemFieldHTML extends BaseItemField {
 		$this->getLatestValueFromDataBaseIfNeeded();
 		return trim($this->latestValue) ? trim($this->latestValue) : '&nbsp;';
 	}
-	
+
+	/** 
+	 * This does some special stuff; the first <a> tag in the value, the href is pulled out and put as plain text at the end of the return value.
+	 * This is so readers that don't use the HTML still get some value out of it by seeing what the first link is.
+	 * @param User $user
+	 * @return type 
+	 */
 	public function getValueAsHumanReadableText(User $user=null) {
 		$this->getLatestValueFromDataBaseIfNeeded();
-		return trim($this->latestValue) ? strip_tags(trim($this->latestValue)) : '';
+		$value = $this->latestValue ? trim($this->latestValue) : '';
+		preg_match('/<a href="(.+)">/', $value, $match);
+		if ($match) {
+			$value .= " ".$match[1];
+		}
+		return strip_tags($value);
 	}	
 
 	public function getValue() {
