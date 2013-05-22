@@ -24,7 +24,7 @@
 		<div>From:</div>
 		<div>
 			{if $content->hasAuthor()}
-				User {$content->getCreatedBy()}: {$content->getDisplayName()}
+				<a href="/admin/user.php?id={$content->getCreatedBy()}">User {$content->getCreatedBy()}: {$content->getDisplayName()}</a>
 			{else}
 				Anonymous: <input type="text" name="name" value="{$content->getDisplayName()}">
 			{/if}
