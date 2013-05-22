@@ -67,6 +67,15 @@
 							<label for="comment_name">Name</label>
 							<input type="text" id="comment_name" name="comment_name" value="{$commentName|escape}">
 						</li>
+					{else if $currentUser->isAdministrator()}
+						<li>
+							<label for="comment_name">Post As</label>
+							<select name="post_as" id="post_as">
+								<option value="me">Me</option>
+								<option value="anon">Anonymous User</option>
+							</select>
+							<input type="text" name="post_as_anon" id="post_as_anon" value="">
+						</li>
 					{/if}
 					<li>
 						<label for="comment_body">Comment</label>
@@ -90,4 +99,18 @@
 
 {block name="finalScripts"}
 	<script src="/js/slimbox2.js?v={$assetsVersion}"></script>
+	{if $currentUser && $currentUser->isAdministrator()}
+		<script>
+			$(document).ready(function() {
+				$('#post_as').change(function(){
+					if ($(this).val() == 'me') {
+						$('#post_as_anon').hide();
+					} else {
+						$('#post_as_anon').show();
+					}
+				});
+			});
+			$('#post_as_anon').hide();
+		</script>
+	{/if}
 {/block}

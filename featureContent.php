@@ -32,7 +32,14 @@ if ($_POST && isset($_POST['comment_body']) &&
 		
 	} else {
 		
-		if ($currentUser) {
+		if ($currentUser && $currentUser->isAdministrator()) {
+			if ($_POST['post_as'] == 'anon') { // done this way around so if $_POST['post_as'] is undefined we post as user
+				$featureContent = $feature->newAnonymousContent($_POST['comment_body'], $_POST['post_as_anon'] , null, false, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
+				$featureContent->approve($currentUser); // post anon, however it as approved straight away
+			} else {
+				$featureContent = $feature->newContent($_POST['comment_body'], $currentUser , null, null, false, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
+			}
+		} else if ($currentUser) {
 			$featureContent = $feature->newContent($_POST['comment_body'], $currentUser , null, null, false, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
 		} else {
 			$featureContent = $feature->newAnonymousContent($_POST['comment_body'], $_POST['comment_name'] , null, false, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR']);
