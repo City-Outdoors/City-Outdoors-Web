@@ -21,7 +21,7 @@
 							{$content->getDisplayName()|escape}
 							{if $author->hasProfileURL()}</a>{/if}
 						{else}
-							Anonymous User {$content->getDisplayName()|escape}
+							{$content->getDisplayName()|escape}
 						{/if} on {$content->getCreatedAt()|date_format:"%l:%M%P %a %e %b %Y" }
 					</p>
 					{* Next IF clause is some admin functunality, no need to style. *}
