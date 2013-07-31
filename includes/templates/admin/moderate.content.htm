@@ -2,58 +2,86 @@
 
 {block name="content"}
 
-	
-
-	{if $content->hasPicture()}
-		<div id="picture">
-			<a href="{$content->getFullPictureURL()}">
-				<img src="{$content->getNormalPictureURL()}">
-			</a>
-		</div>
-	{/if}
-
-	<div id="mapInPage" style="width: 400px; max-width: 100%; height: 400px;"></div>
-
 	<form action="" method="post" id="actionForm">
 		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
 		<input type="hidden" name="contentID" value="{$content->getId()}">
-
-		<div>Comment:</div>
-		<div><textarea name="body">{$content->getBody()|escape}</textarea></div>
-		
-		<div>From:</div>
-		<div>
-			{if $content->hasAuthor()}
-				<a href="/admin/user.php?id={$content->getCreatedBy()}">User {$content->getCreatedBy()}: {$content->getDisplayName()}</a>
-			{else}
-				Anonymous: <input type="text" name="name" value="{$content->getDisplayName()}">
+		<table class="verticalData">
+			<tr>
+				<th>Feature:</th>
+				<td>
+					<a href="/admin/feature.php?id={$content->getFeatureId()}" target="_blank">{$feature->getTitle()|escape}</a>
+					(<a href="/featureContent.php?id={$content->getFeatureId()}" target="_blank">View Existing Comments on this location</a>)
+				</td>
+			</tr>
+			<tr>
+				<th>Map:</th>
+				<td>
+					<a href="#" onclick="showMap(); return false;" id="mapInPagelink">show</a>
+					<div id="mapInPage" style="width: 400px; max-width: 100%; height: 400px; display: none;"></div>
+				</td>
+			</tr>
+			<tr>
+				<th>Picture:</th>
+				<td>
+					{if $content->hasPicture()}
+						<a href="{$content->getFullPictureURL()}"><img src="{$content->getNormalPictureURL()}"></a>
+					{else}
+						N/A
+					{/if}
+				</td>
+			</tr>
+			<tr>
+				<th>Comment:</th>
+				<td>
+					<textarea name="body">{$content->getBody()|escape}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th>From:</th>
+				<td>
+					{if $content->hasAuthor()}
+						<a href="/admin/user.php?id={$content->getCreatedBy()}">User {$content->getCreatedBy()}: {$content->getDisplayName()}</a>
+					{else}
+						Anonymous: <input type="text" name="name" value="{$content->getDisplayName()}">
+					{/if}
+				</td>
+			</tr>
+			<tr>
+				<th>Promote?</th>
+				<td>
+					<input type="checkbox" name="promote" value="yes">
+				</td>
+			</tr>
+			{if $questionSearch->num() > 0}
+				<tr>
+					<th>Content Questions</th>
+					<td>
+						{while $question = $questionSearch->nextResult()}
+							<div>{$question->getQuestion()|escape}</div>
+							<div>
+								<select name="question[{$question->getId()}]">
+									<option value="0" selected>0</option>
+									{foreach $question->getScores() as $s}
+										<option value="{$s}">{$s}</option>
+									{/foreach}
+								</select>
+							</div>
+						{/while}
+					</td>
+				</tr>
 			{/if}
-		</div>
+			<tr>
+				<th></th>
+				<td>
+					<input type="submit" name="action" value="Approve" style="float: right;">
+					<input type="submit" name="action" value="Disapprove">
+				</td>
+			</tr>
 
-		<div>Promote?</div>
-		<div><input type="checkbox" name="promote" value="yes"></div>
-		
-		{if $questionSearch->num() > 0}
-			<div>Content Questions</div>
-			{while $question = $questionSearch->nextResult()}
-				<div>{$question->getQuestion()|escape}</div>
-				<div>
-					<select name="question[{$question->getId()}]">
-						<option value="0" selected>0</option>
-						{foreach $question->getScores() as $s}
-							<option value="{$s}">{$s}</option>
-						{/foreach}
-					</select>
-				</div>
-			{/while}
-			
-		{/if}
-		
-		<input type="submit" name="action" value="Approve">
-		<input type="submit" name="action" value="Disapprove">
-		<a href="/featureContent.php?id={$content->getFeatureId()}" target="_blank">View Existing Comments</a>
-		
+
+		</table>
 	</form>
+
 
 
 {/block}
@@ -66,10 +94,11 @@
 	<script type="text/javascript" src="/mapVariables.js.php?v={$assetsVersion}"></script>
 	<script type="text/javascript" src="/js/admin/mapFunctions.js?v={$assetsVersion}"></script>
 	<script>
-		$(document).ready(function() {
-			startMap({$feature->getPointLat()},{$feature->getPointLng()});
-			
-		});
+		function showMap() {
+			$('#mapInPage').show(); 
+			startMap({$feature->getPointLat()},{$feature->getPointLng()}); 
+			$('#mapInPagelink').hide();
+		}
 	</script>
 
 {/block}
