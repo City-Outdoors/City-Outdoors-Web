@@ -22,6 +22,8 @@ class FeatureContent extends BaseDataWithOneID {
 	private $created_name;
 	private $created_email;
 	private $promoted;
+	private $is_spam_automatic;
+	private $is_spam_moderated;
 	
 	private $picture_full_filename;
 	private $picture_normal_filename;
@@ -81,6 +83,8 @@ class FeatureContent extends BaseDataWithOneID {
 		if ($data && isset($data['display_name'])) $this->display_name = $data['display_name'];
 		if ($data && isset($data['promoted'])) $this->promoted = $data['promoted'];
 		if ($data && isset($data['is_report'])) $this->is_report = $data['is_report'];
+		if ($data && isset($data['is_spam_automatic'])) $this->is_spam_automatic = $data['is_spam_automatic'];
+		if ($data && isset($data['is_spam_moderated'])) $this->is_spam_moderated = $data['is_spam_moderated'];
 	}
 	
 
@@ -94,6 +98,8 @@ class FeatureContent extends BaseDataWithOneID {
 	public function getFeatureId() { return $this->feature_id; }
 	public function isApproved() { return (boolean)$this->approved_at; }
 	public function isRejected() { return (boolean)$this->rejected_at; }
+	public function isSpamAutomatic() { return (boolean)$this->is_spam_automatic; }
+	public function isSpamModerated() { return (boolean)$this->is_spam_moderated; }
 	public function isPromoted() { return (boolean)$this->promoted; }
 	public function isReport() { return (boolean)$this->is_report; }
 	
@@ -138,6 +144,15 @@ class FeatureContent extends BaseDataWithOneID {
 		$this->rejected_by = $user->getId();		
 	}
 
+	public function disapproveSpam(User $user) {
+		$db = getDB();
+		$stat = $db->prepare("UPDATE feature_content SET approved_at=null, approved_by=null, rejected_at=:at, rejected_by=:by, is_spam_moderated=1 WHERE id=:id");
+		$stat->execute(array('id'=>$this->id, 'at'=>date('Y-m-d H:i:s'), 'by'=>$user->getId()));		
+		$this->approved_at = $this->approved_by = null;
+		$this->rejected_at = time();
+		$this->rejected_by = $user->getId();		
+	}
+	
 	public function updateBody($body) {
 		$db = getDB();
 		$stat = $db->prepare("UPDATE feature_content SET comment_body=:b WHERE id=:id");

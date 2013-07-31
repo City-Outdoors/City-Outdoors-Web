@@ -44,7 +44,15 @@
 		<tr>
 			<th>State</th>
 			<td>
-				{if $featureContent->isApproved()}Approved{else if $featureContent->isRejected()}Rejected{else}?{/if}
+				{if $featureContent->isApproved()}
+					Approved
+				{else if $featureContent->isRejected()}
+					Rejected
+					{if $featureContent->isSpamAutomatic()}(automatically detected as SPAM){/if}
+					{if $featureContent->isSpamModerated()}(moderated as SPAM){/if}
+				{else}
+					?
+				{/if}
 				<form method="post">
 					<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
 					<input type="hidden" name="action" value="approve">

@@ -36,6 +36,8 @@ if ($_POST && isset($_POST['contentID']) && isset($_POST['action']) && $_POST['C
 			
 		} else if ($_POST['action'] == 'Disapprove') {
 			$content->disapprove($currentUser);
+		} else if ($_POST['action'] == 'Disapprove (Spam)') {
+			$content->disapproveSpam($currentUser);
 		}
 	}
 }
