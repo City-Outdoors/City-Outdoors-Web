@@ -5,13 +5,29 @@
 	<table class="data">
 		<tr>
 			<th>ID</th>
-			<th>Question</th>
+			<th>Type</th>
+			<th>Comment</th>
+			<th>State</th>
 			<th>&nbsp;</th>
 		</tr>
 		{while $featureContent = $featureContentSearch->nextResult()}
 			<tr class="{cycle values="alternate,"}">
 				<td>{$featureContent->getId()}</td>
 				<td>{if $featureContent->isReport()}Report{else}Comment{/if}</td>
+				<td>
+					{$featureContent->getBody()|truncate:100|escape}
+				</td>
+				<td>
+					{if $featureContent->isApproved()}
+						Approved
+					{else if $featureContent->isRejected()}
+						Rejected
+						{if $featureContent->isSpamAutomatic()}(automatically detected as SPAM){/if}
+						{if $featureContent->isSpamModerated()}(moderated as SPAM){/if}
+					{else}
+						?
+					{/if}
+				</td>
 				<td>
 					<a href="/admin/featureContent.php?id={$featureContent->getId()}">Details</a>
 				</td>
