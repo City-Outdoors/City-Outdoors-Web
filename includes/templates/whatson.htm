@@ -2,14 +2,16 @@
 
 {extends file='page.htm'}
 
-{block name="pageTitle"}What's on {$monthName}{/block}
+{block name="pageTitle"}What's on{/block}
 
 {block name="main"}
 
-	<h1>{$monthName}</h1>
+	<h1>What's on</h1>
 	
-	{capture name="blockName"}whatson-{$monthSlug}{/capture}
-	{CMSContent::renderBlock($smarty.capture.blockName)}
+	{while $event = $eventSearch->nextResult()}
+		<h2>{$event->getTitle()|escape}</h2>
+		<p>{$event->getDescriptionText()|escape|nl2br}</p>
+		<p>{$event->getStartAt()|date_format_local} to {$event->getEndAt()|date_format_local}</p>
+	{/while}	
 	
-	{$page->getLatestVersionHTML()}
 {/block}

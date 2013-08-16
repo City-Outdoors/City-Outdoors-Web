@@ -7,14 +7,12 @@
  */
 require 'includes/src/global.php';
 
-$month = isset($_GET['month']) && intval($_GET['month']) > 0 && intval($_GET['month']) < 13 ? intval($_GET['month']) : date('n');
 
-$d = new RenderCMSContentByMonth("whatson",$month);
-
-$tpl = $d->getSmarty(getCurrentUser());
-
-$tpl->assign('monthlyPageURLForSubNav','/whatson.php?month=');
-$tpl->assign('inWhatsOnTab',true);
+$eventSearch = new EventSearch();
+$eventSearch->setAfterNow();
+	
+$tpl = getSmarty();
+$tpl->assign('eventSearch',$eventSearch);
 $tpl->display('whatson.htm');
 
 
