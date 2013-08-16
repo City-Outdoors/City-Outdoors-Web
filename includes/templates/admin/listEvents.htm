@@ -1,0 +1,26 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<table class="data">
+		<tr>
+			<th>ID</th>
+			<th>Title</th>
+			<th>Start</th>
+			<th>End</th>			
+			<th>&nbsp;</th>
+		</tr>
+		{while $event = $eventSearch->nextResult()}
+			<tr class="{cycle values="alternate,"}">
+				<td>{$event->getId()|escape}</td>
+				<td>{$event->getTitle()|escape}</td>
+				<td>{$event->getStartAt()|date_format_local}</td>
+				<td>{$event->getEndAt()|date_format_local}</td>
+				<td>
+					<!-- a href="/admin/event.php?c={$event->getId()|escape}">Details</a -->
+				</td>
+			</tr>
+		{/while}		
+	</table>
+
+{/block}

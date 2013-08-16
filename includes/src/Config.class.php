@@ -51,6 +51,7 @@ class Config {
 			'ALLOW_EDITING_COLLECTION_ITEMS_IN_ADMIN_UI'=>true,
 			'EXTENSIONS'=>array(),
 			'MAXIMUM_UPLOAD_ALLOWED'=>10485760,
+			'LOCAL_TIME_ZONE'=>'Europe/London',
 		);
 	
 	
