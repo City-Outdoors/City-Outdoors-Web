@@ -12,6 +12,26 @@ class EventSearch extends BaseSearch {
 		$this->className = "Event";
 	}
 	
+	/** @var \DateTime **/
+	protected $after;
+	
+	public function setAfter(DateTime $a) {
+		$this->after = $a;
+		return $this;
+	}
+	
+	public function setAfterNow() {
+		$this->after = TimeSource::getDateTime();
+		return $this;
+	}
+	
+	/** @var \DateTime **/
+	protected $before;
+	
+	public function setBefore(DateTime $b) {
+		$this->before = $b;
+		return $this;
+	}
 	
 	protected function execute() {
 		if ($this->searchDone) throw new Exception("Search already done!");
@@ -20,7 +40,17 @@ class EventSearch extends BaseSearch {
 		$joins = array();
 		$vars = array();
 
-
+		if ($this->after) {
+			$where[] = ' event.end_at > :after';
+			$vars['after'] = $this->after->format("Y-m-d H:i:s");
+		}
+		
+		if ($this->before) {
+			$where[] = ' event.start_at < :before';
+			$vars['before'] = $this->before->format("Y-m-d H:i:s");
+		}
+		
+		
 		$sql = "SELECT event.* ".
 			"FROM event ".
 			implode(" ", $joins).
