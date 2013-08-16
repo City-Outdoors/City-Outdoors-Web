@@ -17,7 +17,7 @@
 				<td>{$event->getStartAt()|date_format_local}</td>
 				<td>{$event->getEndAt()|date_format_local}</td>
 				<td>
-					<!-- a href="/admin/event.php?c={$event->getId()|escape}">Details</a -->
+					<a href="/admin/event.php?id={$event->getId()|escape}">Details</a>
 				</td>
 			</tr>
 		{/while}		

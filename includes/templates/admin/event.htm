@@ -1,0 +1,27 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<h2>Event</h2>
+
+	<table class="verticalData">
+		<tr>
+			<th>ID</th>
+			<td>{$event->getID()}</td>
+		</tr>
+		<tr>
+			<th>Title</th>
+			<td>{$event->getTitle()|escape}</td>
+		</tr>
+		<tr>
+			<th>Description</th>
+			<td>{$event->getDescriptionText()|escape}</td>
+		</tr>
+		<tr>
+			<th>Times</th>
+			<td>{$event->getStartAt()|date_format_local} to {$event->getEndAt()|date_format_local}</td>
+		</tr>
+	</table>
+	
+	
+{/block}
