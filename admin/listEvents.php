@@ -13,6 +13,7 @@ $currentUser = mustBeLoggedIn();
 if (!$currentUser->isAdministrator()) die('No Access');
 
 $s = new EventSearch;
+$s->includeDeleted(true);
 
 $tpl = getSmarty($currentUser);
 $tpl->assign('eventSearch',$s);

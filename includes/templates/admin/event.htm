@@ -10,6 +10,10 @@
 			<td>{$event->getID()}</td>
 		</tr>
 		<tr>
+			<th>Deleted</th>
+			<td>{if $event->getDeleted()}DELETED{/if}</td>
+		</tr>
+		<tr>
 			<th>Title</th>
 			<td>{$event->getTitle()|escape}</td>
 		</tr>

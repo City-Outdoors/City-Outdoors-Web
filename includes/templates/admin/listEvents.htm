@@ -8,6 +8,7 @@
 			<th>Title</th>
 			<th>Start</th>
 			<th>End</th>			
+			<th>Deleted</th>			
 			<th>&nbsp;</th>
 		</tr>
 		{while $event = $eventSearch->nextResult()}
@@ -16,6 +17,7 @@
 				<td>{$event->getTitle()|escape}</td>
 				<td>{$event->getStartAt()|date_format_local}</td>
 				<td>{$event->getEndAt()|date_format_local}</td>
+				<td>{if $event->getDeleted()}DELETED{/if}</td>
 				<td>
 					<a href="/admin/event.php?id={$event->getId()|escape}">Details</a>
 				</td>

@@ -15,6 +15,7 @@ class Event extends BaseDataWithOneID {
 	protected $end_at;
 	protected $import_source;
 	protected $import_id;
+	protected $deleted;
 
 
 	/** @return Event **/
@@ -58,6 +59,7 @@ class Event extends BaseDataWithOneID {
 		}
 		if ($data && isset($data['import_id'])) $this->import_id = $data['import_id'];
 		if ($data && isset($data['import_source'])) $this->import_source = $data['import_source'];
+		if ($data && isset($data['deleted'])) $this->deleted = intval($data['deleted']);
 	}
 	
 	public function writeToDataBase(User $user) {
@@ -151,6 +153,15 @@ class Event extends BaseDataWithOneID {
 		$this->import_id = $import_id;
 		return $this;
 	}
+	public function getDeleted() {
+		return $this->deleted;
+	}
+
+	public function setDeleted($deleted) {
+		$this->deleted = $deleted;
+		return $this;
+	}
+
 
 
 }

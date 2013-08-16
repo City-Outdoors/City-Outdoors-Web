@@ -12,6 +12,12 @@ class EventSearch extends BaseSearch {
 		$this->className = "Event";
 	}
 	
+	protected $includeDeleted = false;
+	
+	public function includeDeleted($includeDeleted) {
+		$this->includeDeleted = $includeDeleted;
+	}
+	
 	/** @var \DateTime **/
 	protected $after;
 	
@@ -50,6 +56,9 @@ class EventSearch extends BaseSearch {
 			$vars['before'] = $this->before->format("Y-m-d H:i:s");
 		}
 		
+		if (!$this->includeDeleted) {
+			$where[] = ' event.deleted = 0 ';
+		}
 		
 		$sql = "SELECT event.* ".
 			"FROM event ".

@@ -7,6 +7,7 @@ CREATE TABLE event (
   end_at  DATETIME NOT NULL,
   import_source VARCHAR(255) NULL,
   import_id VARCHAR(255) NULL,
+  deleted TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 

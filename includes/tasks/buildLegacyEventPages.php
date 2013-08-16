@@ -63,6 +63,7 @@ for ($month = 1; $month <= 12; $month++) {
 	$eventSearch = new EventSearch();
 	$eventSearch->setAfter($start);
 	$eventSearch->setBefore($end);
+	$eventSearch->includeDeleted(false);
 	if($eventSearch->num()) {
 		while($event = $eventSearch->nextResult()) {
 			$html .= "<h3>".htmlspecialchars($event->getTitle())."</h3>";
