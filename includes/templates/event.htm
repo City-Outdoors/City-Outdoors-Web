@@ -1,0 +1,30 @@
+{extends file='page.htm'}
+
+{block name="main"}
+
+	<div id="eventWrapper" class="cf">
+
+		<div id="eventDetails">
+			
+			<h2>{$event->getTitle()|escape}</h2>
+			<p>{$event->getDescriptionText()|escape|nl2br}</p>
+			<p>{$event->getStartAt()|date_format_local} to {$event->getEndAt()|date_format_local}</p>
+
+		</div>
+
+		<div id="otherEvents">
+			
+			<h2>Future Events</h2>
+			
+			{while $futureEvent = $eventSearch->nextResult()}
+				<h3>{$futureEvent->getTitle()|escape}</h3>
+				<p>{$futureEvent->getDescriptionText()|escape|nl2br}</p>
+				<p>{$futureEvent->getStartAt()|date_format_local} to {$futureEvent->getEndAt()|date_format_local}</p>
+			{/while}	
+			
+		</div>
+
+	</div>
+
+{/block}
+
