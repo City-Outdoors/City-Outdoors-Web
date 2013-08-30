@@ -52,6 +52,7 @@ class Config {
 			'EXTENSIONS'=>array(),
 			'MAXIMUM_UPLOAD_ALLOWED'=>10485760,
 			'LOCAL_TIME_ZONE'=>'Europe/London',
+			'EVENT_PAGE_SHOW_FUTURE_EVENTS'=>3,
 		);
 	
 	

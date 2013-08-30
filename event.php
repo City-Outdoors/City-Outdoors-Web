@@ -15,6 +15,7 @@ if (!$event) {
 
 $eventSearch = new EventSearch();
 $eventSearch->setAfterNow();
+$eventSearch->setPaging(1, $CONFIG->EVENT_PAGE_SHOW_FUTURE_EVENTS);
 	
 $tpl = getSmarty();
 $tpl->assign('eventSearch',$eventSearch);

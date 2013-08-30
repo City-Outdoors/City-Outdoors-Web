@@ -66,6 +66,30 @@ class EventSearch extends BaseSearch {
 			(count($where) > 0 ? " WHERE ".implode(" AND ", $where) : "").
 			" GROUP BY event.id";
 		
+		if ($this->currentPage) {
+		
+			$countSQL =	"SELECT COUNT(*) AS c FROM ".
+				" ( SELECT event.id FROM event ".
+				implode(" ", $joins).
+				(count($where) > 0 ? " WHERE ".implode(" AND ", $where) : "").
+				" GROUP BY event.id) AS t";
+					
+			$stat = $db->prepare($countSQL);
+			$stat->execute($vars);
+			$data =  $stat->fetch(PDO::FETCH_ASSOC);
+			$this->totalResultsWithOutPaging = $data['c'];
+			$this->resultsTotalPages = ceil($this->totalResultsWithOutPaging / $this->numberOnAPage);
+			if ($this->currentPage > $this->resultsTotalPages) $this->currentPage = $this->resultsTotalPages;
+
+			if ($this->resultsTotalPages > 1) {
+				$sql .= " LIMIT ". (($this->currentPage-1)*$this->numberOnAPage) . "," . $this->numberOnAPage;
+			}
+
+		}
+		
+		
+		
+		
 		$stat = $db->prepare($sql);
 		$stat->execute($vars);
 		while($d = $stat->fetch(PDO::FETCH_ASSOC)) {
