@@ -1,5 +1,21 @@
 <?php
 /**
+ * 
+ * Sample Config JSON:
+ * 
+ * {
+ * 	"destination": {
+ * 		"userEmail":"james@jarofgreen.co.uk"
+ * 	},
+ * 	"noevents": {
+ * 		"html":"No events"
+ * 	},
+ * 	"upcoming":{
+ * 		"title":"Upcoming event",
+ * 		"count":10
+ * 	}
+ * }
+ * 
  * @author James Baster  <james@jarofgreen.co.uk>
  * @copyright City of Edinburgh Council & James Baster
  * @license Open Source under the 3-clause BSD License
@@ -33,6 +49,7 @@ $currentYear = date("Y");
 
 $localTimeZone = new DateTimeZone($CONFIG->LOCAL_TIME_ZONE);
 
+// ############################################################ Monthly
 for ($month = 1; $month <= 12; $month++) {
 
 	$utc = new DateTimeZone("UTC");
@@ -92,4 +109,37 @@ for ($month = 1; $month <= 12; $month++) {
 	
 }
 
+
+// ############################################################ Latest
+print "Upcoming \n";
+$html = "<h2>".$config->upcoming->title."</h2>";
+$eventSearch = new EventSearch();
+$eventSearch->setAfterNow();
+$eventSearch->includeDeleted(false);
+$eventSearch->setPaging(1, $config->upcoming->count);
+if($eventSearch->num()) {
+	while($event = $eventSearch->nextResult()) {
+		$html .= "<h3>".htmlspecialchars($event->getTitle())."</h3>";
+		$html .= "<p>".htmlspecialchars($event->getDescriptionText())."</p>";
+
+		$eventStartAt = clone $event->getStartAt();
+		$eventStartAt->setTimezone($localTimeZone);
+		$eventEndAt = clone $event->getStartAt();
+		$eventEndAt->setTimezone($localTimeZone);
+		$html .= "<p>".$eventStartAt->format("g:ia D jS M Y")." to ".$eventEndAt->format("g:ia D jS M Y")."</p>";
+
+
+	}
+} else {
+	$html .= "<p>".$config->noevents->html."</p>";
+}
+
+
+$cmscontent = CMSContent::loadBlockBySlug("whatson-upcoming");
+if (!$cmscontent) $cmscontent = CMSContent::createBlock("whatson-upcoming",$user);
+
+if ($cmscontent->getLatestVersionHTML() != $html) {
+	$cmscontent->newVersion($html, $user);
+	$cmscontent->setImported(true);
+}
 
