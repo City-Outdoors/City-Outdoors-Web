@@ -12,12 +12,14 @@ class ImportEventHasACalendarJSON {
 	protected $url;
 	protected $data;
 	protected $user;
+	protected $searchCollection;
 
 
-	public function __construct($title, $url, User $user) {
+	public function __construct($title, $url, User $user, Collection $searchCollection = null) {
 		$this->title = $title;
 		$this->url = $url;
 		$this->user = $user;
+		$this->searchCollection = $searchCollection;
 	}
 	
 	
@@ -52,6 +54,17 @@ class ImportEventHasACalendarJSON {
 			$event->setDescriptionText($data->description);
 			$event->setStartAtTimestamp($data->start->timestamp);
 			$event->setEndAtTimestamp($data->end->timestamp);
+			
+			
+			if ($this->searchCollection) {
+				$itemSearch = new ItemSearch();
+				$itemSearch->inCollection($this->searchCollection);
+				while($item = $itemSearch->nextResult()) {
+					if (stripos($data->description, $item->getTitle()) !== FALSE) {
+						$event->addFeature($item->getFeature());
+					}
+				}
+			}
 			
 			$event->writeToDataBase($this->user);
 						

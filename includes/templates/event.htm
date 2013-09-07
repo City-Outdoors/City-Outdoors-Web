@@ -16,11 +16,15 @@
 			
 			<h2>Future Events</h2>
 			
-			{while $futureEvent = $eventSearch->nextResult()}
-				<h3>{$futureEvent->getTitle()|escape}</h3>
-				<p>{$futureEvent->getDescriptionText()|escape|nl2br}</p>
-				<p>{$futureEvent->getStartAt()|date_format_local} to {$futureEvent->getEndAt()|date_format_local}</p>
-			{/while}	
+			<ul class="events">
+				{while $futureEvent = $eventSearch->nextResult()}
+					<li>
+						<h3>{$futureEvent->getTitle()|escape}</h3>
+						<p>{$futureEvent->getDescriptionText()|escape|nl2br}</p>
+						<p>{$futureEvent->getStartAt()|date_format_local} to {$futureEvent->getEndAt()|date_format_local}</p>
+					</li>
+				{/while}	
+			</ul>
 			
 		</div>
 

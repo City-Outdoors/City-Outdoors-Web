@@ -18,6 +18,13 @@ class EventSearch extends BaseSearch {
 		$this->includeDeleted = $includeDeleted;
 	}
 	
+	protected  $feature;
+	
+	public  function onFeature(Feature $feature) {
+		$this->feature = $feature;
+	}
+
+
 	/** @var \DateTime **/
 	protected $after;
 	
@@ -59,6 +66,14 @@ class EventSearch extends BaseSearch {
 		if (!$this->includeDeleted) {
 			$where[] = ' event.deleted = 0 ';
 		}
+		
+		
+		if ($this->feature) {
+			$joins[] = " JOIN feature_has_event ON feature_has_event.event_id = event.id ";
+			$where[] = "  feature_has_event.feature_id = :feature_id ";
+			$vars['feature_id'] = $this->feature->getId();
+		}
+		
 		
 		$sql = "SELECT event.* ".
 			"FROM event ".

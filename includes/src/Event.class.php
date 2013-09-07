@@ -16,8 +16,8 @@ class Event extends BaseDataWithOneID {
 	protected $import_source;
 	protected $import_id;
 	protected $deleted;
-
-
+	protected $features = array();
+	
 	/** @return Event **/
 	public static function loadByID($id) {
 		$db = getDB();
@@ -63,29 +63,43 @@ class Event extends BaseDataWithOneID {
 	}
 	
 	public function writeToDataBase(User $user) {
+		$db = getDB();
+		
 		if ($this->id) {
 			$db = getDB();
 			$stat = $db->prepare('UPDATE event SET title=:title, description_text=:description_text, start_at=:start_at, '.
 					'end_at=:end_at WHERE id=:id');
-			$stat->bindValue('title', $this->title);
-			$stat->bindValue('description_text', $this->description_text);
-			$stat->bindValue('start_at', $this->start_at->format("Y-m-d H:i:s"));
-			$stat->bindValue('end_at', $this->end_at->format("Y-m-d H:i:s"));
 			$stat->bindValue('id', $this->id);
-			$stat->execute();
 		} else {
 			$db = getDB();
 			$stat = $db->prepare('INSERT INTO event (title, description_text, start_at, end_at, import_id, import_source) '.
 					'VALUES (:title, :description_text, :start_at, :end_at, :import_id, :import_source)');
-			$stat->bindValue('title', $this->title);
-			$stat->bindValue('description_text', $this->description_text);
-			$stat->bindValue('start_at', $this->start_at->format("Y-m-d H:i:s"));
-			$stat->bindValue('end_at', $this->end_at->format("Y-m-d H:i:s"));
 			$stat->bindValue('import_id', $this->import_id);
 			$stat->bindValue('import_source', $this->import_source);
-			$stat->execute();			
+		}
+		$stat->bindValue('title', $this->title);
+		$stat->bindValue('description_text', $this->description_text);
+		$stat->bindValue('start_at', $this->start_at->format("Y-m-d H:i:s"));
+		$stat->bindValue('end_at', $this->end_at->format("Y-m-d H:i:s"));
+		$stat->execute();			
+		if (!$this->id) {
 			$this->id = $db->lastInsertId();
 		}
+
+		$stat = $db->prepare("INSERT IGNORE INTO feature_has_event (feature_id,event_id) VALUES (:fid,:eid)");
+		foreach ($this->features as $id=>$flag) {
+			$stat->execute(array('fid'=>$id,'eid'=>  $this->id));
+		}
+		
+		$statSelect = $db->prepare("SELECT feature_id FROM feature_has_event WHERE event_id=:eid");
+		$statDelete = $db->prepare("DELETE FROM feature_has_event WHERE feature_id=:fid AND event_id=:eid)");
+		$statSelect->execute(array('eid'=>$this->id));
+		while($data = $statSelect->fetch()) {
+			if (!isset($this->features[$data['feature_id']])) {
+				$statDelete->execute(array('fid'=>$data['feature_id'],'eid'=>$this->id));
+			}
+		}
+
 	}
 	
 	
@@ -162,7 +176,17 @@ class Event extends BaseDataWithOneID {
 		return $this;
 	}
 
+	public function addFeature(Feature $feature) {
+		$this->features[$feature->getId()] = true;
+	}
 
+	public function removeFeature(Feature $feature) {
+		unset($this->features[$feature->getId()]);
+	}
+	
+	public function removeAllFeatures() {
+		$this->features = array();
+	}
 
 }
 

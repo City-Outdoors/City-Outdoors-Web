@@ -15,7 +15,11 @@ if (!$currentUser->isAdministrator()) die('No Access');
 $event = Event::loadByID($_GET['id']);
 if (!$event) die('not found');
 
+$featureSearch = new FeatureSearch();
+$featureSearch->hasEvent($event);
+
 $tpl = getSmarty($currentUser);
 $tpl->assign('event',$event);
+$tpl->assign('featureSearch',$featureSearch);
 $tpl->display('admin/event.htm');
 

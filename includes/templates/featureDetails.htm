@@ -187,6 +187,18 @@ $('document').ready(function(){
 					{/if}
 		{/if}
 		
+		{if $eventSearch->num() > 0}
+			<ul class="events">
+				{foreach $eventSearch->getAllResults() as $event}
+					<li>
+						<h3>{$event->getTitle()|escape}</h3>
+						<p>{$event->getDescriptionText()|escape|nl2br}</p>
+						<p>{$event->getStartAt()|date_format_local} to {$event->getEndAt()|date_format_local}</p>			
+					</li>
+				{/foreach}
+			</ul>
+		{/if}
+		
 	</div>
 
 {/block}

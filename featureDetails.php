@@ -67,4 +67,10 @@ if ($currentUser && isset($_POST['CSFRToken']) && $_POST['CSFRToken'] == $_SESSI
 	
 }
 
+$eventSearch = new EventSearch();
+$eventSearch->setAfterNow();
+$eventSearch->onFeature($feature);
+$eventSearch->setPaging(1, $CONFIG->FEATURE_DETAILS_SHOW_FUTURE_EVENTS);
+$tpl->assign('eventSearch',$eventSearch);
+
 $tpl->display('featureDetails.htm');

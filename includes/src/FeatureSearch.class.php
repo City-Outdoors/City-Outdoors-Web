@@ -29,6 +29,9 @@ class FeatureSearch extends BaseSearch {
 	/** @var User **/
 	private $userCheckedinInformation;	
 	
+	/** @var Event **/
+	private $event;
+	
 	private $collectionIDs = array();
 	
 	public function  __construct() {
@@ -89,6 +92,10 @@ class FeatureSearch extends BaseSearch {
 		}		
 	}
 	
+	public function hasEvent(Event $event) {
+		$this->event = $event;
+	}
+	
 	protected function execute() {
 		if ($this->searchDone) throw new Exception("Search already done!");
 		$db = getDB();
@@ -119,7 +126,7 @@ class FeatureSearch extends BaseSearch {
 			$joinItems = true;
 			$where[] = " item.collection_id IN (".  implode(",", $this->collectionIDs).") ";
 		}
-
+		
 		// Which set of features do we show? Depends on the user &  $this->showAllFeatures flag.
 		if ($this->userFavourites) {
 			$joins[] = " JOIN feature_favourite ON feature_favourite.feature_id = feature.id AND feature_favourite.user_account_id = :fuid ";
@@ -144,6 +151,12 @@ class FeatureSearch extends BaseSearch {
 				$select[] = " GROUP_CONCAT(feature_checkin_question.id) AS has_feature_checkin_question_ids ";
 				$select[] = " GROUP_CONCAT(feature_checkin_success.feature_checkin_question_id) AS has_answered_feature_checkin_question_ids ";
 			}
+		}
+		
+		if ($this->event) {
+			$joins[] = " JOIN feature_has_event ON feature_has_event.feature_id = feature.id ";
+			$where[] = "  feature_has_event.event_id = :event_id ";
+			$vars['event_id'] = $this->event->getId();
 		}
 		
 		if ($joinContent) {

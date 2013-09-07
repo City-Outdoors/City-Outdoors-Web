@@ -8,10 +8,14 @@
 
 	<h1>What's on</h1>
 	
-	{while $event = $eventSearch->nextResult()}
-		<h2><a href="/event.php?id={$event->getId()}">{$event->getTitle()|escape}</a></h2>
-		<p>{$event->getDescriptionText()|escape|nl2br}</p>
-		<p>{$event->getStartAt()|date_format_local} to {$event->getEndAt()|date_format_local}</p>
-	{/while}	
+	<ul class="events">
+		{while $event = $eventSearch->nextResult()}
+			<li>
+				<h2><a href="/event.php?id={$event->getId()}">{$event->getTitle()|escape}</a></h2>
+				<p>{$event->getDescriptionText()|escape|nl2br}</p>
+				<p>{$event->getStartAt()|date_format_local} to {$event->getEndAt()|date_format_local}</p>
+			</li>
+		{/while}	
+	</ul>
 	
 {/block}
