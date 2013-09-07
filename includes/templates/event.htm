@@ -19,9 +19,9 @@
 			<ul class="events">
 				{while $futureEvent = $eventSearch->nextResult()}
 					<li>
-						<h3>{$futureEvent->getTitle()|escape}</h3>
-						<p>{$futureEvent->getDescriptionText()|escape|nl2br}</p>
-						<p>{$futureEvent->getStartAt()|date_format_local} to {$futureEvent->getEndAt()|date_format_local}</p>
+						<h3 class="title">{$futureEvent->getTitle()|escape}</h3>
+						<p class="description">{$futureEvent->getDescriptionText()|escape|nl2br}</p>
+						<p class="datetime">{$futureEvent->getStartAt()|date_format_local} to {$futureEvent->getEndAt()|date_format_local}</p>
 					</li>
 				{/while}	
 			</ul>

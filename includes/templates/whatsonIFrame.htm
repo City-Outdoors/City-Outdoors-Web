@@ -13,9 +13,9 @@
 	<ul class="events">
 		{while $event = $eventSearch->nextResult()}
 			<li>
-				<h2><a href="/event.php?id={$event->getId()}">{$event->getTitle()|escape}</a></h2>
-				<p>{$event->getDescriptionText()|escape|nl2br}</p>
-				<p>{$event->getStartAt()|date_format_local} to {$event->getEndAt()|date_format_local}</p>
+				<h2 class="title"><a href="/event.php?id={$event->getId()}">{$event->getTitle()|escape}</a></h2>
+				<p class="description">{$event->getDescriptionText()|escape|nl2br}</p>
+				<p class="datetime">{$event->getStartAt()|date_format_local} to {$event->getEndAt()|date_format_local}</p>
 			</li>
 		{/while}	
 	</ul>

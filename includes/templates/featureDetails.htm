@@ -191,9 +191,9 @@ $('document').ready(function(){
 			<ul class="events">
 				{foreach $eventSearch->getAllResults() as $event}
 					<li>
-						<h3>{$event->getTitle()|escape}</h3>
-						<p>{$event->getDescriptionText()|escape|nl2br}</p>
-						<p>{$event->getStartAt()|date_format_local} to {$event->getEndAt()|date_format_local}</p>			
+						<h3 class="title">{$event->getTitle()|escape}</h3>
+						<p class="description">{$event->getDescriptionText()|escape|nl2br}</p>
+						<p class="datetime">{$event->getStartAt()|date_format_local} to {$event->getEndAt()|date_format_local}</p>			
 					</li>
 				{/foreach}
 			</ul>
