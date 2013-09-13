@@ -7,7 +7,7 @@
 		<div id="eventDetails">
 			
 			<h2>{$event->getTitle()|escape}</h2>
-			<p>{$event->getDescriptionText()|escape|nl2br}</p>
+			<p>{$event->getDescriptionText()|escape|nl2br|linkify}</p>
 			<p>{$event->getStartAt()|date_format_local} to {$event->getEndAt()|date_format_local}</p>
 
 		</div>
