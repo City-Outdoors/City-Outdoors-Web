@@ -17,8 +17,12 @@ $eventSearch = new EventSearch();
 $eventSearch->setAfterNow();
 $eventSearch->setPaging(1, $CONFIG->EVENT_PAGE_SHOW_FUTURE_EVENTS);
 	
+$featureSearch = new FeatureSearch();
+$featureSearch->hasEvent($event);
+
 $tpl = getSmarty();
 $tpl->assign('eventSearch',$eventSearch);
+$tpl->assign('featureSearch',$featureSearch);
 $tpl->assign('event',$event);
 $tpl->display('event.htm');
 

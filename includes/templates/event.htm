@@ -6,10 +6,23 @@
 
 		<div id="eventDetails">
 			
-			<h2>{$event->getTitle()|escape}</h2>
-			<p>{$event->getDescriptionText()|escape|nl2br|linkify}</p>
-			<p>{$event->getStartAt()|date_format_local} to {$event->getEndAt()|date_format_local}</p>
+			<h2 class="title">{$event->getTitle()|escape}</h2>
+			<p class="description">{$event->getDescriptionText()|escape|nl2br|linkify}</p>
+			<p class="datetime">{$event->getStartAt()|date_format_local} to {$event->getEndAt()|date_format_local}</p>
 
+			{if $featureSearch->num()}
+				<ul class="featureList">
+					{while $feature = $featureSearch->nextResult()}
+						<li class="cf">
+							{if $feature->getThumbnailURL()}
+								<img src="{$feature->getThumbnailURL()}">
+							{/if}
+							<h3><a href="/featureDetails.php?id={$feature->getID()|escape}">{$feature->getTitle()|escape}</a></h3>
+						</li>
+					{/while}
+				</ul>
+			{/if}
+			
 		</div>
 
 		<div id="otherEvents">
