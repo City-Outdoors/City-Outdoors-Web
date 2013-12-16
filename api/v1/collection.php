@@ -38,7 +38,7 @@ if ($showDeleted) $itemSearch->includeDeleted(true);
 				<?php if ($item->getIsDeleted()) { ?>
 					<item id="<?php echo $item->getId() ?>" slug="<?php echo xmlEscape($item->getSlug(),true) ?>" deleted="yes"></item>
 				<?php } else  { ?>
-					<item id="<?php echo $item->getId() ?>" slug="<?php echo xmlEscape($item->getSlug(),true) ?>">
+					<item id="<?php echo $item->getId() ?>" slug="<?php echo xmlEscape($item->getSlug(),true) ?>" parentitemid="<?php echo $item->getParentItemID() ? $item->getParentItemID() : '' ?>">
 						<title><?php echo xmlEscape($item->getTitle(),false) ?></title>
 						<?php if ($showLinks) { ?><link rel="self" href="http://<?php echo $CONFIG->HTTP_HOST ?>/api/v1/collectionItem.php?slug=<?php echo $collection->getSlug() ?>&amp;islug=<?php echo $item->getSlug() ?>"/><?php } ?>
 						<feature id="<?php echo $item->getFeatureId() ?>" lat="<?php echo $item->getLat() ?>" lng="<?php echo $item->getLng() ?>">
