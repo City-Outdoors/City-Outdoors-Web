@@ -7,10 +7,16 @@
 		<th>Filename</th>
 		<th>File</th>
 	</tr>
-	{foreach $uploads as $data}
+	{foreach $uploadsImages as $data}
 		<tr>
 			<td>/content/uploads/{$data}</td>
 			<td><img src="/content/uploads/{$data}"></td>
+		</tr>
+	{/foreach}
+	{foreach $uploadsAudios as $data}
+		<tr>
+			<td>/content/uploads/{$data}</td>
+			<td><a href="/content/uploads/{$data}">Audio</a></td>
 		</tr>
 	{/foreach}
 </table>
