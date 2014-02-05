@@ -19,11 +19,15 @@ class CMSContent extends BaseDataWithOneID {
 	protected $latest_version;
 	protected $latest_html;
 	
+	public static function filterSlug($slug) {
+		return substr(str_replace(" ","-",strtolower($slug)),0,50);
+	}
+	
 	public static function createPage($slug, $title, User $user) {
 		$db = getDB();
 		
 		$stat1 = $db->prepare("INSERT INTO cms_content (page_slug, page_title) VALUES (:page_slug, :page_title)");
-		$stat1->bindValue('page_slug', $slug);
+		$stat1->bindValue('page_slug', CMSContent::filterSlug($slug));
 		$stat1->bindValue('page_title', $title);
 		
 		$stat2 = $db->prepare("INSERT INTO cms_content_version (cms_content_id,version,html,created_at,created_by) VALUES (:cms_content_id,0,'',:created_at,:created_by)");
