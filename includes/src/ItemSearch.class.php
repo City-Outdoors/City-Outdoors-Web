@@ -28,6 +28,8 @@ class ItemSearch extends BaseSearch {
 	
 	protected $includeDeleted = false;
 
+	protected $includeOfficialCollectionsOnly = false;
+	protected $includeUnofficialCollectionsOnly = false;
 
 	public function  __construct() {
 		$this->className = "Item";
@@ -92,6 +94,18 @@ class ItemSearch extends BaseSearch {
 	
 	public function includeChildCollections() { $this->includeChildCollections = true; }
 	
+
+	public function setIncludeOfficialCollectionsOnly($includeOfficialCollectionsOnly) {
+		$this->includeOfficialCollectionsOnly = $includeOfficialCollectionsOnly;
+		return $this;
+	}
+
+	public function setIncludeUnofficialCollectionsOnly($includeUnofficialCollectionsOnly) {
+		$this->includeUnofficialCollectionsOnly = $includeUnofficialCollectionsOnly;
+		return $this;
+	}
+
+ 	
 	protected function execute() {
 		if ($this->searchDone) throw new Exception("Search already done!");
 		$db = getDB();
@@ -105,7 +119,14 @@ class ItemSearch extends BaseSearch {
 			$where[] = " item.collection_id IN (".implode(",", $this->collectionIDs).")";
 		} else if ($this->notCollectionIDs) {
 			$where[] = " item.collection_id NOT IN (".implode(",", $this->notCollectionIDs).")";
+		} else if ($this->includeOfficialCollectionsOnly) {
+			$joins[] = " LEFT JOIN collection ON collection.id = item.collection_id";
+			$where[] = " collection.organisation_id IS NULL ";
+		} else if ($this->includeUnofficialCollectionsOnly) {
+			$joins[] = " LEFT JOIN collection ON collection.id = item.collection_id";
+			$where[] = " collection.organisation_id IS NOT NULL ";
 		}
+		
 		if ($this->fieldStartsWithField) {
 			list($j,$w) = $this->fieldStartsWithField->getValueStartsWithJoinsAndWheres($this->fieldStartsWithLetter);
 			$joins = array_merge($joins, $j);
