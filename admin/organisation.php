@@ -16,8 +16,12 @@ if (!$currentUser->isAdministrator()) die('No Access');
 $organisation = Organisation::loadByID($_GET['id']);
 if (!$organisation) die('not found');
 
+$collectionSearch = new CollectionSearch();
+$collectionSearch->setOrganisation($organisation);
+
 
 $tpl = getSmarty($currentUser);
 $tpl->assign('organisation', $organisation);
+$tpl->assign('collectionSearch', $collectionSearch);
 $tpl->display('admin/organisation.htm');
 

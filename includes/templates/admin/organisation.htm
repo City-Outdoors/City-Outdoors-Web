@@ -19,4 +19,27 @@
 		</tr>
 	</table>
 	
+	
+	<h2>Collections</h2>
+	
+	<table class="data">
+		<tr>
+			<th>Title</th>
+			<th>Slug</th>
+			<th>&nbsp;</th>
+		</tr>
+		{while $collection = $collectionSearch->nextResult()}
+			<tr class="{cycle values="alternate,"}">
+				<td>{$collection->getTitle()|escape}</td>
+				<td>{$collection->getSlug()|escape}</td>
+				<td>
+					<a href="/admin/collection.php?c={$collection->getSlug()|escape}">Details</a>
+					<a href="/admin/listCollection.php?c={$collection->getSlug()|escape}">List Items</a>
+					<a href="/admin/collectionFields.php?c={$collection->getSlug()|escape}">Fields</a>
+					<a href="/admin/listCheckinQuestionsByCollection.php?c={$collection->getSlug()|escape}">List Questions</a>
+				</td>
+			</tr>
+		{/while}		
+	</table>
 {/block}
+
