@@ -1,0 +1,22 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<h2>Organisation</h2>
+
+	<table class="verticalData">
+		<tr>
+			<th>ID</th>
+			<td>{$organisation->getID()}</td>
+		</tr>
+		<tr>
+			<th>Title</th>
+			<td>{$organisation->getTitle()|escape}</td>
+		</tr>
+		<tr>
+			<th>Description</th>
+			<td>{$organisation->getDescriptionText()|escape|nl2br}</td>
+		</tr>
+	</table>
+	
+{/block}
