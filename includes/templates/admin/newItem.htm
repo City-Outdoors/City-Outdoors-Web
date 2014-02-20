@@ -15,7 +15,21 @@
 	<form action="/admin/newItem.php?c={$collection->getSlug()}&f={$feature->getId()}" method="post">
 		<input type="hidden" name="submit" value="yes">
 		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
-		<table class="">
+		<table class="verticalData">
+			<tr>
+				<th>Organisation</th>
+				<td>
+					{if $organisation}
+						{$organisation->getTitle()|escape}
+					{else}
+						None (official collection)
+					{/if}
+				</td>
+			</tr>
+			<tr>
+				<th>Collection</th>
+				<td>{$collection->getTitle()|escape}</td>
+			</tr>
 			<tr>
 				<th>ID</th>
 				<td>NEW</td>

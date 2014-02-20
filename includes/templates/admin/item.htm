@@ -11,6 +11,20 @@
 	
 	<table class="verticalData">
 		<tr>
+			<th>Organisation</th>
+			<td>
+				{if $organisation}
+					<a href="/admin/organisation.php?id={$organisation->getId()}">{$organisation->getTitle()|escape}</a>
+				{else}
+					None (official collection)
+				{/if}
+			</td>
+		</tr>
+		<tr>
+			<th>Collection</th>
+			<td>{$collection->getTitle()|escape}</td>
+		</tr>	
+		<tr>
 			<th>ID</th>
 			<td>{$item->getID()}</td>
 		</tr>

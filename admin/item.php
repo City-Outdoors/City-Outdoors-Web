@@ -43,6 +43,7 @@ if ($_POST && $_POST['action'] && $_POST['CSFRToken'] == $_SESSION['CSFRToken'])
 }
 
 $tpl->assign('collection',$collection);
+$tpl->assign('organisation',$collection->getOrganisation());
 $tpl->assign('item',$item);
 $tpl->assign('parentItem',$item->getParentItem());
 $tpl->display('admin/item.htm');
