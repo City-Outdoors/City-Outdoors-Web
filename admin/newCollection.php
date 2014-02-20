@@ -13,13 +13,18 @@ if (!$currentUser->isAdministrator()) die('No Access');
 
 
 if (isset($_POST) && isset($_POST['title']) && $_POST['CSFRToken'] == $_SESSION['CSFRToken']) {
-	$collection = Collection::create($_POST['title'],$currentUser);
+	$organisation = intval($_POST['organisation']) > 0 ? Organisation::loadById($_POST['organisation']) : null;
+	$collection = Collection::create($_POST['title'],$currentUser,$organisation);
 	header("Location: /admin/collection.php?c=".$collection->getSlug());
 	die();
 }
 
 
+$organisationSearch = new OrganisationSearch();
+
+
 $tpl = getSmarty($currentUser);
+$tpl->assign('organisationSearch',$organisationSearch);
 $tpl->display('admin/newCollection.htm');
 
 

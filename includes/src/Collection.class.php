@@ -80,7 +80,7 @@ class Collection extends BaseDataWithOneID {
 		}		
 	}	
 
-	public static function create($title, User $user) {
+	public static function create($title, User $user, Organisation $organisation = null) {
 		if (!$title) throw new Exception("Must set some title!");
 		// TODO Transaction!
 
@@ -88,12 +88,13 @@ class Collection extends BaseDataWithOneID {
 			'title' => $title,
 			'slug' => generateSlug($title),
 			'created_at' => date('Y-m-d H:i:s'),
-			'created_by' => $user->getId()
+			'created_by' => $user->getId(),
+			'organisation_id' => ($organisation ? $organisation->getId() : null),
 		);
 		
 		$db = getDB();
-		$stat = $db->prepare('INSERT INTO collection (title, slug, created_at, created_by) '.
-			'VALUES (:title, :slug, :created_at, :created_by) ');
+		$stat = $db->prepare('INSERT INTO collection (title, slug, created_at, created_by, organisation_id) '.
+			'VALUES (:title, :slug, :created_at, :created_by, :organisation_id) ');
 			
 		try {
 			$stat->execute($data);

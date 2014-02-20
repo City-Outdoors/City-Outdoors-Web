@@ -6,9 +6,21 @@
 
 		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
 
-		<label for="title">Title</label>
-		<input type="text" value="" name="title" id="title">
-
+		<div>
+			<label for="title">Title</label>
+			<input type="text" value="" name="title" id="title">
+		</div>
+		
+		<div>
+			Organisation
+			<ul>
+				<li><label><input type="radio" value="0" name="organisation" checked="checked"> None (An official collection)</label></li>
+				{while $organisation = $organisationSearch->nextResult()}
+					<li><label><input type="radio" value="{$organisation->getId()}" name="organisation"> {$organisation->getTitle()|escape}</label></li>
+				{/while}
+			</ul>
+		</div>
+		
 		<input type="submit">
 
 	</form>
