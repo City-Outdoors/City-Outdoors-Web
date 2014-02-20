@@ -20,6 +20,7 @@ $tpl->assign('inCollectionId',$collection->getId());
 
 
 $tpl->assign('collection',$collection);
+$tpl->assign('organisation',$collection->getOrganisation());
 
 $collectionSearch = new CollectionSearch();
 $tpl->assign('collections', $collectionSearch->getAllResultsIndexed());
