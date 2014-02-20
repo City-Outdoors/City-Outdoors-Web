@@ -30,7 +30,9 @@ class Collection extends BaseDataWithOneID {
 	
 	protected $description;
 	protected $thumbnail_url;	
-			
+	protected $organisation_id;
+
+
 	/** @var Array of fields, sorted by sortOrder, most important first **/
 	private $fields = array();
 
@@ -135,6 +137,7 @@ class Collection extends BaseDataWithOneID {
 		if ($data && isset($data['question_icon_url'])) $this->question_icon_url = $data['question_icon_url'];
 		if ($data && isset($data['description'])) $this->description = $data['description'];
 		if ($data && isset($data['thumbnail_url'])) $this->thumbnail_url = $data['thumbnail_url'];
+		if ($data && isset($data['organisation_id'])) $this->organisation_id = $data['organisation_id'];
 	}
 	
 	public function getTitle() { return $this->title; }
@@ -170,7 +173,20 @@ class Collection extends BaseDataWithOneID {
 	public function getDescription() { return $this->description; }
 	public function getThumbnailURL() { return $this->thumbnail_url; }
 	
+	public function getOrganisationId() {
+		return $this->organisation_id;
+	}
 	
+	public function getOrganisation() {
+		return $this->organisation_id ? Organisation::loadById($this->organisation_id) : null;
+	}
+
+	public function setOrganisationId($organisation_id) {
+		$this->organisation_id = $organisation_id;
+		return $this;
+	}
+
+ 	
 	/** loads all field data, builds objects and caches them on this object. **/
 	private function loadFields() {
 		if (count($this->fields) > 0) return;

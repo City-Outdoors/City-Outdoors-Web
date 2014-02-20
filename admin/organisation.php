@@ -10,7 +10,7 @@ require '../includes/src/global.php';
 
 
 $currentUser = mustBeLoggedIn();
-if (!$currentUser->isSystemAdministrator()) die('No Access');
+if (!$currentUser->isAdministrator()) die('No Access');
 
 
 $organisation = Organisation::loadByID($_GET['id']);

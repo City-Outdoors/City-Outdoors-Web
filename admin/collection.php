@@ -25,6 +25,7 @@ if ($_POST && $_POST['action'] && $_POST['action'] == "update" && $_POST['CSFRTo
 
 $tpl = getSmarty($currentUser);
 $tpl->assign('collection',$collection);
+$tpl->assign('organisation',$collection->getOrganisation());
 $tpl->display('admin/collection.htm');
 
 
