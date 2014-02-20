@@ -1,0 +1,16 @@
+{extends file='page.htm'}
+
+{block name="pageTitle"}{$organisation->getTitle()|escape}{/block}
+
+{block name="main"}
+	<h2>{$organisation->getTitle()|escape}</h2>
+	
+	<p>{$organisation->getDescriptionText()|escape|nl2br}</p>
+
+	<ul>
+		{while $collection = $collectionSearch->nextResult()}
+			<li><a href="/collectionAsList.php?c={$collection->getSlug()}">{$collection->getTitle()|escape}</a></li>
+		{/while}		
+	</ul>
+	
+{/block}
