@@ -8,6 +8,9 @@
 
 class EventSearch extends BaseSearch {
 	
+	protected $sort_by = "event.start_at";
+	protected $sort_order = "ASC";
+	
 	public function  __construct() {
 		$this->className = "Event";
 	}
@@ -79,7 +82,8 @@ class EventSearch extends BaseSearch {
 			"FROM event ".
 			implode(" ", $joins).
 			(count($where) > 0 ? " WHERE ".implode(" AND ", $where) : "").
-			" GROUP BY event.id";
+			" GROUP BY event.id".
+			" ORDER BY ".$this->sort_by." ".$this->sort_order;
 		
 		if ($this->currentPage) {
 		
