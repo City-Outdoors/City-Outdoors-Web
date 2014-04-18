@@ -1,0 +1,85 @@
+{extends file="organisationadmin/page.htm"} 
+
+{block name="content"}
+
+	{if $item->getIsDeleted()}
+		<h2>Deleted</h2>
+		<p><em>This has been DELETED!</em></p>
+	{/if}
+
+	<h2>Item</h2>
+	
+	<table class="verticalData">
+		<tr>
+			<th>Collection</th>
+			<td>{$collection->getTitle()|escape}</td>
+		</tr>	
+		<tr>
+			<th>ID</th>
+			<td>{$item->getID()}</td>
+		</tr>
+		<tr>
+			<th>Feature ID</th>
+			<td><!-- a href="/admin/feature.php?id={$item->getFeatureId()}" -->{$item->getFeatureID()}</a></td>
+		</tr>
+		{foreach $item->getFields() as $field}
+			<tr>
+				<th>{$field->getTitle()|escape}</th>
+				<td>{$field->getValueAsHumanReadableHTML()}</td>
+			</tr>
+		{/foreach}
+	</table>
+	
+	{if !$item->getIsDeleted()}
+		{if $Config->ALLOW_EDITING_COLLECTION_ITEMS_IN_ADMIN_UI}
+			<!-- a href="/admin/editItem.php?c={$collection->getSlug()}&i={$item->getId()}">Edit</a -->
+		{/if}
+	{/if}
+	
+	<h2>Parent Item</h2>
+	
+	{if $parentItem}
+		<table class="verticalData">
+			<tr>
+				<th>ID</th>
+				<td>{$parentItem->getID()}</td>
+			</tr>
+			<tr>
+				<th>Feature ID</th>
+				<td><!-- a href="/admin/feature.php?id={$parentItem->getFeatureId()}" -->{$parentItem->getFeatureID()}</a></td>
+			</tr>
+			{foreach $parentItem->getFields() as $field}
+				<tr>
+					<th>{$field->getTitle()|escape}</th>
+					<td>{$field->getValueAsHumanReadableHTML()}</td>
+				</tr>
+			{/foreach}
+		</table>
+		<!-- form method="POST">
+			<input type="hidden" name="action" value="removeParentItem">
+			<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+			<input type="submit" value="Remove Parent Item">
+		</form -->
+	{else}
+		<p>This has no parent item.</p>
+	{/if}
+	
+	<!-- form method="POST">
+		<input type="hidden" name="action" value="addParentItem">
+		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+		Set parent item ID: <input type="text" name="parentID"> 
+		<input type="submit" value="Add">
+	</form -->
+
+	{if !$item->getIsDeleted()}
+		<!-- h2>Delete</h2>
+		<form method="POST" onsubmit="return confirm('Are you sure you want to delete this?');">
+			<input type="hidden" name="action" value="delete">
+			<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
+			<input type="submit" value="delete">
+		</form -->
+	{/if}
+	
+	
+	
+{/block}

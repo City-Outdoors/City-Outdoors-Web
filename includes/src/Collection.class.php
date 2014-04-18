@@ -46,6 +46,17 @@ class Collection extends BaseDataWithOneID {
 		}		
 	}
 
+	public static function loadBySlugForOrganisation($slug, Organisation $organisation) {
+		$db = getDB();
+		$stat = $db->prepare('SELECT * FROM collection WHERE slug=:slug AND organisation_id=:organisation_id');
+		$stat->bindValue('slug', $slug);
+		$stat->bindValue('organisation_id', $organisation->getId());
+		$stat->execute();
+		if($stat->rowCount() == 1) {
+			return new Collection($stat->fetch(PDO::FETCH_ASSOC));
+		}		
+	}
+
 	/**
 	 * @return \Collection 
 	 */

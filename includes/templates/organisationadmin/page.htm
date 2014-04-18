@@ -21,7 +21,9 @@
 				
 				<h1><a href="/organisationadmin/" >{if $currentOrganisation}{$currentOrganisation->getTitle()}{else}{$siteTitle}{/if}</a></h1>
 
-				
+				{if $currentOrganisation}
+					<a href="/organisationadmin/listCollections.php?organisationid={$currentOrganisation->getId()}">Collections</a>
+				{/if}
 				
 			</div>
 			<div id="adminContent">
