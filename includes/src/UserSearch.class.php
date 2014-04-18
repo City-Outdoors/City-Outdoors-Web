@@ -23,6 +23,15 @@ class UserSearch extends BaseSearch {
 		$this->userScoreChart = $v;
 	}
 	
+	/** @var Organisation **/
+	protected $organisationAdmins;
+	
+	public function setOrganisationAdmins(Organisation $organisationAdmins) {
+		$this->organisationAdmins = $organisationAdmins;
+		return $this;
+	}
+
+			
 	protected function execute() {
 		if ($this->searchDone) throw new Exception("Search already done!");
 		$db = getDB();
@@ -41,6 +50,12 @@ class UserSearch extends BaseSearch {
 			// only show users with score
 			$where[] = "  user_account.cached_score > 0 ";
 			$orderBy = " user_account.cached_score DESC ";
+		}
+		
+		if ($this->organisationAdmins) {
+			$joins[] = " JOIN organisation_has_admin ON organisation_has_admin.user_account_id = user_account.id ";
+			$where[] = " organisation_has_admin.organisation_id = :organisation_id ";
+			$vars['organisation_id'] = $this->organisationAdmins->getId();
 		}
 		
 		$sql = "SELECT  ".implode(" , ", $select).

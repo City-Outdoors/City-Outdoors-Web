@@ -20,6 +20,41 @@
 	</table>
 	
 	
+	<h2>Admins</h2>
+	
+	<table class="data">
+		<tr>
+			<th>ID</th>
+			<th>Display Name</th>
+			<th>Profile URL</th>			
+			<th>Email</th>
+			<th>Twitter ID</th>
+			<th>Twitter Screen Name</th>
+			<th>Enabled</th>
+			<th>Admin</th>
+			<th>System Admin</th>
+			<th>&nbsp;</th>
+		</tr>
+		{while $user = $adminSearch->nextResult()}
+			<tr class="{cycle values="alternate,"}">
+				<td><a href="/admin/user.php?id={$user->getId()}">{$user->getId()}</a></td>
+				<td>{$user->getName()|escape}</td>
+				<td>{$user->getProfileURl()}</td>
+				<td>{$user->getEmail()|escape}</td>
+				<td>{$user->getTwitterID()|escape}</td>
+				<td>{$user->getTwitterScreenName()|escape}</td>				
+				<td>{if $user->isEnabled()}Yes{else}No{/if}</td>
+				<td>{if $user->isAdministrator()}Yes{else}No{/if}</td>
+				<td>{if $user->isSystemAdministrator()}Yes{else}No{/if}</td>
+				<td>
+					<a href="/admin/user.php?id={$user->getId()}">View</a>
+				</td>
+			</tr>
+		{/while}		
+	</table>
+
+
+	
 	<h2>Collections</h2>
 	
 	<table class="data">

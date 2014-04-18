@@ -19,9 +19,13 @@ if (!$organisation) die('not found');
 $collectionSearch = new CollectionSearch();
 $collectionSearch->setOrganisation($organisation);
 
+$userSearch = new UserSearch();
+$userSearch->setOrganisationAdmins($organisation);
+
 
 $tpl = getSmarty($currentUser);
 $tpl->assign('organisation', $organisation);
 $tpl->assign('collectionSearch', $collectionSearch);
+$tpl->assign('adminSearch', $userSearch);
 $tpl->display('admin/organisation.htm');
 
