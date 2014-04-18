@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS item ;
 DROP TABLE IF EXISTS collection_has_field  ;
 DROP TABLE IF EXISTS collection  ;
 DROP TABLE IF EXISTS feature ;
-DROP TABLE IF EXISTS organisation_has_user ;
+DROP TABLE IF EXISTS organisation_has_admin ;
 DROP TABLE IF EXISTS organisation ;
 DROP TABLE IF EXISTS user_session  ;
 DROP TABLE IF EXISTS user_account  ;
