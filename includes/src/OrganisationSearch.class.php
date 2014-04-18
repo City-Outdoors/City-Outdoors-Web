@@ -12,7 +12,14 @@ class OrganisationSearch extends BaseSearch {
 		$this->className = "Organisation";
 	}
 	
+	/** @var User **/
+	protected $adminUser;
 	
+	public function setAdminUser(User $adminUser) {
+		$this->adminUser = $adminUser;
+		return $this;
+	}
+
 	protected function execute() {
 		if ($this->searchDone) throw new Exception("Search already done!");
 		$db = getDB();
@@ -20,7 +27,11 @@ class OrganisationSearch extends BaseSearch {
 		$joins = array();
 		$vars = array();
 
-		
+		if ($this->adminUser) {
+			$joins[] = " JOIN organisation_has_admin ON organisation_has_admin.organisation_id = organisation.id ";
+			$where[] = " organisation_has_admin.user_account_id = :user_account_id ";
+			$vars['user_account_id'] = $this->adminUser->getId();		
+		}
 		
 		
 		$sql = "SELECT organisation.* ".

@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=8" />
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+		<title>Admin {$siteTitle}</title>
+		<link rel="stylesheet" href="/css/reset.css?v={$assetsVersion}" type="text/css" />
+		<link rel="stylesheet" href="/css/admin/main.css?v={$assetsVersion}" type="text/css" />
+		<script src="/js/jquery-1.7.2.min.js?v={$assetsVersion}"></script>
+	</head>
+	<body>
+
+		<div id="pageWrapper">
+			<div id="header">
+				<div id="headerCurrentUser">
+					{$currentUser->getName()|escape} 
+					<a href="/">Return to site</a>
+					<a href="/organisationadmin/">Switch Organisation</a>
+					<a href="/logout.php">Logout</a>
+				</div>
+				
+				<h1><a href="/organisationadmin/" >{if $currentOrganisation}{$currentOrganisation->getTitle()}{else}{$siteTitle}{/if}</a></h1>
+
+				
+				
+			</div>
+			<div id="adminContent">
+				{if $okMessage}<div class="msgOk">{$okMessage}</div>{/if}
+				{if $errorMessage}<div class="msgError">{$errorMessage}</div>{/if}
+				
+				{block name="content"}{/block}
+			</div>
+			<div id="footer">
+				{$siteTitle}. Powered by <a href="https://github.com/organizations/City-Outdoors">City Outdoors</a>.
+			</div>
+		</div>
+
+		{block name="finalScripts"}{/block}
+
+	</body>
+</footer>		
+
+
+
+
