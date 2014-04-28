@@ -234,7 +234,7 @@ class ImportJADU {
 
 			$this->log(" ... from page URL ".$url." got document ".$documentID." and page ".$documentPageNumber."!\n");
 
-			$url = 'https://'.$this->sourceWebsite.'/api/documents/'.$documentID.'/pages.xml'.
+			$url = 'http'.($this->useSSL?'s':'').'://'.$this->sourceWebsite.'/api/documents/'.$documentID.'/pages.xml'.
 					'?api_key='.$this->apiKey.'&per_page=100';
 			$this->log("  ... Getting ".$url."\n");
 
@@ -272,7 +272,7 @@ class ImportJADU {
 
 		$this->log("Importing ".$documentID." page ".$documentPageNumber. " to ".$cmscontent->getPageSlug()." user ".$user->getId());
 		
-		$url = 'https://'.$this->sourceWebsite.'/api/documents/'.$documentID.'/pages.xml'.
+		$url = 'http'.($this->useSSL?'s':'').'://'.$this->sourceWebsite.'/api/documents/'.$documentID.'/pages.xml'.
 				'?api_key='.$this->apiKey.'&per_page=100';
 		$this->log("  ... Getting ".$url."\n");
 
