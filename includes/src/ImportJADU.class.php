@@ -13,6 +13,7 @@ class ImportJADU {
 
 	protected $sourceWebsite;
 	protected $apiKey;
+	protected $useSSL = false;
 	
 	protected $printVerbose = true;
 	
@@ -34,7 +35,7 @@ class ImportJADU {
 		$page = 1;
 		$totalPages = 1;
 		while($page <= $totalPages) {
-			$url = 'https://'.$this->sourceWebsite.'/api/directories/'.$directoryID.'/entries.xml'.
+			$url = 'http'.($this->useSSL?'s':'').'://'.$this->sourceWebsite.'/api/directories/'.$directoryID.'/entries.xml'.
 					'?api_key='.$this->apiKey.'&per_page=100&page='.$page;
 
 			$this->log("Fetching: ".$url);
