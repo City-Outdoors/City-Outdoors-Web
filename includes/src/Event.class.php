@@ -92,7 +92,7 @@ class Event extends BaseDataWithOneID {
 		}
 		
 		$statSelect = $db->prepare("SELECT feature_id FROM feature_has_event WHERE event_id=:eid");
-		$statDelete = $db->prepare("DELETE FROM feature_has_event WHERE feature_id=:fid AND event_id=:eid)");
+		$statDelete = $db->prepare("DELETE FROM feature_has_event WHERE feature_id=:fid AND event_id=:eid");
 		$statSelect->execute(array('eid'=>$this->id));
 		while($data = $statSelect->fetch()) {
 			if (!isset($this->features[$data['feature_id']])) {
