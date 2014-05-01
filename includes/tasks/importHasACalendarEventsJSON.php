@@ -37,3 +37,6 @@ if ($config->searchCollection->slug) {
 $import = new ImportEventHasACalendarJSON($config->title, $config->url, $user, $searchCollection);
 $import->import();
 
+print "Done\n";
+
+
