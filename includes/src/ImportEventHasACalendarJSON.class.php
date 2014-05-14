@@ -46,7 +46,8 @@ class ImportEventHasACalendarJSON {
 			
 			if ($data->deleted) {
 				if ($event) {
-					// TODO mark deleted
+					$event->setDeleted(1);
+					$event->writeToDataBase($this->user);
 				}
 			} else {
 

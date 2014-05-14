@@ -68,12 +68,12 @@ class Event extends BaseDataWithOneID {
 		if ($this->id) {
 			$db = getDB();
 			$stat = $db->prepare('UPDATE event SET title=:title, description_text=:description_text, start_at=:start_at, '.
-					'end_at=:end_at WHERE id=:id');
+					'end_at=:end_at, deleted=:deleted WHERE id=:id');
 			$stat->bindValue('id', $this->id);
 		} else {
 			$db = getDB();
-			$stat = $db->prepare('INSERT INTO event (title, description_text, start_at, end_at, import_id, import_source) '.
-					'VALUES (:title, :description_text, :start_at, :end_at, :import_id, :import_source)');
+			$stat = $db->prepare('INSERT INTO event (title, description_text, start_at, end_at, import_id, import_source, deleted) '.
+					'VALUES (:title, :description_text, :start_at, :end_at, :import_id, :import_source, :deleted)');
 			$stat->bindValue('import_id', $this->import_id);
 			$stat->bindValue('import_source', $this->import_source);
 		}
@@ -81,6 +81,7 @@ class Event extends BaseDataWithOneID {
 		$stat->bindValue('description_text', $this->description_text);
 		$stat->bindValue('start_at', $this->start_at->format("Y-m-d H:i:s"));
 		$stat->bindValue('end_at', $this->end_at->format("Y-m-d H:i:s"));
+		$stat->bindValue('deleted', $this->deleted?1:0);
 		$stat->execute();			
 		if (!$this->id) {
 			$this->id = $db->lastInsertId();
