@@ -44,30 +44,37 @@ class ImportEventHasACalendarJSON {
 		foreach($this->data->data as $data) {
 			$event = Event::loadByImportDetails($this->title, $data->slug);
 			
-			if (!$event) {
-				$event = new Event();
-				$event->setImportSource($this->title);
-				$event->setImportId($data->slug);
-			}
-			
-			$event->setTitle($data->summaryDisplay);
-			$event->setDescriptionText($data->description);
-			$event->setStartAtTimestamp($data->start->timestamp);
-			$event->setEndAtTimestamp($data->end->timestamp);
-			
-			
-			if ($this->searchCollection) {
-				$itemSearch = new ItemSearch();
-				$itemSearch->inCollection($this->searchCollection);
-				while($item = $itemSearch->nextResult()) {
-					if (stripos($data->description, $item->getTitle()) !== FALSE) {
-						$event->addFeature($item->getFeature());
+			if ($data->deleted) {
+				if ($event) {
+					// TODO mark deleted
+				}
+			} else {
+
+				if (!$event) {
+					$event = new Event();
+					$event->setImportSource($this->title);
+					$event->setImportId($data->slug);
+				}
+
+				$event->setTitle($data->summaryDisplay);
+				$event->setDescriptionText($data->description);
+				$event->setStartAtTimestamp($data->start->timestamp);
+				$event->setEndAtTimestamp($data->end->timestamp);
+
+
+				if ($this->searchCollection) {
+					$itemSearch = new ItemSearch();
+					$itemSearch->inCollection($this->searchCollection);
+					while($item = $itemSearch->nextResult()) {
+						if (stripos($data->description, $item->getTitle()) !== FALSE) {
+							$event->addFeature($item->getFeature());
+						}
 					}
 				}
+
+				$event->writeToDataBase($this->user);
+					
 			}
-			
-			$event->writeToDataBase($this->user);
-						
 		}
 	}
 	
