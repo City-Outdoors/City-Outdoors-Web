@@ -39,7 +39,7 @@
 	{if $inCollectionTab}
 		<ul class="secondaryNav cf">
 			<li class="{if $inMap}current{/if}"><a href="/map.php" title="Map">Map</a></li>
-			{foreach $collections as $collection}
+			{foreach $officialCollections as $collection}
 				<li class="{if $inCollectionId == $collection->getId()}current{/if}"><a href="/collectionAsList.php?c={$collection->getSlug()}" title="{$collection->getTitle()|escape}">{$collection->getTitle()|escape}</a></li>
 			{/foreach}
 		</ul>

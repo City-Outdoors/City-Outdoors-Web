@@ -20,8 +20,23 @@ $tpl->assign('inCollectionTab',true);
 
 $itemSearch = new ItemSearch();
 $itemSearch->onFeature($feature);
+$itemSearch->setIncludeOfficialCollectionsOnly(true);
 $items = $itemSearch->getAllResults();
 $tpl->assign('items',$items);
+
+$itemSearch = new ItemSearch();
+$itemSearch->onFeature($feature);
+$itemSearch->setIncludeUnofficialCollectionsOnly(true);
+$unofficialItemsData = array();
+while($item = $itemSearch->nextResult()) {
+	$collection = $item->getCollection();
+	$unofficialItemsData[] = array(
+		'item'=>$item,
+		'collection'=>$collection,
+		'organisation'=>$collection->getOrganisation(),
+	);
+}
+$tpl->assign('unofficialItems',$unofficialItemsData);
 
 if ($items) {
 	$tpl->assign('inCollectionId',$items[0]->getCollectionId());

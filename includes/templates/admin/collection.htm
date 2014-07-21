@@ -7,6 +7,17 @@
 		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
 		
 		<table class="verticalData">
+			
+			<tr>
+				<th>Organisation</th>
+				<td>
+					{if $organisation}
+						<a href="/admin/organisation.php?id={$organisation->getId()}">{$organisation->getTitle()|escape}</a>
+					{else}
+						None (official collection)
+					{/if}
+				</td>
+			</tr>
 			<tr>
 				<th>Collection</th>
 				<td><input type="text" name="title" value="{$collection->getTitle()|escape}" class="big"></td>

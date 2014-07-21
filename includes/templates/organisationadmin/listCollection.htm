@@ -1,0 +1,30 @@
+
+{extends file="organisationadmin/page.htm"} 
+
+{block name="content"}
+	
+	
+	<table class="data">
+		<tr>
+			<th>ID</th>
+			<th>Title</th>
+			<th>Deleted</th>
+			<th>&nbsp;</th>
+		</tr>
+		{while $item = $itemSearch->nextResult()}
+			<tr class="{cycle values="alternate,"}">
+				<td><a href="/organisationadmin/item.php?organisationid={$currentOrganisation->getId()}&c={$collection->getSlug()}&i={$item->getId()}">{$item->getId()}</a></td>
+				<td>{$item->getTitle()|escape}</td>
+				<td>
+					{if $item->getIsDeleted()}DELETED{/if}
+				</td>
+				<td>
+					<a href="/organisationadmin/item.php?organisationid={$currentOrganisation->getId()}&c={$collection->getSlug()}&i={$item->getId()}">View Item</a>
+					<!-- a href="/admin/feature.php?id={$item->getFeatureId()}">View Feature</a -->
+				</td>
+			</tr>
+		{/while}	
+	</table>
+	
+{/block}
+

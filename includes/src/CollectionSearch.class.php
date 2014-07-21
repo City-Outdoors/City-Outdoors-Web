@@ -19,6 +19,22 @@ class CollectionSearch extends BaseSearch {
 		
 	}
 	
+	/** @var Organisation **/
+	private $organisation;
+	
+	public function setOrganisation(Organisation $organisation) {
+		$this->organisation = $organisation;
+		return $this;
+	}
+
+	private $withNoOrganisationOnly = false;
+	
+	public function setWithNoOrganisationOnly($withNoOrganisationOnly) {
+		$this->withNoOrganisationOnly = $withNoOrganisationOnly;
+		return $this;
+	}
+
+		
 	
 	protected function execute() {
 		if ($this->searchDone) throw new Exception("Search already done!");
@@ -33,6 +49,12 @@ class CollectionSearch extends BaseSearch {
 			
 		}
 		
+		if ($this->withNoOrganisationOnly) {
+			$where[] = ' collection.organisation_id is null ';
+		} else if ($this->organisation) {
+			$where[] = ' collection.organisation_id = :organisationid ';
+			$vars['organisationid'] = $this->organisation->getId();
+		}
 
 		$sql = "SELECT collection.* ".
 			"FROM collection ".

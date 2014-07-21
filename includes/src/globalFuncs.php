@@ -115,8 +115,9 @@ function getSmarty(User $user = null) {
 	}
 	$collections = array();
 	$collectionSearch = new CollectionSearch();
+	$collectionSearch->setWithNoOrganisationOnly(true);
 	while($collection = $collectionSearch->nextResult()) $collections[] = $collection;
-	$s->assign('collections',$collections);
+	$s->assign('officialCollections',$collections);
 	
 	return $s;
 }

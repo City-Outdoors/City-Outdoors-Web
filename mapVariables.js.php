@@ -11,6 +11,7 @@ header("Content-Type: text/javascript");
 // TODO Send directives to tell browsers to cache this page. 
 
 $collectionSearch = new CollectionSearch();
+$collectionSearch->setWithNoOrganisationOnly(true);
 
 $collectionData = array();
 while($collection = $collectionSearch->nextResult()) { 

@@ -15,28 +15,14 @@
 				<div id="headerCurrentUser">
 					{$currentUser->getName()|escape} 
 					<a href="/">Return to site</a>
+					<a href="/organisationadmin/">Switch Organisation</a>
 					<a href="/logout.php">Logout</a>
 				</div>
 				
-				<h1><a href="/admin/" >{$siteTitle}</a></h1>
+				<h1><a href="/organisationadmin/" >{if $currentOrganisation}{$currentOrganisation->getTitle()}{else}{$siteTitle}{/if}</a></h1>
 
-				
-				<a href="/admin/moderate.php">Moderate</a>
-				<a href="/admin/listFeatures.php">Features</a>
-				<a href="/admin/listFeaturesAsMap.php">(map)</a>
-				<a href="/admin/listCollections.php">Collections</a>
-				<a href="/admin/newCollection.php">[new]</a>
-				<a href="/admin/listCheckinQuestion.php">Checkin Questions</a>
-				<a href="/admin/listFeatureContent.php">Content</a>
-				<a href="/admin/listCMSPages.php">Pages</a>
-				<a href="/admin/newCMSPage.php">[new]</a>
-				<a href="/admin/listCMSBlocks.php">Blocks</a>
-				<a href="/admin/uploads.php">Uploads</a>
-				<a href="/admin/listEvents.php">Events</a>
-				{if $currentUser->isSystemAdministrator()}
-					<a href="/admin/listUsers.php">Users</a>
-					<a href="/admin/listAdmins.php">Admins</a>					
-					<a href="/admin/listOrganisations.php">Organisations</a>					
+				{if $currentOrganisation}
+					<a href="/organisationadmin/listCollections.php?organisationid={$currentOrganisation->getId()}">Collections</a>
 				{/if}
 				
 			</div>
@@ -50,9 +36,6 @@
 				{$siteTitle}. Powered by <a href="https://github.com/organizations/City-Outdoors">City Outdoors</a>.
 			</div>
 		</div>
-
-	
-		
 
 		{block name="finalScripts"}{/block}
 

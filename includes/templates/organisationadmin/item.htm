@@ -1,4 +1,4 @@
-{extends file="admin/page.htm"} 
+{extends file="organisationadmin/page.htm"} 
 
 {block name="content"}
 
@@ -11,16 +11,6 @@
 	
 	<table class="verticalData">
 		<tr>
-			<th>Organisation</th>
-			<td>
-				{if $organisation}
-					<a href="/admin/organisation.php?id={$organisation->getId()}">{$organisation->getTitle()|escape}</a>
-				{else}
-					None (official collection)
-				{/if}
-			</td>
-		</tr>
-		<tr>
 			<th>Collection</th>
 			<td>{$collection->getTitle()|escape}</td>
 		</tr>	
@@ -30,7 +20,7 @@
 		</tr>
 		<tr>
 			<th>Feature ID</th>
-			<td><a href="/admin/feature.php?id={$item->getFeatureId()}">{$item->getFeatureID()}</a></td>
+			<td><!-- a href="/admin/feature.php?id={$item->getFeatureId()}" -->{$item->getFeatureID()}</a></td>
 		</tr>
 		{foreach $item->getFields() as $field}
 			<tr>
@@ -42,7 +32,7 @@
 	
 	{if !$item->getIsDeleted()}
 		{if $Config->ALLOW_EDITING_COLLECTION_ITEMS_IN_ADMIN_UI}
-			<a href="/admin/editItem.php?c={$collection->getSlug()}&i={$item->getId()}">Edit</a>
+			<!-- a href="/admin/editItem.php?c={$collection->getSlug()}&i={$item->getId()}">Edit</a -->
 		{/if}
 	{/if}
 	
@@ -56,7 +46,7 @@
 			</tr>
 			<tr>
 				<th>Feature ID</th>
-				<td><a href="/admin/feature.php?id={$parentItem->getFeatureId()}">{$parentItem->getFeatureID()}</a></td>
+				<td><!-- a href="/admin/feature.php?id={$parentItem->getFeatureId()}" -->{$parentItem->getFeatureID()}</a></td>
 			</tr>
 			{foreach $parentItem->getFields() as $field}
 				<tr>
@@ -65,29 +55,29 @@
 				</tr>
 			{/foreach}
 		</table>
-		<form method="POST">
+		<!-- form method="POST">
 			<input type="hidden" name="action" value="removeParentItem">
 			<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
 			<input type="submit" value="Remove Parent Item">
-		</form>
+		</form -->
 	{else}
 		<p>This has no parent item.</p>
 	{/if}
 	
-	<form method="POST">
+	<!-- form method="POST">
 		<input type="hidden" name="action" value="addParentItem">
 		<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
 		Set parent item ID: <input type="text" name="parentID"> 
 		<input type="submit" value="Add">
-	</form>
+	</form -->
 
 	{if !$item->getIsDeleted()}
-		<h2>Delete</h2>
+		<!-- h2>Delete</h2>
 		<form method="POST" onsubmit="return confirm('Are you sure you want to delete this?');">
 			<input type="hidden" name="action" value="delete">
 			<input type="hidden" name="CSFRToken" value="{$CSFRToken}">
 			<input type="submit" value="delete">
-		</form>
+		</form -->
 	{/if}
 	
 	

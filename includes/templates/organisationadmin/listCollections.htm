@@ -1,0 +1,22 @@
+{extends file="organisationadmin/page.htm"} 
+
+{block name="content"}
+
+	<table class="data">
+		<tr>
+			<th>Title</th>
+			<th>Slug</th>
+			<th>&nbsp;</th>
+		</tr>
+		{while $collection = $collectionSearch->nextResult()}
+			<tr class="{cycle values="alternate,"}">
+				<td>{$collection->getTitle()|escape}</td>
+				<td>{$collection->getSlug()|escape}</td>
+				<td>
+					<a href="/organisationadmin/listCollection.php?organisationid={$currentOrganisation->getId()}&c={$collection->getSlug()|escape}">List Items</a>
+				</td>
+			</tr>
+		{/while}		
+	</table>
+
+{/block}

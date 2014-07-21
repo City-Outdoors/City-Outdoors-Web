@@ -1,0 +1,24 @@
+{extends file="admin/page.htm"} 
+
+{block name="content"}
+
+	<table class="data">
+		<tr>
+			<th>ID</th>
+			<th>Title</th>
+			<th>&nbsp;</th>
+		</tr>
+		{while $organisation = $organisationSearch->nextResult()}
+			<tr class="{cycle values="alternate,"}">
+				<td><a href="/admin/organisation.php?id={$organisation->getId()}">{$organisation->getId()}</a></td>
+				<td>{$organisation->getTitle()}</td>
+				<td>
+					<a href="/admin/organisation.php?id={$organisation->getId()}">View</a>
+				</td>
+			</tr>
+		{/while}		
+	</table>
+	
+	<a href="/admin/newOrganisation.php">New</a>
+
+{/block}

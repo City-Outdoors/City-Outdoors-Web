@@ -34,13 +34,18 @@ class SmartyHelper {
 	}
 	
 
-	public static function hasFieldsInArea(Item $item, $contentArea) {
+	public static function hasFieldsInArea($items, $contentArea) {
 		
-		foreach($item->getFields() as $field) {
-			if ($field->isInContentArea($contentArea) && $field->hasValue()) {
-				return true;
-			}
-		} 
+		if (!is_array($items)) {
+			$items = array($items);
+		}
+		foreach($items as $item) {
+			foreach($item->getFields() as $field) {
+				if ($field->isInContentArea($contentArea) && $field->hasValue()) {
+					return true;
+				}
+			} 
+		}
 		return false;
 		
 	}

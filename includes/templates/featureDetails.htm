@@ -44,7 +44,9 @@ $('document').ready(function(){
 	</div>
 	<div class="featureDetailsSummary cf">
 		{if count($items) > 0}
-			{foreach $items as $item}{SmartyHelper::showFields($item, 'left')}{/foreach}
+			{foreach $items as $item}
+				<div class="fields-from-official-item">{SmartyHelper::showFields($item, 'left')}</div>
+			{/foreach}
 		{/if}	
 		
 		{if count($featureCheckInQuestions) > 0}
@@ -128,6 +130,19 @@ $('document').ready(function(){
 			</div>
 		{/if}
 		
+		{foreach $unofficialItems as $itemdata}
+			{if SmartyHelper::hasFieldsInArea($itemdata.item, 'left')}
+				<div class="fields-from-unofficial-item">
+					<div class="title">
+						<a href="/collectionAsList.php?c={$itemdata.collection->getSlug()}">{$itemdata.collection->getTitle()|escape}</a> 
+						from 
+						<a href="/organisation.php?id={$itemdata.organisation->getId()}">{$itemdata.organisation->getTitle()|escape}</a>
+					</div>
+					{SmartyHelper::showFields($itemdata.item, 'left')}
+				</div>
+			{/if}
+		{/foreach}
+		
 	</div>
 	<div class="featureDetailsDetails cf">
 	<div class="featureDetailsMap cf">
@@ -178,13 +193,31 @@ $('document').ready(function(){
 		{/foreach}
 		
 		{if count($items) > 0}
-				{foreach $items as $item}{SmartyHelper::showFields($item, 'right')}{/foreach}
-					{if SmartyHelper::hasFieldsInArea($item, 'contact')}
-						<dl>
+			{foreach $items as $item}<div class="fields-from-official-item">{SmartyHelper::showFields($item, 'right')}</div>{/foreach}
+			{if SmartyHelper::hasFieldsInArea($items, 'contact')}
+				<div class="fields-from-official-item">
+					<dl>
 						<dt>Contact Details</dt>
-								{foreach $items as $item}{SmartyHelper::showFieldsNoHeader($item, 'contact')}{/foreach}
-						</dl>
-					{/if}
+						{foreach $items as $item}{SmartyHelper::showFieldsNoHeader($item, 'contact')}{/foreach}
+					</dl>
+				</div>
+			{/if}
+		{/if}
+		
+		
+		{if count($unofficialItems) > 0}
+			{foreach $unofficialItems as $itemdata}
+				{if SmartyHelper::hasFieldsInArea($itemdata.item, 'right')}
+					<div class="fields-from-unofficial-item">
+						<div class="title">
+							<a href="/collectionAsList.php?c={$itemdata.collection->getSlug()}">{$itemdata.collection->getTitle()|escape}</a> 
+							from 
+							<a href="/organisation.php?id={$itemdata.organisation->getId()}">{$itemdata.organisation->getTitle()|escape}</a>
+						</div>
+						{SmartyHelper::showFields($itemdata.item, 'right')}
+					</div>
+				{/if}
+			{/foreach}
 		{/if}
 		
 		{if $eventSearch->num() > 0}

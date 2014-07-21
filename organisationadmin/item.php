@@ -10,18 +10,21 @@ require '../includes/src/global.php';
 
 
 $currentUser = mustBeLoggedIn();
-if (!$currentUser->isAdministrator()) die('No Access');
+$organisationAdminLogin =  new OrganisationAdminLogin($currentUser, ISSET($_GET['organisationid']) ? $_GET['organisationid'] : null);
+$tpl = getSmarty($currentUser);
+$organisationAdminLogin->setSmartyVariables($tpl);
+if (!$organisationAdminLogin->isLoggedIntoOrganisation()) {
+	$tpl->display('organisationadmin/login.htm');
+	die();
+}
 
-
-$collection = Collection::loadBySlug($_GET['c']);
+$collection = Collection::loadBySlugForOrganisation($_GET['c'], $organisationAdminLogin->getOrganisation());
 if (!$collection) die('not found');
 
 $item = Item::loadByIdIncollection($_GET['i'], $collection);
 if (!$item) die('not found');
 
-
-$tpl = getSmarty($currentUser);
-
+/**
 if ($_POST && $_POST['action'] && $_POST['CSFRToken'] == $_SESSION['CSFRToken']) {
 	if ($_POST['action'] == 'delete') {
 		$item->delete();
@@ -41,10 +44,10 @@ if ($_POST && $_POST['action'] && $_POST['CSFRToken'] == $_SESSION['CSFRToken'])
 		}
 	}
 }
+**/
 
 $tpl->assign('collection',$collection);
-$tpl->assign('organisation',$collection->getOrganisation());
 $tpl->assign('item',$item);
 $tpl->assign('parentItem',$item->getParentItem());
-$tpl->display('admin/item.htm');
+$tpl->display('organisationadmin/item.htm');
 

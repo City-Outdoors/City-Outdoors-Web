@@ -25,6 +25,7 @@ $item->setFeature($feature);
 
 $tpl = getSmarty($currentUser);
 $tpl->assign('collection',$collection);
+$tpl->assign('organisation',$collection->getOrganisation());
 $tpl->assign('item',$item);
 $tpl->assign('feature',$feature);
 $tpl->assign('validationErrors',null);

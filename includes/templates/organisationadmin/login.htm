@@ -1,0 +1,15 @@
+
+{extends file="organisationadmin/page.htm"} 
+
+{block name="content"}
+
+	<p>Select an organisation:</p>
+	
+	<ul>
+		{foreach from=$allowedOrganisations item=organisation}
+			<li><a href="/organisationadmin/?organisationid={$organisation->getId()}">{$organisation->getTitle()|escape}</a></li>
+		{/foreach}
+	</ul>
+
+{/block}
+

@@ -30,7 +30,9 @@ class Collection extends BaseDataWithOneID {
 	
 	protected $description;
 	protected $thumbnail_url;	
-			
+	protected $organisation_id;
+
+
 	/** @var Array of fields, sorted by sortOrder, most important first **/
 	private $fields = array();
 
@@ -38,6 +40,17 @@ class Collection extends BaseDataWithOneID {
 		$db = getDB();
 		$stat = $db->prepare('SELECT * FROM collection WHERE slug=:slug');
 		$stat->bindValue('slug', $slug);
+		$stat->execute();
+		if($stat->rowCount() == 1) {
+			return new Collection($stat->fetch(PDO::FETCH_ASSOC));
+		}		
+	}
+
+	public static function loadBySlugForOrganisation($slug, Organisation $organisation) {
+		$db = getDB();
+		$stat = $db->prepare('SELECT * FROM collection WHERE slug=:slug AND organisation_id=:organisation_id');
+		$stat->bindValue('slug', $slug);
+		$stat->bindValue('organisation_id', $organisation->getId());
 		$stat->execute();
 		if($stat->rowCount() == 1) {
 			return new Collection($stat->fetch(PDO::FETCH_ASSOC));
@@ -80,7 +93,7 @@ class Collection extends BaseDataWithOneID {
 		}		
 	}	
 
-	public static function create($title, User $user) {
+	public static function create($title, User $user, Organisation $organisation = null) {
 		if (!$title) throw new Exception("Must set some title!");
 		// TODO Transaction!
 
@@ -88,12 +101,13 @@ class Collection extends BaseDataWithOneID {
 			'title' => $title,
 			'slug' => generateSlug($title),
 			'created_at' => date('Y-m-d H:i:s'),
-			'created_by' => $user->getId()
+			'created_by' => $user->getId(),
+			'organisation_id' => ($organisation ? $organisation->getId() : null),
 		);
 		
 		$db = getDB();
-		$stat = $db->prepare('INSERT INTO collection (title, slug, created_at, created_by) '.
-			'VALUES (:title, :slug, :created_at, :created_by) ');
+		$stat = $db->prepare('INSERT INTO collection (title, slug, created_at, created_by, organisation_id) '.
+			'VALUES (:title, :slug, :created_at, :created_by, :organisation_id) ');
 			
 		try {
 			$stat->execute($data);
@@ -134,6 +148,7 @@ class Collection extends BaseDataWithOneID {
 		if ($data && isset($data['question_icon_url'])) $this->question_icon_url = $data['question_icon_url'];
 		if ($data && isset($data['description'])) $this->description = $data['description'];
 		if ($data && isset($data['thumbnail_url'])) $this->thumbnail_url = $data['thumbnail_url'];
+		if ($data && isset($data['organisation_id'])) $this->organisation_id = $data['organisation_id'];
 	}
 	
 	public function getTitle() { return $this->title; }
@@ -169,7 +184,20 @@ class Collection extends BaseDataWithOneID {
 	public function getDescription() { return $this->description; }
 	public function getThumbnailURL() { return $this->thumbnail_url; }
 	
+	public function getOrganisationId() {
+		return $this->organisation_id;
+	}
 	
+	public function getOrganisation() {
+		return $this->organisation_id ? Organisation::loadById($this->organisation_id) : null;
+	}
+
+	public function setOrganisationId($organisation_id) {
+		$this->organisation_id = $organisation_id;
+		return $this;
+	}
+
+ 	
 	/** loads all field data, builds objects and caches them on this object. **/
 	private function loadFields() {
 		if (count($this->fields) > 0) return;

@@ -20,6 +20,13 @@
 			{CMSContent::renderBlock($smarty.capture.blockName)}
 		</div>
 		
+		{if $organisation}
+			<div class="above-list-content-organisation">
+				<div class="title"><a href="/organisation.php?id={$organisation->getId()}">{$organisation->getTitle()|escape}</a></div>
+				<div class="description">{$organisation->getDescriptionText()|escape|nl2br}</div>
+			</div>
+		{/if}
+		
 	{capture name="urlNoLetter"}/collectionAsList.php?c={$collection->getSlug()}{/capture}
 	{a2z url=$smarty.capture.urlNoLetter active=$activeLetter}
 		{if $activeLetter}<a class="atozViewAll" href="/collectionAsList.php?c={$collection->getSlug()}">View All</a>{/if}<p>{$itemSearch->numOnAllPages()} {$collection->getTitle()|escape} found.</p>

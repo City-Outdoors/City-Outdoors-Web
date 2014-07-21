@@ -4,12 +4,20 @@
 
 	<table class="data">
 		<tr>
+			<th>Organisation</th>
 			<th>Title</th>
 			<th>Slug</th>
 			<th>&nbsp;</th>
 		</tr>
 		{while $collection = $collectionSearch->nextResult()}
 			<tr class="{cycle values="alternate,"}">
+				<td>
+					{if $collection->getOrganisationId()}
+						<a href="/admin/organisation.php?id={$collection->getOrganisationId()}">{$collection->getOrganisationId()}</a>
+					{else}
+						none (official)
+					{/if}
+				</td>
 				<td>{$collection->getTitle()|escape}</td>
 				<td>{$collection->getSlug()|escape}</td>
 				<td>
