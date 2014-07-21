@@ -34,6 +34,13 @@ class CollectionSearch extends BaseSearch {
 		return $this;
 	}
 
+	private $withOrganisationOnly = false;
+
+	public function setWithOrganisationOnly($withOrganisationOnly) {
+		$this->withOrganisationOnly = $withOrganisationOnly;
+		return $this;
+	}
+
 		
 	
 	protected function execute() {
@@ -48,9 +55,11 @@ class CollectionSearch extends BaseSearch {
 			$joins[] = " JOIN feature_checkin_question ON feature_checkin_question.feature_id = item.feature_id AND feature_checkin_question.deleted = 0";
 			
 		}
-		
+
 		if ($this->withNoOrganisationOnly) {
 			$where[] = ' collection.organisation_id is null ';
+		} else if ($this->withOrganisationOnly) {
+			$where[] = ' collection.organisation_id is not null ';
 		} else if ($this->organisation) {
 			$where[] = ' collection.organisation_id = :organisationid ';
 			$vars['organisationid'] = $this->organisation->getId();
@@ -60,7 +69,8 @@ class CollectionSearch extends BaseSearch {
 			"FROM collection ".
 			implode(" ", $joins).
 			(count($where) > 0 ? " WHERE ".implode(" AND ", $where) : "").
-			" GROUP BY collection.id";
+			" GROUP BY collection.id ".
+			" ORDER BY  collection.organisation_id, collection.id ";
 		
 		$stat = $db->prepare($sql);
 		$stat->execute($vars);
