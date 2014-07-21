@@ -75,12 +75,27 @@ $(document).ready(function() {
 	var html = '';
 	html += '<div class="mapCategoriesTitle">Show/hide:</div>';
 	html += '<ul>';
-
-
+	var hasUnofficialCollections = false;
 	for(id in collectionData) {
-		html += '<li class="collection-'+collectionData[id].slug+'"><label><input type="checkbox" name="'+id+'" value="1">'+collectionData[id].title+'</label></li>';
+		if (!collectionData[id].organisation_id) {
+			html += '<li class="collection-'+collectionData[id].slug+'"><label><input type="checkbox" name="'+id+'" value="1">'+collectionData[id].title+'</label></li>';
+		} else {
+			hasUnofficialCollections = true;
+		}
 	}
 	html += '</ul>';
+
+	if (hasUnofficialCollections) {
+		html += '<div class="mapCategoriesUnofficialTitle">More:</div>';
+		html += '<ul>';
+		for(id in collectionData) {
+			if (collectionData[id].organisation_id) {
+				html += '<li class="collection-'+collectionData[id].slug+' collection-unofficial"><label><input type="checkbox" name="'+id+'" value="1">'+collectionData[id].title+'</label></li>';
+			}
+		}
+		html += '</ul>';
+	}
+
 	$('#mapLayers').html(html);
 	$('#mapLayers input[type="checkbox"]').prop("checked", true).change(mapMarkersMapEventWithClear);
 });

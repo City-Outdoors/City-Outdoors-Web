@@ -133,10 +133,13 @@ $('document').ready(function(){
 		{foreach $unofficialItems as $itemdata}
 			{if SmartyHelper::hasFieldsInArea($itemdata.item, 'left')}
 				<div class="fields-from-unofficial-item">
-					<div class="title">
-						<a href="/collectionAsList.php?c={$itemdata.collection->getSlug()}">{$itemdata.collection->getTitle()|escape}</a> 
-						from 
-						<a href="/organisation.php?id={$itemdata.organisation->getId()}">{$itemdata.organisation->getTitle()|escape}</a>
+					<div class="unofficial-details">
+						<div class="organisation">
+							From <a href="/organisation.php?id={$itemdata.organisation->getId()}">{$itemdata.organisation->getTitle()|escape}</a>
+						</div>
+						<div class="collection">
+							<a href="/collectionAsList.php?c={$itemdata.collection->getSlug()}" class="collection">{$itemdata.collection->getTitle()|escape}</a> 
+						</div>
 					</div>
 					{SmartyHelper::showFields($itemdata.item, 'left')}
 				</div>

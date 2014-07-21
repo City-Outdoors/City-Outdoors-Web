@@ -11,7 +11,6 @@ header("Content-Type: text/javascript");
 // TODO Send directives to tell browsers to cache this page. 
 
 $collectionSearch = new CollectionSearch();
-$collectionSearch->setWithNoOrganisationOnly(true);
 
 $collectionData = array();
 while($collection = $collectionSearch->nextResult()) { 
@@ -28,6 +27,7 @@ while($collection = $collectionSearch->nextResult()) {
 		'question_icon_offset_x'=>$collection->getQuestionIconOffsetX(),
 		'question_icon_offset_y'=>$collection->getQuestionIconOffsetY(),
 		'question_icon_url'=>$collection->getQuestionIconURL(),
+		'organisation_id'=>$collection->getOrganisationId(),
 	);
 }
 

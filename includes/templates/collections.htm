@@ -1,0 +1,35 @@
+
+
+{extends file='page.htm'}
+
+{block name="pageTitle"}Explore{/block}
+
+{block name="main"}
+
+
+
+	<div class="above-list-content">
+		{CMSContent::renderBlock("collections")}
+	</div>
+
+	<ul class="collectionsList">
+		{while $collection = $officialCollectionSearch->nextResult()}
+			<li class="cf officialCollection">
+				<h3><a href="/collectionAsList.php?c={$collection->getSlug()|escape}">{$collection->getTitle()|escape}</a></h3>
+				<p class="description">{$collection->getDescription()|truncate:180:"..."|escape}</p>
+			</li>
+		{/while}
+		{while $collection = $unofficialCollectionSearch->nextResult()}
+			{$organisation = $collection->getOrganisation()}
+			<li class="cf unofficialCollection">
+				<div class="organisation">
+					<div class="title">From <a href="/organisation.php?id={$organisation->getId()}">{$organisation->getTitle()|escape}</a></div>
+				</div>
+				<h3><a href="/collectionAsList.php?c={$collection->getSlug()|escape}">{$collection->getTitle()|escape}</a></h3>
+				<p class="description">{$collection->getDescription()|truncate:180:"..."|escape}</p>
+			</li>
+		{/while}
+	</ul>
+
+{/block}
+

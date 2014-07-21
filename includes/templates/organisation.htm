@@ -7,10 +7,13 @@
 	
 	<p>{$organisation->getDescriptionText()|escape|nl2br}</p>
 
-	<ul>
+	<ul class="collectionsList">
 		{while $collection = $collectionSearch->nextResult()}
-			<li><a href="/collectionAsList.php?c={$collection->getSlug()}">{$collection->getTitle()|escape}</a></li>
-		{/while}		
+		<li class="cf unofficialCollection">
+			<h3><a href="/collectionAsList.php?c={$collection->getSlug()|escape}">{$collection->getTitle()|escape}</a></h3>
+			<p class="description">{$collection->getDescription()|truncate:180:"..."|escape}</p>
+		</li>
+		{/while}
 	</ul>
 	
 {/block}

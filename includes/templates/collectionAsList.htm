@@ -21,8 +21,8 @@
 		</div>
 		
 		{if $organisation}
-			<div class="above-list-content-organisation">
-				<div class="title"><a href="/organisation.php?id={$organisation->getId()}">{$organisation->getTitle()|escape}</a></div>
+			<div class="above-collectionList-organisation">
+				<div class="title">From <a href="/organisation.php?id={$organisation->getId()}">{$organisation->getTitle()|escape}</a></div>
 				<div class="description">{$organisation->getDescriptionText()|escape|nl2br}</div>
 			</div>
 		{/if}

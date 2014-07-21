@@ -42,6 +42,9 @@
 			{foreach $officialCollections as $collection}
 				<li class="{if $inCollectionId == $collection->getId()}current{/if}"><a href="/collectionAsList.php?c={$collection->getSlug()}" title="{$collection->getTitle()|escape}">{$collection->getTitle()|escape}</a></li>
 			{/foreach}
+			{* TODO if has unofficial collections *}
+				<li class=""><a href="/collections.php">More</a></li>
+			{* endif *}
 		</ul>
 	{/if}
 	{if isset($monthlyPageURLForSubNav) && $monthlyPageURLForSubNav }

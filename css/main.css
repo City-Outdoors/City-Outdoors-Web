@@ -763,7 +763,8 @@ a.atozViewAll:hover {
   float: right;
   width: 160px;
 }
-#mapLayers .mapCategoriesTitle {
+#mapLayers .mapCategoriesTitle,
+#mapLayers .mapCategoriesUnofficialTitle {
   font-family: arial, sans-serif;
   font-size: 18px;
   cursor: pointer;
