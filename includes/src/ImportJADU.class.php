@@ -245,6 +245,11 @@ class ImportJADU {
 			$rawData = curl_exec($ch);
 			curl_close($ch);
 
+			if (!trim($rawData)) {
+				$this->log("  ... Got No data back!\n");
+				return;
+			}
+
 			$domOfDocument = new DOMDocument();
 			$domOfDocument->loadXML($rawData);
 
@@ -282,6 +287,11 @@ class ImportJADU {
 		curl_setopt($ch, CURLOPT_USERAGENT, 'Heres-a-Tree');
 		$rawData = curl_exec($ch);
 		curl_close($ch);
+
+		if (!trim($rawData)) {
+			$this->log("  ... Got No data back!\n");
+			return;
+		}
 
 		$domOfDocument = new DOMDocument();
 		$domOfDocument->loadXML($rawData);
